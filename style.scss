@@ -1,0 +1,284 @@
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+$bg: rgb(30, 30, 46);
+$fg: #eff1f5;
+$accent: #cba6f7;
+$red: #f38ba8;
+$orange: #f9e2af;
+$green: #a6e3a1;
+$blue: #89b4fa;
+$border: rgba(239, 241, 245, 0.12);
+$surface0: #313244;
+$surface1: #45475a;
+$surface2: #585b70;
+$overlay0: #6c7086;
+$overlay1: #7f849c;
+$overlay2: #9399b2;
+$subtext0: #a6adc8;
+$subtext1: #bac2de;
+
+$arch: #1793d1;
+
+.icon {
+  font-size: 1.1rem;
+}
+
+.icon:not(.arch) {
+  margin-right: 7.5px;
+}
+
+* {
+  font-weight: bold;
+  font-family: "Jetbrains Mono Nerd Font Propo", sans-serif;
+  font-size: 1rem;
+}
+
+window.Bar {
+  background: transparent;
+  color: $fg;
+
+  > centerbox {
+    background: rgba($bg, 0.6);
+    border-radius: 15px;
+    margin: 8px;
+    margin-bottom: 0;
+
+    > box {
+      // background: rgba($bg, 0.5);
+      // border-radius: 15px;
+      padding: 5px;
+    }
+  }
+
+  button {
+    all: unset;
+    background: rgba($surface0, 0.7);
+    padding: 8px 15px;
+    border-radius: 15px;
+    margin: 2px;
+    outline: 0px;
+    transition:
+      100ms linear padding,
+      100ms ease-in-out background;
+
+    &.arch {
+      color: $arch;
+    }
+
+    &.wifi {
+      background: rgba($blue, 0.9);
+      color: $surface0;
+    }
+
+    &.bluetooth {
+      background: rgba($accent, 0.9);
+      color: $surface0;
+    }
+
+    &.battery {
+      background: rgba($green, 0.9);
+      color: $surface0;
+    }
+
+    &.volume {
+      background: rgba($orange, 0.9);
+      color: $surface0;
+    }
+
+    &.swaync {
+      background: rgba($red, 0.9);
+      color: $surface0;
+    }
+
+    &.selected {
+      background: rgba($surface1, 0.7);
+      // background: rgba($surface2, 0.7);
+      padding: 8px 20px;
+    }
+  }
+
+  .mpris {
+    all: unset;
+    margin-left: 15px;
+  }
+}
+
+window#wifiPopup {
+  background: transparent;
+
+  .wifiOverlay {
+    background-color: rgba($blue, 0.9);
+    padding: 8px 15px;
+    border-radius: 15px;
+
+    .title {
+      margin-bottom: 5px;
+    }
+
+    button {
+      background: $blue;
+      margin-bottom: 3px;
+      outline: 0;
+    }
+
+    label {
+      color: $surface0;
+    }
+  }
+}
+
+window#bluetoothPopup {
+  background: transparent;
+
+  .bluetoothOverlay {
+    background: rgba($accent, 0.9);
+    padding: 8px 15px;
+    border-radius: 15px;
+
+    .title {
+      margin-bottom: 5px;
+
+      button:nth-child(1) {
+        margin-right: 5px;
+      }
+    }
+
+    button {
+      background: $accent;
+      margin-bottom: 3px;
+      outline: 0;
+    }
+
+    label {
+      color: $surface0;
+    }
+  }
+}
+
+window#batteryPopup {
+  background: transparent;
+
+  .batteryOverlay {
+    background: rgba($green, 0.9);
+    padding: 8px 15px;
+    border-radius: 15px;
+
+    .title {
+      margin-bottom: 5px;
+
+      button:nth-child(1) {
+        margin-right: 5px;
+      }
+    }
+
+    button {
+      background: $green;
+      margin-bottom: 3px;
+      outline: 0;
+    }
+
+    label {
+      color: $surface0;
+    }
+  }
+}
+
+window#archPopup {
+  background: transparent;
+
+  .archOverlay {
+    background: rgba($surface0, 0.95);
+    padding: 8px;
+    border-radius: 15px;
+    min-width: 200px;
+
+    button {
+      all: unset;
+      color: $fg;
+      padding: 8px 15px;
+      border-radius: 10px;
+      margin: 0;
+      transition: 100ms ease-in-out background;
+
+      &:hover {
+        background: rgba($surface1, 0.8);
+      }
+    }
+
+    separator {
+      background: rgba($fg, 0.1);
+      min-height: 1px;
+      margin: 4px 8px;
+    }
+  }
+}
+
+window#volumePopup {
+  background: transparent;
+
+  .volumeOverlay {
+    background: rgba($orange, 0.9);
+    padding: 8px 15px;
+    border-radius: 15px;
+
+    .title {
+      margin-bottom: 5px;
+    }
+
+    button {
+      background: $orange;
+      margin-bottom: 3px;
+      outline: 0;
+    }
+
+    button.muteToggle {
+      all: unset;
+      color: $surface0;
+      // margin-bottom: 5px;
+    }
+
+    label {
+      color: $surface0;
+    }
+
+    scale {
+      transform: rotate(180deg);
+      trough {
+        background: rgba($surface0, 0.4);
+        border-radius: 0;
+
+        highlight {
+          border-radius: 0;
+
+          background: $surface0;
+        }
+      }
+      slider {
+        all: unset;
+
+        outline: none;
+        // background: $surface0;
+        background: transparent;
+        // border-radius: 50%;
+        border-radius: 0;
+        min-width: 18px;
+        min-height: 18px;
+      }
+    }
+  }
+}
+
+.rfkill {
+  background: rgba($red, 0.9);
+  padding: 5px;
+  border-radius: 15px;
+
+  button {
+    background: $border;
+    margin: 0px 30px;
+    margin-top: 5px;
+  }
+}
+
+scrolledwindow scrollbar {
+  opacity: 0;
+}
