@@ -3,7 +3,7 @@ import { For } from "ags"
 import { execAsync } from "ags/process"
 import { Gdk } from "ags/gtk4"
 
-export function Workspaces() {
+export function WorkspaceButtons() {
   const workspaces = createPoll([], 1000, "hyprctl workspaces -j", (out) =>
     JSON.parse(out)
       .filter((ws: any) => ws.id > 0)
@@ -25,8 +25,7 @@ export function Workspaces() {
             label={String(ws.id)}
             onClicked={() => execAsync("hyprctl dispatch workspace " + ws.id)}
             class={activeWorkspace(
-              (aws: any) =>
-                "workspace " + (ws.id === aws.id ? "selected" : ""),
+              (aws: any) => "workspace " + (ws.id === aws.id ? "selected" : ""),
             )}
             $={(self) =>
               self.set_cursor(Gdk.Cursor.new_from_name("pointer", null))
