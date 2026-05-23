@@ -267,6 +267,61 @@ window#volumePopup {
   }
 }
 
+window#playerPopup {
+  background: transparent;
+
+  .playerOverlay {
+    background: rgba($surface0, 0.95);
+    padding: 8px;
+    border-radius: 15px;
+    min-width: 200px;
+    color: $fg;
+
+    // box {
+    //   outline: 1px red solid;
+    // }
+
+    // label {
+    //   color: $fg;
+    //   outline: 2px blue solid;
+    // }
+
+    .title {
+      margin-bottom: 10px;
+    }
+
+    .song {
+      .coverArt {
+        margin-right: 15px;
+      }
+
+      .secondary {
+        color: $subtext0;
+        font-size: 0.8rem;
+      }
+
+      .controls {
+        margin-top: 3px;
+
+        .control {
+          font-size: 1.25rem;
+          transition: 100ms ease-in-out color;
+
+          &:nth-child(2) {
+            margin-left: 5px;
+            margin-right: 5px;
+          }
+
+          &:hover {
+            color: $subtext1;
+          }
+        }
+
+      }
+    }
+  }
+}
+
 .rfkill {
   background: rgba($red, 0.9);
   padding: 5px;

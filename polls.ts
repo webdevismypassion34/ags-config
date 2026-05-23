@@ -9,6 +9,20 @@ export const artist = createPoll(
   "playerctl metadata xesam:artist -p spotify",
 )
 
+export const album = createPoll("", 1000, "playerctl metadata xesam:album -p spotify")
+
+export const coverArt = createPoll("", 1000, "playerctl metadata mpris:artUrl -p spotify", out => {
+  const name = out.split("/").pop()
+  if (!out || !name) return "none";
+
+  execAsync(`test -f "/home/alexmn/.config/ags/spotify/${name}.jpg"`)
+    .catch(() =>
+      execAsync(`wget -q "${out}" -O "/home/alexmn/.config/ags/spotify/${name}.jpg"`).catch(console.error)
+    )
+
+  return `/home/alexmn/.config/ags/spotify/${name}.jpg`;
+})
+
 export const isPlaying = createPoll(false, 200, () =>
   execAsync("playerctl status -p spotify")
     .then((s) => s.trim() === "Playing")
