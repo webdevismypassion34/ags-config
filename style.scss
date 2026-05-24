@@ -359,3 +359,12 @@ window#playerPopup {
 scrolledwindow scrollbar {
   opacity: 0;
 }
+
+window#launcher {
+  background: transparent;
+
+  .launcher {
+    background: $surface0;
+    padding: 50px;
+  }
+}

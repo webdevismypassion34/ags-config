@@ -33,7 +33,10 @@ async function getQueue() {
       "https://api.spotify.com/v1/me/player/queue",
       "--header",
       `Authorization: Bearer ${spotifyAccessToken()}`,
-    ]),
+    ]).catch(r => {
+      console.error(`Error with Spotify request: ${r}`)
+      return r
+    }),
   ).queue
 
   const images = data.map((song: Record<string, any>) => {
