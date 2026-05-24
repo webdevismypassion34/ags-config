@@ -13,7 +13,8 @@ export const album = createPoll("", 1000, "playerctl metadata xesam:album -p spo
 
 export const coverArt = createPoll("", 1000, "playerctl metadata mpris:artUrl -p spotify", out => {
   const name = out.split("/").pop()
-  if (!out || !name) return "none";
+  if (!name && title()) return "/home/alexmn/.config/ags/spotify/local.png";
+  if (!out || !name) return "";
 
   execAsync(`test -f "/home/alexmn/.config/ags/spotify/${name}.jpg"`)
     .catch(() =>

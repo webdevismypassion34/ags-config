@@ -290,14 +290,37 @@ window#playerPopup {
       margin-bottom: 10px;
     }
 
+    .qlabel {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    .queue {
+      .songs > box {
+        margin-top: 5px;
+
+        .queueTb {
+          margin-right: 10px;
+
+          picture {
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+
+    .secondary {
+      color: $subtext0;
+      font-size: 0.8rem;
+    }
+
     .song {
       .coverArt {
         margin-right: 15px;
-      }
 
-      .secondary {
-        color: $subtext0;
-        font-size: 0.8rem;
+        picture {
+          border-radius: 15px;
+        }
       }
 
       .controls {
@@ -316,7 +339,6 @@ window#playerPopup {
             color: $subtext1;
           }
         }
-
       }
     }
   }
