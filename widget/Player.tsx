@@ -1,152 +1,165 @@
-import { For, createState } from "ags"
-import { execAsync } from "ags/process"
-import { Gdk, Gtk } from "ags/gtk4"
-import { title, artist, album, coverArt, isPlaying } from "../polls.ts"
-import { startMargin } from "../utils/margin.ts"
-import Popup from "../components/Popup.tsx"
-import { activePopup, setActivePopup } from "../state.ts"
-import { spotifyAccessToken } from "../utils/spotifyAuth.ts"
-import Gio from "gi://Gio"
+import { For, createState } from 'ags';
+import { execAsync } from 'ags/process';
+import { Gdk, Gtk } from 'ags/gtk4';
+import {
+  title,
+  artist,
+  album,
+  coverArt,
+  isPlaying,
+} from '../polls.ts';
+import { startMargin } from '../utils/margin.ts';
+import Popup from '../components/Popup.tsx';
+import { activePopup, setActivePopup } from '../state.ts';
+import { spotifyAccessToken } from '../utils/spotifyAuth.ts';
+import Gio from 'gi://Gio';
 
-const [playerMargin, setPlayerMargin] = createState(0)
-const [queue, setQueue] = createState<[string, string, string][]>([])
+const [playerMargin, setPlayerMargin] = createState(0);
+const [queue, setQueue] = createState<[string, string, string][]>([]);
 
-let queueOutdated = true
+let queueOutdated = true;
 
 title.subscribe(() => {
-  queueOutdated = true
+  queueOutdated = true;
   if (queue()[0] && queue()[0][0] == title()) {
-    setQueue(queue().slice(1))
+    setQueue(queue().slice(1));
   }
-  if (activePopup() == "player") getQueue()
-})
+  if (activePopup() == 'player') getQueue();
+});
 
 async function getQueue() {
-  if (!queueOutdated) return
-  queueOutdated = false
+  if (!queueOutdated) return;
+  queueOutdated = false;
   const data = JSON.parse(
     await execAsync([
-      "curl",
-      "--request",
-      "GET",
-      "--url",
-      "https://api.spotify.com/v1/me/player/queue",
-      "--header",
+      'curl',
+      '--request',
+      'GET',
+      '--url',
+      'https://api.spotify.com/v1/me/player/queue',
+      '--header',
       `Authorization: Bearer ${spotifyAccessToken()}`,
     ]).catch(r => {
-      console.error(`Error with Spotify request: ${r}`)
-      return r
-    }),
-  ).queue
+      console.error(`Error with Spotify request: ${r}`);
+      return r;
+    })
+  ).queue;
 
   const images = data.map((song: Record<string, any>) => {
-    const imageUrl = song.album.images[0]?.url // 640x640, about 120kb
+    const imageUrl = song.album.images[0]?.url; // 640x640, about 120kb
 
     if (!imageUrl && song.name)
-      return "/home/alexmn/.config/ags/spotify/local.png" // for local files
-    if (!song.name) return "/home/alexmn/.config/ags/spotify/local.png" // same image but for some weird stuff??
+      return '/home/alexmn/.config/ags/spotify/local.png'; // for local files
+    if (!song.name)
+      return '/home/alexmn/.config/ags/spotify/local.png'; // same image but for some weird stuff??
 
-    const fileName = imageUrl.split("/").pop()
+    const fileName = imageUrl.split('/').pop();
 
     execAsync(
-      `test -f "/home/alexmn/.config/ags/spotify/${fileName}.jpg"`,
+      `test -f "/home/alexmn/.config/ags/spotify/${fileName}.jpg"`
     ).catch(() =>
       execAsync(
-        `wget -q "${imageUrl}" -O "/home/alexmn/.config/ags/spotify/${fileName}.jpg"`,
-      ).catch(console.error),
-    )
+        `wget -q "${imageUrl}" -O "/home/alexmn/.config/ags/spotify/${fileName}.jpg"`
+      ).catch(console.error)
+    );
 
-    return `/home/alexmn/.config/ags/spotify/${fileName}.jpg`
-  })
+    return `/home/alexmn/.config/ags/spotify/${fileName}.jpg`;
+  });
 
   setQueue(
     data.map((song: Record<string, any>, i: number) => [
-      song.name || "Song",
-      song.artists[0].name || "Album",
+      song.name || 'Song',
+      song.artists[0].name || 'Album',
       images[i],
-    ]),
-  )
+    ])
+  );
 }
 
 export function PlayerButton(_: { gdkmonitor: Gdk.Monitor }) {
   function togglePlayer() {
-    if (activePopup() == "player") {
-      setActivePopup(null)
+    if (activePopup() == 'player') {
+      setActivePopup(null);
     } else {
-      setPlayerMargin(startMargin(playerButtonRef))
-      getQueue()
-      setActivePopup("player")
+      setPlayerMargin(startMargin(playerButtonRef));
+      getQueue();
+      setActivePopup('player');
     }
   }
 
-  let playerButtonRef!: Gtk.Widget
+  let playerButtonRef!: Gtk.Widget;
 
   return (
     <button
       class="mpris noBg"
-      $={(self) => {
-        playerButtonRef = self
-        self.set_cursor(Gdk.Cursor.new_from_name("pointer", null))
-      }}
-    >
+      $={self => {
+        playerButtonRef = self;
+        self.set_cursor(Gdk.Cursor.new_from_name('pointer', null));
+      }}>
       <box>
         <box>
-          <label class="icon" label={isPlaying((v) => (v ? "" : ""))} />
+          <label
+            class="icon"
+            label={isPlaying(v => (v ? '' : ''))}
+          />
           <Gtk.GestureClick
             button={1}
             onPressed={() => {
-              execAsync("playerctl play-pause -p spotify")
+              execAsync('playerctl play-pause -p spotify');
             }}
           />
         </box>
         <box>
-          <label label={title} /> - <label label={artist} /> (spotify){" "}
+          <label label={title} /> - <label label={artist} /> (spotify){' '}
           <Gtk.GestureClick button={1} onPressed={togglePlayer} />
         </box>
       </box>
     </button>
-  )
+  );
 }
 
-export function PlayerPopup({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
+export function PlayerPopup({
+  gdkmonitor,
+}: {
+  gdkmonitor: Gdk.Monitor;
+}) {
   return (
     <Popup
       gdkmonitor={gdkmonitor}
       name="playerPopup"
-      visible={activePopup((a) => a == "player")}
+      visible={activePopup(a => a == 'player')}
       margin={playerMargin}
       cssClass="playerOverlay"
       halign={Gtk.Align.START}
-      widthRequest={200}
-    >
+      widthRequest={200}>
       <box
         class="title"
         orientation={Gtk.Orientation.VERTICAL}
-        widthRequest={100}
-      >
+        widthRequest={100}>
         <label label="Currently Playing" widthRequest={100} />
       </box>
       <box
         orientation={Gtk.Orientation.HORIZONTAL}
         heightRequest={80}
         halign={Gtk.Align.CENTER}
-        class="song"
-      >
+        class="song">
         {/* set widthRequest to 80 + margin */}
-        <overlay heightRequest={80} widthRequest={95} class="coverArt">
+        <overlay
+          heightRequest={80}
+          widthRequest={95}
+          class="coverArt">
           <Gtk.Picture
             contentFit={Gtk.ContentFit.COVER}
             $type="overlay"
-            $={(self) => {
+            $={self => {
               coverArt.subscribe(() => {
-                const path = coverArt()
-                if (path && path !== "none") {
+                const path = coverArt();
+                if (path && path !== 'none') {
                   setTimeout(
                     () => self.set_file(Gio.File.new_for_path(path)),
-                    500,
-                  )
+                    500
+                  );
                 }
-              })
+              });
             }}
           />
         </overlay>
@@ -154,54 +167,63 @@ export function PlayerPopup({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
           orientation={Gtk.Orientation.VERTICAL}
           halign={Gtk.Align.CENTER}
           valign={Gtk.Align.CENTER}
-          class="songText"
-        >
-          <label class="primary" label={title} halign={Gtk.Align.CENTER} />
-          <label class="secondary" label={artist} halign={Gtk.Align.CENTER} />
+          class="songText">
+          <label
+            class="primary"
+            label={title}
+            halign={Gtk.Align.CENTER}
+          />
+          <label
+            class="secondary"
+            label={artist}
+            halign={Gtk.Align.CENTER}
+          />
           <box
             class="controls"
             orientation={Gtk.Orientation.HORIZONTAL}
-            halign={Gtk.Align.CENTER}
-          >
+            halign={Gtk.Align.CENTER}>
             <label
               class="control"
               label="󰙣"
-              $={(self) => {
-                self.set_cursor(Gdk.Cursor.new_from_name("pointer", null))
-              }}
-            >
+              $={self => {
+                self.set_cursor(
+                  Gdk.Cursor.new_from_name('pointer', null)
+                );
+              }}>
               <Gtk.GestureClick
                 button={1}
                 onPressed={() => {
-                  execAsync("playerctl previous -p spotify")
+                  execAsync('playerctl previous -p spotify');
                 }}
               />
             </label>
             <label
               class="control"
-              label={isPlaying((v) => (v ? "" : ""))}
-              $={(self) => {
-                self.set_cursor(Gdk.Cursor.new_from_name("pointer", null))
-              }}
-            >
+              label={isPlaying(v => (v ? '' : ''))}
+              $={self => {
+                self.set_cursor(
+                  Gdk.Cursor.new_from_name('pointer', null)
+                );
+              }}>
               <Gtk.GestureClick
                 button={1}
                 onPressed={() => {
-                  execAsync("playerctl play-pause -p spotify")
+                  execAsync('playerctl play-pause -p spotify');
                 }}
               />
             </label>
             <label
               class="control"
               label="󰙡"
-              $={(self) => {
-                self.set_cursor(Gdk.Cursor.new_from_name("pointer", null))
-              }}
-            >
+              $={self => {
+                self.set_cursor(
+                  Gdk.Cursor.new_from_name('pointer', null)
+                );
+              }}>
               <Gtk.GestureClick
                 button={1}
                 onPressed={() => {
-                  execAsync("playerctl next -p spotify")
+                  execAsync('playerctl next -p spotify');
                 }}
               />
             </label>
@@ -214,10 +236,13 @@ export function PlayerPopup({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
         <scrolledwindow heightRequest={300} widthRequest={300}>
           <box orientation={Gtk.Orientation.VERTICAL} class="songs">
             <For each={queue}>
-              {(song) => (
+              {song => (
                 <box orientation={Gtk.Orientation.HORIZONTAL}>
                   {/* make widthRequest width + margin */}
-                  <overlay heightRequest={40} widthRequest={50} class="queueTb">
+                  <overlay
+                    heightRequest={40}
+                    widthRequest={50}
+                    class="queueTb">
                     <Gtk.Picture
                       contentFit={Gtk.ContentFit.COVER}
                       $type="overlay"
@@ -244,5 +269,5 @@ export function PlayerPopup({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
         </scrolledwindow>
       </box>
     </Popup>
-  )
+  );
 }

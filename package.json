@@ -3,9 +3,5 @@
     "ags": "*",
     "fuse.js": "^7.3.0",
     "gnim": "*"
-  },
-  "prettier": {
-    "semi": false,
-    "tabWidth": 2
   }
 }

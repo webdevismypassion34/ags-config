@@ -28,7 +28,7 @@ $arch: #1793d1;
 
 * {
   font-weight: bold;
-  font-family: "Jetbrains Mono Nerd Font Propo", sans-serif;
+  font-family: 'Jetbrains Mono Nerd Font Propo', sans-serif;
   font-size: 1rem;
 }
 
@@ -361,10 +361,24 @@ scrolledwindow scrollbar {
 }
 
 window#launcher {
-  background: transparent;
+  background: rgba($bg, 0.5);
 
   .launcher {
     background: $surface0;
-    padding: 50px;
+    border: 1px $border solid;
+    border-radius: 15px;
+
+    .search {
+      border-bottom: 1px $border solid;
+
+      > label {
+        margin-left: 15px;
+      }
+
+      entry {
+        background: transparent;
+        outline: 0;
+      }
+    }
   }
 }
