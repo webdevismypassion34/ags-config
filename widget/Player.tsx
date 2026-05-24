@@ -15,6 +15,9 @@ let queueOutdated = true
 
 title.subscribe(() => {
   queueOutdated = true
+  if (queue()[0] && queue()[0][0] == title()) {
+    setQueue(queue().slice(1))
+  }
   if (activePopup() == "player") getQueue()
 })
 
