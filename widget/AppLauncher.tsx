@@ -8,11 +8,13 @@ const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 import Graphene from 'gi://Graphene?version=1.0';
 import { activePopup, setActivePopup } from '../state';
 import Gio from 'gi://Gio?version=2.0';
+import { readFile, readFileAsync, writeFileAsync } from 'ags/file';
 
 let maxResultsLength = 11;
+let usage: Record<string, number> = {};
 
 const [results, setResults] = createState<App[]>([]);
-const [selectedItem, selectItem] = createState(0);
+const [selectedItem, selectItem] = createState(1);
 
 let fuse = new Fuse(appList(), {
   keys: [{ name: 'name', getFn: app => app[1] }],
@@ -27,14 +29,37 @@ appList.subscribe(() => {
 export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
   let ref!: Gtk.Widget;
 
-  function updateResults(query: string) {
+  async function updateResults(query: string) {
+    selectItem(1);
+    usage = JSON.parse(
+      await readFileAsync('/home/alexmn/.config/ags/usage.json')
+    );
     if (query == '') {
-      setResults(appList().slice(0, maxResultsLength));
+      setResults(
+        appList()
+          .sort((a, b) => (usage[b[0]] ?? 0) - (usage[a[0]] ?? 0))
+          .slice(0, maxResultsLength)
+      );
       return;
     }
 
     const result = fuse.search(query).map(r => r.item);
     setResults(result.slice(0, maxResultsLength));
+  }
+
+  function openApp(app: App) {
+    setActivePopup(null)
+    usage[app[0]] = (usage[app[0]] ?? 0) + 1;
+    writeFileAsync(
+      '/home/alexmn/.config/ags/usage.json',
+      JSON.stringify(usage, null, 2)
+    );
+    const exec = app[4].replace(/%[a-zA-Z]/g, '').trim();
+    if (app[5]) {
+      execAsync(['kitty', ...exec.split(' ')]).catch(console.error);
+    } else {
+      execAsync(exec).catch(console.error);
+    }
   }
 
   return (
@@ -71,7 +96,8 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
                 if (activePopup() === 'launcher') {
                   self.grab_focus();
                   self.text = '';
-                  setResults(appList().slice(0, maxResultsLength));
+                  selectItem(1);
+                  updateResults('');
                 }
               });
 
@@ -79,6 +105,49 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
                 const query = self.get_text();
                 updateResults(query);
               });
+
+              self.connect('activate', () => {
+                // enter key
+                console.log('enter');
+                let exec;
+                if (selectedItem() == 0) {
+                  console.log('is zero');
+                  exec = results()[0];
+                } else {
+                  exec = results()[selectedItem() - 1];
+                }
+
+                console.log(selectedItem() == 0);
+                if (!exec[0]) return true;
+                openApp(exec);
+              });
+              self.add_controller(
+                (() => {
+                  const ctrl = new Gtk.EventControllerKey();
+                  ctrl.connect('key-pressed', (_, keyval) => {
+                    if (keyval === Gdk.KEY_Up) {
+                      if (selectedItem() <= 1) {
+                        selectItem(maxResultsLength);
+                      } else {
+                        selectItem(selectedItem() - 1);
+                      }
+                      return true;
+                    }
+                    if (keyval === Gdk.KEY_Down) {
+                      if (selectedItem() == 0) {
+                        selectItem(2);
+                        return true;
+                      } else if (selectedItem() >= maxResultsLength) {
+                        selectItem(1);
+                      } else {
+                        selectItem(selectedItem() + 1);
+                      }
+                      return true;
+                    }
+                  });
+                  return ctrl;
+                })()
+              );
             }}
             placeholderText="search..."
           />
@@ -86,51 +155,50 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
 
         <scrolledwindow
           widthRequest={500}
-          heightRequest={480}
+          heightRequest={490}
           class="list">
           <box orientation={Gtk.Orientation.VERTICAL}>
             <For each={results}>
-              {(app: App) => (
-                <box
-                  orientation={Gtk.Orientation.HORIZONTAL}
-                  class="entry"
-                  $={self => {
-                    self.set_cursor(
-                      Gdk.Cursor.new_from_name('pointer', null)
-                    );
-                  }}>
-                  <Gtk.GestureClick
-                    button={1}
-                    onPressed={() => {
-                      if (app[5]) {
-                        execAsync([
-                          'kitty',
-                          ...app[4].split(' '),
-                        ]).catch(console.error);
-                      } else {
-                        execAsync(app[4]).catch(console.error);
-                      }
-                    }}
-                  />
-                  <overlay widthRequest={44} heightRequest={32}>
-                    <Gtk.Picture
-                      contentFit={Gtk.ContentFit.COVER}
-                      $type="overlay"
-                      class="icon"
-                      file={Gio.File.new_for_path(
-                        app[3] ||
-                          '/usr/share/icons/Tokyonight-Dark/status/32/image-missing.svg'
-                      )}
+              {(app: App) => {
+                return (
+                  <box
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    class={selectedItem(v =>
+                      v - 1 === results().indexOf(app)
+                        ? 'entry selected'
+                        : 'entry'
+                    )}
+                    $={self => {
+                      self.set_cursor(
+                        Gdk.Cursor.new_from_name('pointer', null)
+                      );
+                    }}>
+                    <Gtk.GestureClick
+                      button={1}
+                      onPressed={() => {
+                        openApp(app);
+                      }}
                     />
-                  </overlay>
-                  <label label={app[1]} />
-                  {/* {app[2] ? (
+                    <overlay widthRequest={44} heightRequest={32}>
+                      <Gtk.Picture
+                        contentFit={Gtk.ContentFit.COVER}
+                        $type="overlay"
+                        class="icon"
+                        file={Gio.File.new_for_path(
+                          app[3] ||
+                            '/usr/share/icons/Tokyonight-Dark/status/32/image-missing.svg'
+                        )}
+                      />
+                    </overlay>
+                    <label label={app[1]} />
+                    {/* {app[2] ? (
                     <label class="comment" label={app[2]} />
                   ) : (
                     ''
                   )} */}
-                </box>
-              )}
+                  </box>
+                );
+              }}
             </For>
           </box>
         </scrolledwindow>
