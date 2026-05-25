@@ -3,9 +3,7 @@ import { execAsync } from 'ags/process';
 import { readFileAsync, writeFileAsync } from 'ags/file';
 import GLib from 'gi://GLib';
 
-const [token, setToken] = createState(
-  'BQCnh2e64xusJ4SryS8YOA8tKCt3FNQZd9xa7XW4hWAX47CT1Yaz-aUXG0ycue0KThGCITpsAvPD80OkQjzd9iTZpAC6dNAkIGzPPDyPjuYZevmUby0aFzcaUY7AQgpPAwpmEhYZNdU9jnTm0c0-uZUVAu5SQrgaNY9YmH6r6CHMZnC_LNyhmAx5z2tCfrMDDnUW5IDK46Vvwcr_1g84RuRJ_0l2JkpG7O1fGg8Ws-kXN2aKbHT_0ADwIL3uph9linrRJw'
-);
+const [token, setToken] = createState('');
 export const spotifyAccessToken = token;
 
 newAccessToken();

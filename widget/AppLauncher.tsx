@@ -31,12 +31,12 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
 
   async function updateResults(query: string) {
     selectItem(1);
-    usage = JSON.parse(
-      await readFileAsync('/home/alexmn/.config/ags/usage.json')
-    );
     if (query == '') {
+      usage = JSON.parse(
+        await readFileAsync('/home/alexmn/.config/ags/usage.json')
+      );
       setResults(
-        appList()
+        [...appList()]
           .sort((a, b) => (usage[b[0]] ?? 0) - (usage[a[0]] ?? 0))
           .slice(0, maxResultsLength)
       );
@@ -48,7 +48,7 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
   }
 
   function openApp(app: App) {
-    setActivePopup(null)
+    setActivePopup(null);
     usage[app[0]] = (usage[app[0]] ?? 0) + 1;
     writeFileAsync(
       '/home/alexmn/.config/ags/usage.json',
@@ -160,6 +160,7 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
           <box orientation={Gtk.Orientation.VERTICAL}>
             <For each={results}>
               {(app: App) => {
+                console.log(results());
                 return (
                   <box
                     orientation={Gtk.Orientation.HORIZONTAL}
