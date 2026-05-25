@@ -369,7 +369,9 @@ window#launcher {
     border-radius: 15px;
 
     .search {
+      margin-top: 5px;
       border-bottom: 1px $border solid;
+      padding-bottom: 5px;
 
       > label {
         margin-left: 15px;
@@ -378,6 +380,29 @@ window#launcher {
       entry {
         background: transparent;
         outline: 0;
+        width: 100%;
+      }
+    }
+
+    .list {
+      margin-left: 15px;
+
+      .entry {
+        margin-top: 10px;
+
+        &:hover {
+          label {
+            color: $subtext0;
+          }
+        }
+
+        &:nth-child(1) {
+          margin-top: 15px;
+        }
+
+        overlay {
+          margin-right: 5px;
+        }
       }
     }
   }
