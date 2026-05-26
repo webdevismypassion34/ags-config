@@ -9,6 +9,7 @@ import Graphene from 'gi://Graphene?version=1.0';
 import { activePopup, setActivePopup } from '../state';
 import Gio from 'gi://Gio?version=2.0';
 import { readFileAsync, writeFileAsync } from 'ags/file';
+import { home } from '../polls';
 
 let maxResultsLength = 11;
 let usage: Record<string, number> = {};
@@ -33,7 +34,7 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
     selectItem(1);
     if (query == '') {
       usage = JSON.parse(
-        await readFileAsync('/home/alexmn/.config/ags/usage.json')
+        await readFileAsync(`${home}/.config/ags/usage.json`)
       );
       setResults(
         [...appList()]
@@ -68,7 +69,7 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
     setActivePopup(null);
     usage[app[0]] = (usage[app[0]] ?? 0) + 1;
     writeFileAsync(
-      '/home/alexmn/.config/ags/usage.json',
+      `${home}/.config/ags/usage.json`,
       JSON.stringify(usage, null, 2)
     );
     const exec = app[4].replace(/%[a-zA-Z]/g, '').trim();

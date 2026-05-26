@@ -7,13 +7,14 @@ import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { spotifyAccessToken } from '../utils/spotifyAuth.ts';
 import Gio from 'gi://Gio';
+import { home } from '../polls.ts';
 
 type Song = [title: string, artist: string, art: string];
 
 const [currentSong, setCurrentSong] = createState<Song>([
   'Title',
   'Artist',
-  '/home/alexmn/.config/ags/spotify/local.png',
+  `${home}/.config/ags/spotify/local.png`,
 ]);
 
 const [playerMargin, setPlayerMargin] = createState(0);
@@ -67,21 +68,20 @@ async function getQueue() {
     const imageUrl = song.album.images[0]?.url; // 640x640, about 120kb
 
     if (!imageUrl && song.name)
-      return '/home/alexmn/.config/ags/spotify/local.png'; // for local files
-    if (!song.name)
-      return '/home/alexmn/.config/ags/spotify/local.png'; // same image but for some weird stuff??
+      return `${home}/.config/ags/spotify/local.png`; // for local files
+    if (!song.name) return `${home}/.config/ags/spotify/local.png`; // same image but for some weird stuff??
 
     const fileName = imageUrl.split('/').pop();
 
     execAsync(
-      `test -f "/home/alexmn/.config/ags/spotify/${fileName}.jpg"`
+      `test -f "${home}/.config/ags/spotify/${fileName}.jpg"`
     ).catch(() =>
       execAsync(
-        `wget -q "${imageUrl}" -O "/home/alexmn/.config/ags/spotify/${fileName}.jpg"`
+        `wget -q "${imageUrl}" -O "${home}/.config/ags/spotify/${fileName}.jpg"`
       ).catch(console.error)
     );
 
-    return `/home/alexmn/.config/ags/spotify/${fileName}.jpg`;
+    return `${home}/.config/ags/spotify/${fileName}.jpg`;
   });
 
   setQueue(

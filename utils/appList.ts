@@ -1,6 +1,7 @@
 import { execAsync } from 'ags/process';
 import { readFileAsync } from 'ags/file';
 import { createState } from 'ags';
+import { home } from '../polls';
 
 export type App = [
   file: string,
@@ -557,14 +558,14 @@ async function getApps() {
       if (name.startsWith('/')) return name;
       // to prioritize higher sizes
       const shareIcons = [
-        '/home/alexmn/.local/share/icons/hicolor/256x256/',
-        '/home/alexmn/.local/share/icons/hicolor/192x192/',
-        '/home/alexmn/.local/share/icons/hicolor/128x128/',
-        '/home/alexmn/.local/share/icons/hicolor/96x96/',
-        '/home/alexmn/.local/share/icons/hicolor/64x64/',
-        '/home/alexmn/.local/share/icons/hicolor/48x48/',
-        '/home/alexmn/.local/share/icons/hicolor/32x32/',
-        '/home/alexmn/.local/share/icons/hicolor/16x16/',
+        `${home}/.local/share/icons/hicolor/256x256/`,
+        `${home}/.local/share/icons/hicolor/192x192/`,
+        `${home}/.local/share/icons/hicolor/128x128/`,
+        `${home}/.local/share/icons/hicolor/96x96/`,
+        `${home}/.local/share/icons/hicolor/64x64/`,
+        `${home}/.local/share/icons/hicolor/48x48/`,
+        `${home}/.local/share/icons/hicolor/32x32/`,
+        `${home}/.local/share/icons/hicolor/16x16/`,
       ];
       const hicolorIcons = [
         '/usr/share/icons/hicolor/scalable',
@@ -641,7 +642,7 @@ async function getApps() {
         `^${name}\\.`,
         '/usr/share/icons',
         '/usr/share/pixmaps',
-        '/home/alexmn/.local/share/icons/hicolor',
+        `${home}/.local/share/icons/hicolor`,
       ]).catch(() => '');
 
       const lines = results.split('\n').filter(Boolean);

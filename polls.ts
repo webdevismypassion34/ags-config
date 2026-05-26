@@ -1,5 +1,7 @@
 import { createPoll } from 'ags/time';
 import { execAsync } from 'ags/process';
+import GLib from 'gi://GLib?version=2.0';
+export const home = GLib.get_home_dir();
 
 export const title = createPoll(
   '',
@@ -26,18 +28,18 @@ export const coverArt = createPoll(
   out => {
     const name = out.split('/').pop();
     if (!name && title())
-      return '/home/alexmn/.config/ags/spotify/local.png';
+      return `${home}/.config/ags/spotify/local.png`;
     if (!out || !name) return '';
 
     execAsync(
-      `test -f "/home/alexmn/.config/ags/spotify/${name}.jpg"`
+      `test -f "${home}/.config/ags/spotify/${name}.jpg"`
     ).catch(() =>
       execAsync(
-        `wget -q "${out}" -O "/home/alexmn/.config/ags/spotify/${name}.jpg"`
+        `wget -q "${out}" -O "${home}/.config/ags/spotify/${name}.jpg"`
       ).catch(console.error)
     );
 
-    return `/home/alexmn/.config/ags/spotify/${name}.jpg`;
+    return `${home}/.config/ags/spotify/${name}.jpg`;
   }
 );
 

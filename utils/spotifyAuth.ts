@@ -1,6 +1,7 @@
 import { createState } from 'ags';
 import { execAsync } from 'ags/process';
 import { readFileAsync, writeFileAsync } from 'ags/file';
+import { home } from '../polls';
 import GLib from 'gi://GLib';
 
 const [token, setToken] = createState('');
@@ -10,7 +11,7 @@ newAccessToken();
 
 async function newAccessToken() {
   const env = JSON.parse(
-    await readFileAsync('/home/alexmn/.config/ags/.env')
+    await readFileAsync(`${home}/.config/ags/.env`)
   );
   const {
     SPOTIFY_CLIENT_ID,
@@ -61,7 +62,7 @@ async function newAccessToken() {
   setToken(data.access_token);
   let expires = data.expires_in * 1000 - 5000;
   await writeFileAsync(
-    '/home/alexmn/.config/ags/.env',
+    `${home}/.config/ags/.env`,
     JSON.stringify(
       {
         SPOTIFY_CLIENT_ID,
