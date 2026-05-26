@@ -16,6 +16,11 @@ $overlay2: #9399b2;
 $subtext0: #a6adc8;
 $subtext1: #bac2de;
 
+$rounding: 15px;
+$outsideMargin: 10px;
+// $rounding: 0;
+// $outsideMargin: 0;
+
 $arch: #1793d1;
 
 .icon {
@@ -38,8 +43,8 @@ window.Bar {
 
   > centerbox {
     background: rgba($bg, 0.6);
-    border-radius: 15px;
-    margin: 8px;
+    border-radius: $rounding;
+    margin: $outsideMargin;
     margin-bottom: 0;
 
     > box {
@@ -53,7 +58,7 @@ window.Bar {
     all: unset;
     background: rgba($surface0, 0.7);
     padding: 8px 15px;
-    border-radius: 15px;
+    border-radius: $rounding;
     margin: 2px;
     outline: 0px;
     transition:
@@ -108,7 +113,7 @@ window#wifiPopup {
   .wifiOverlay {
     background-color: rgba($blue, 0.9);
     padding: 8px 15px;
-    border-radius: 15px;
+    border-radius: $rounding;
 
     .title {
       margin-bottom: 5px;
@@ -132,7 +137,7 @@ window#bluetoothPopup {
   .bluetoothOverlay {
     background: rgba($accent, 0.9);
     padding: 8px 15px;
-    border-radius: 15px;
+    border-radius: $rounding;
 
     .title {
       margin-bottom: 5px;
@@ -160,7 +165,7 @@ window#batteryPopup {
   .batteryOverlay {
     background: rgba($green, 0.9);
     padding: 8px 15px;
-    border-radius: 15px;
+    border-radius: $rounding;
 
     .title {
       margin-bottom: 5px;
@@ -188,14 +193,14 @@ window#archPopup {
   .archOverlay {
     background: rgba($surface0, 0.95);
     padding: 8px;
-    border-radius: 15px;
+    border-radius: $rounding;
     min-width: 200px;
 
     button {
       all: unset;
       color: $fg;
       padding: 8px 15px;
-      border-radius: 10px;
+      border-radius: $rounding;
       margin: 0;
       transition: 100ms ease-in-out background;
 
@@ -218,7 +223,7 @@ window#volumePopup {
   .volumeOverlay {
     background: rgba($orange, 0.9);
     padding: 8px 15px;
-    border-radius: 15px;
+    border-radius: $rounding;
 
     .title {
       margin-bottom: 5px;
@@ -244,7 +249,7 @@ window#volumePopup {
       transform: rotate(180deg);
       trough {
         background: rgba($surface0, 0.4);
-        border-radius: 0;
+        border-radius: $rounding;
 
         highlight {
           border-radius: 0;
@@ -256,10 +261,7 @@ window#volumePopup {
         all: unset;
 
         outline: none;
-        // background: $surface0;
         background: transparent;
-        // border-radius: 50%;
-        border-radius: 0;
         min-width: 18px;
         min-height: 18px;
       }
@@ -273,7 +275,7 @@ window#playerPopup {
   .playerOverlay {
     background: rgba($surface0, 0.95);
     padding: 8px;
-    border-radius: 15px;
+    border-radius: $rounding;
     min-width: 200px;
     color: $fg;
 
@@ -303,7 +305,7 @@ window#playerPopup {
           margin-right: 10px;
 
           picture {
-            border-radius: 5px;
+            border-radius: calc($rounding / 3);
           }
         }
       }
@@ -319,7 +321,7 @@ window#playerPopup {
         margin-right: 15px;
 
         picture {
-          border-radius: 15px;
+          border-radius: $rounding;
         }
       }
 
@@ -347,7 +349,7 @@ window#playerPopup {
 .rfkill {
   background: rgba($red, 0.9);
   padding: 5px;
-  border-radius: 15px;
+  border-radius: $rounding;
 
   button {
     background: $border;
@@ -366,7 +368,7 @@ window#launcher {
   .launcher {
     background: $surface0;
     border: 1px $border solid;
-    border-radius: 15px;
+    border-radius: $rounding;
 
     .search {
       margin-top: 5px;
@@ -390,7 +392,7 @@ window#launcher {
 
       .entry {
         // margin-top: 10px;
-        border-radius: 15px;
+        border-radius: $rounding;
         padding-bottom: 5px;
         padding-left: 10px;
         padding-top: 5px;
@@ -400,7 +402,7 @@ window#launcher {
         &:hover {
           color: rgba($fg, 0.8);
         }
-        
+
         &.selected {
           color: rgba($subtext1, 0.9);
           background: rgba($surface2, 0.8);
@@ -414,7 +416,7 @@ window#launcher {
           margin-right: 5px;
 
           picture {
-            border-radius: 5px;
+            border-radius: calc($rounding / 3);
           }
         }
       }

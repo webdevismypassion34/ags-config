@@ -1,7 +1,7 @@
 import app from 'ags/gtk4/app';
 import style from './style.scss';
 import Bar from './layout/Bar';
-import AppLauncher from './widget/AppLauncher';
+import AppLauncher from './feature/AppLauncher';
 import { activePopup, setActivePopup } from './state';
 
 app.start({

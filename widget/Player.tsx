@@ -1,30 +1,48 @@
 import { For, createState } from 'ags';
 import { execAsync } from 'ags/process';
 import { Gdk, Gtk } from 'ags/gtk4';
-import {
-  title,
-  artist,
-  album,
-  coverArt,
-  isPlaying,
-} from '../polls.ts';
+import { title, artist, coverArt, isPlaying } from '../polls.ts';
 import { startMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { spotifyAccessToken } from '../utils/spotifyAuth.ts';
 import Gio from 'gi://Gio';
 
+type Song = [title: string, artist: string, art: string];
+
+const [currentSong, setCurrentSong] = createState<Song>([
+  'Title',
+  'Artist',
+  '/home/alexmn/.config/ags/spotify/local.png',
+]);
+
 const [playerMargin, setPlayerMargin] = createState(0);
-const [queue, setQueue] = createState<[string, string, string][]>([]);
+const [queue, setQueue] = createState<Song[]>([]);
 
 let queueOutdated = true;
 
 title.subscribe(() => {
+  const songClone: Song = [...currentSong()];
+  songClone[0] = title();
+  setCurrentSong(songClone);
+
   queueOutdated = true;
   if (queue()[0] && queue()[0][0] == title()) {
     setQueue(queue().slice(1));
   }
   if (activePopup() == 'player') getQueue();
+});
+
+artist.subscribe(() => {
+  const songClone: Song = [...currentSong()];
+  songClone[1] = artist();
+  setCurrentSong(songClone);
+});
+
+coverArt.subscribe(() => {
+  const songClone: Song = [...currentSong()];
+  songClone[2] = coverArt();
+  setCurrentSong(songClone);
 });
 
 async function getQueue() {
@@ -69,7 +87,7 @@ async function getQueue() {
   setQueue(
     data.map((song: Record<string, any>, i: number) => [
       song.name || 'Song',
-      song.artists[0].name || 'Album',
+      song.artists[0].name || 'Artist',
       images[i],
     ])
   );
@@ -109,7 +127,8 @@ export function PlayerButton(_: { gdkmonitor: Gdk.Monitor }) {
           />
         </box>
         <box>
-          <label label={title} /> - <label label={artist} /> (spotify){' '}
+          <label label={currentSong(s => s[0])} /> -{' '}
+          <label label={currentSong(s => s[1])} /> (spotify){' '}
           <Gtk.GestureClick button={1} onPressed={togglePlayer} />
         </box>
       </box>
@@ -154,10 +173,7 @@ export function PlayerPopup({
               coverArt.subscribe(() => {
                 const path = coverArt();
                 if (path && path !== 'none') {
-                  setTimeout(
-                    () => self.set_file(Gio.File.new_for_path(path)),
-                    500
-                  );
+                  self.set_file(Gio.File.new_for_path(path));
                 }
               });
             }}
@@ -170,12 +186,12 @@ export function PlayerPopup({
           class="songText">
           <label
             class="primary"
-            label={title}
+            label={currentSong(s => s[0])}
             halign={Gtk.Align.CENTER}
           />
           <label
             class="secondary"
-            label={artist}
+            label={currentSong(s => s[1])}
             halign={Gtk.Align.CENTER}
           />
           <box
@@ -223,6 +239,8 @@ export function PlayerPopup({
               <Gtk.GestureClick
                 button={1}
                 onPressed={() => {
+                  setCurrentSong(queue()[0]);
+                  setQueue(queue().slice(1));
                   execAsync('playerctl next -p spotify');
                 }}
               />

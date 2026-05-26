@@ -8,7 +8,7 @@ const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 import Graphene from 'gi://Graphene?version=1.0';
 import { activePopup, setActivePopup } from '../state';
 import Gio from 'gi://Gio?version=2.0';
-import { readFile, readFileAsync, writeFileAsync } from 'ags/file';
+import { readFileAsync, writeFileAsync } from 'ags/file';
 
 let maxResultsLength = 11;
 let usage: Record<string, number> = {};
@@ -44,6 +44,23 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
     }
 
     const result = fuse.search(query).map(r => r.item);
+
+    if (query.startsWith('=')) {
+      await execAsync(['qalc', '-t', query.slice(1).trim()])
+        .then(out => {
+          if (out == '>') return;
+          result.unshift([
+            '',
+            `${query.slice(1).trim()} = ${out}`,
+            null,
+            '',
+            `wl-copy "${out}"`,
+            false,
+          ]);
+        })
+        .catch(() => {});
+    }
+
     setResults(result.slice(0, maxResultsLength));
   }
 
@@ -56,9 +73,11 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
     );
     const exec = app[4].replace(/%[a-zA-Z]/g, '').trim();
     if (app[5]) {
-      execAsync(['kitty', ...exec.split(' ')]).catch(console.error);
+      execAsync(['setsid', 'kitty', ...exec.split(' ')]).catch(
+        console.error
+      );
     } else {
-      execAsync(exec).catch(console.error);
+      execAsync(`setsid ${exec}`).catch(console.error);
     }
   }
 
@@ -91,6 +110,7 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
         <box orientation={Gtk.Orientation.HORIZONTAL} class="search">
           <label label="" class="icon" />
           <Gtk.Entry
+            widthRequest={470}
             $={self => {
               activePopup.subscribe(() => {
                 if (activePopup() === 'launcher') {
@@ -108,16 +128,13 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
 
               self.connect('activate', () => {
                 // enter key
-                console.log('enter');
                 let exec;
                 if (selectedItem() == 0) {
-                  console.log('is zero');
                   exec = results()[0];
                 } else {
                   exec = results()[selectedItem() - 1];
                 }
 
-                console.log(selectedItem() == 0);
                 if (!exec[0]) return true;
                 openApp(exec);
               });
@@ -144,6 +161,9 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
                       }
                       return true;
                     }
+                    if (keyval === Gdk.KEY_Escape) {
+                      setActivePopup(null);
+                    }
                   });
                   return ctrl;
                 })()
@@ -160,7 +180,6 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
           <box orientation={Gtk.Orientation.VERTICAL}>
             <For each={results}>
               {(app: App) => {
-                console.log(results());
                 return (
                   <box
                     orientation={Gtk.Orientation.HORIZONTAL}

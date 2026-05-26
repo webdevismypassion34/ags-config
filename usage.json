@@ -1,6 +1,11 @@
 {
-  "/usr/share/applications/code-oss.desktop": 1,
+  "/usr/share/applications/code-oss.desktop": 2,
   "/usr/share/applications/modrinth-app.desktop": 1,
-  "/usr/share/applications/kbd-layout-viewer5.desktop": 3,
-  "/usr/share/applications/librewolf.desktop": 1
+  "/usr/share/applications/kbd-layout-viewer5.desktop": 7,
+  "/usr/share/applications/librewolf.desktop": 1,
+  "/usr/share/applications/localsend.desktop": 1,
+  "/usr/share/applications/vesktop.desktop": 11,
+  "/usr/share/applications/spotify.desktop": 13,
+  "/home/alexmn/.local/share/applications/STRAFTAT.desktop": 1,
+  "/usr/share/applications/fcitx5-configtool.desktop": 2
 }
