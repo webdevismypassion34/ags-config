@@ -11,9 +11,6 @@ Things I'd like to implement in the future
 - add a dock layout probably like mac so favorites section and opened apps section
 - send a notification on low battery
 - show brightness and volume on change
-
-- make it less personal (e.g. remove hardcoded home dir)
-
 - make function row keys tell ags to make it instant
 - hide bar when in fullscreen in special workspace
 - implement matugen theming

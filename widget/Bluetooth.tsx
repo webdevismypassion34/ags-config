@@ -1,7 +1,11 @@
 import { For, createState, createComputed } from 'ags';
 import { execAsync } from 'ags/process';
 import { Gtk, Gdk } from 'ags/gtk4';
-import { bluetoothDevice, bluetoothBlocked } from '../polls.ts';
+import {
+  bluetoothDevice,
+  bluetoothBlocked,
+  bluetoothPercent,
+} from '../polls.ts';
 import { centeredMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
@@ -160,6 +164,10 @@ export function BluetoothPopup({
                   <label
                     class="icon"
                     label="󰸞"
+                    visible={bluetoothDevice(v => v === device.name)}
+                  />
+                  <label
+                    label={bluetoothPercent(v => `${v}% `)}
                     visible={bluetoothDevice(v => v === device.name)}
                   />
                   <label

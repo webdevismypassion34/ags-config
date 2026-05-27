@@ -3,6 +3,8 @@ import { execAsync } from 'ags/process';
 import GLib from 'gi://GLib?version=2.0';
 export const home = GLib.get_home_dir();
 
+let lastBatteryNotif = 0;
+
 export const title = createPoll(
   '',
   1000,
@@ -130,7 +132,49 @@ export const bluetoothDevice = createPoll(
 export const batteryPercent = createPoll(
   '',
   10000,
-  'cat /sys/class/power_supply/BAT0/capacity'
+  'cat /sys/class/power_supply/BAT0/capacity',
+  out => {
+    if (
+      parseInt(out) <= 20 &&
+      Date.now() - lastBatteryNotif > 300000
+    ) {
+      lastBatteryNotif = Date.now();
+      execAsync([
+        'notify-send',
+        '-u',
+        'critical',
+        'Low Battery',
+        '20% remaining',
+      ]);
+    }
+    return out;
+  }
+);
+
+export const inputMethod = createPoll('', 1000, () =>
+  execAsync([
+    'sh',
+    '-c',
+    'grep -A 3 "\\[$(fcitx5-remote -n)\\]" ~/.config/fcitx5/conf/cached_layouts',
+  ])
+    .then(
+      out =>
+        out.split('=').pop()?.replaceAll('"', '').trim() ?? 'unknown'
+    )
+    .catch(async () => {
+      const method = await execAsync('fcitx5-remote -n');
+      return method == 'pinyin' ? '拼' : 'unknown';
+    })
+);
+
+export const bluetoothPercent = createPoll(
+  '',
+  10000,
+  'bluetoothctl info',
+  (out: string) => {
+    const regex = /Battery Percentage:\s*0x[0-9a-fA-F]+\s*\((\d+)\)/;
+    return (out.match(regex) ?? ['', ''])[1];
+  }
 );
 
 export const batteryStatus = createPoll(

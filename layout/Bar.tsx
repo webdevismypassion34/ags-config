@@ -6,6 +6,7 @@ import { ArchButton, ArchPopup } from '../widget/Arch.tsx';
 import { WorkspaceButtons } from '../widget/Workspaces.tsx';
 import { PlayerButton, PlayerPopup } from '../widget/Player.tsx';
 import { Clock } from '../widget/Clock.tsx';
+import { Keyboard } from '../widget/Keyboard.tsx';
 import { WifiButton, WifiPopup } from '../widget/Wifi.tsx';
 import {
   BluetoothButton,
@@ -36,6 +37,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <Clock />
           </box>
           <box $type="end">
+            <Keyboard />
             <WifiButton gdkmonitor={gdkmonitor} />
             <BluetoothButton gdkmonitor={gdkmonitor} />
             <BatteryButton gdkmonitor={gdkmonitor} />
