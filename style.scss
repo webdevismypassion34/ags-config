@@ -423,3 +423,17 @@ window#launcher {
     }
   }
 }
+
+window#wallpaper {
+  background: transparent;
+
+  .preview {
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    overlay picture {
+      border: 1px $border solid;
+      border-radius: $rounding;
+    }
+  }
+}

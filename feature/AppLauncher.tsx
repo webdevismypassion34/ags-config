@@ -78,7 +78,9 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
         console.error
       );
     } else {
-      execAsync(`setsid ${exec}`).catch(console.error);
+      execAsync(`setsid ${exec} >/dev/null 2>&1`).catch(
+        console.error
+      );
     }
   }
 

@@ -135,7 +135,7 @@ export const batteryPercent = createPoll(
   'cat /sys/class/power_supply/BAT0/capacity',
   out => {
     if (
-      parseInt(out) <= 20 &&
+      parseInt(out) == 20 &&
       Date.now() - lastBatteryNotif > 300000
     ) {
       lastBatteryNotif = Date.now();

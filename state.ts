@@ -8,5 +8,6 @@ export const [activePopup, setActivePopup] = createState<
   | 'arch'
   | 'player'
   | 'launcher'
+  | 'wallpaper'
   | null
 >(null);
