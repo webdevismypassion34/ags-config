@@ -3,7 +3,11 @@ import { For } from 'ags';
 import { execAsync } from 'ags/process';
 import { Gdk } from 'ags/gtk4';
 
-export function WorkspaceButtons() {
+export function WorkspaceButtons({
+  icons = {},
+}: {
+  icons?: Record<number, string>;
+}) {
   const workspaces = createPoll(
     [],
     1000,
@@ -26,7 +30,7 @@ export function WorkspaceButtons() {
       <For each={workspaces}>
         {(ws: any) => (
           <button
-            label={String(ws.id)}
+            label={icons[ws.id] ?? String(ws.id)}
             onClicked={() =>
               execAsync('hyprctl dispatch workspace ' + ws.id)
             }

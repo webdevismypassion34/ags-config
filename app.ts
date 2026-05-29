@@ -1,6 +1,7 @@
 import app from 'ags/gtk4/app';
 import style from './style.scss';
 import Bar from './layout/Bar';
+import Dock from './layout/Dock';
 import AppLauncher from './feature/AppLauncher';
 import WallpaperPicker from './feature/Wallpaper';
 import { activePopup, setActivePopup } from './state';
@@ -20,6 +21,7 @@ app.start({
   },
   main() {
     app.get_monitors().map(Bar);
+    // app.get_monitors().map(Dock);
     app.get_monitors().map(AppLauncher);
     app.get_monitors().map(WallpaperPicker);
   },

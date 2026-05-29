@@ -108,7 +108,7 @@ export function PlayerButton(_: { gdkmonitor: Gdk.Monitor }) {
 
   return (
     <button
-      class="mpris noBg"
+      class="mpris"
       $={self => {
         playerButtonRef = self;
         self.set_cursor(Gdk.Cursor.new_from_name('pointer', null));

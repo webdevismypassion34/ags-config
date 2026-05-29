@@ -1,7 +1,7 @@
 import { execAsync } from 'ags/process';
-import { readFileAsync } from 'ags/file';
 import { createState } from 'ags';
 import { home } from '../polls';
+import { readFileAsync, writeFileAsync } from 'ags/file';
 
 export type App = [
   file: string,
@@ -503,12 +503,23 @@ const [appList, setAppList] = createState<App[]>([
 ]);
 export default appList;
 
-// getApps().then(a => {
-//   console.log(a);
-//   setAppList(a as App[]);
-// });
+// readFileAsync(`${home}/.config/ags/icons.json`).then(console.log);
+getApps()
+  .then(a => {
+    console.log(a);
+    setAppList(a as App[]);
+  })
+  .catch(console.error);
 
 async function getApps() {
+  let existingAppIcons: Record<
+    string,
+    { class: string; icon: string | null }
+  > = JSON.parse(
+    await readFileAsync(`${home}/.config/ags/icons.json`).catch(
+      () => '{}'
+    )
+  );
   const applicationDirectories = [
     '/home/alexmn/.local/share/applications',
     '/usr/share/applications',
@@ -520,7 +531,10 @@ async function getApps() {
     '*.desktop',
     '-type',
     'f',
-  ]);
+  ]).catch(e => {
+    console.error('find failed:', e);
+    return '';
+  });
   const fileContents = await Promise.all(
     desktopFiles.split('\n').map(async file => {
       const contents = await readFileAsync(file);
@@ -552,10 +566,16 @@ async function getApps() {
     (f): f is Record<string, string> => f !== undefined
   );
 
+  const newIcons: Record<string, string | null> = {};
+
   const appIcons = await Promise.all(
     filtered.map(async json => {
       const name = json.Icon;
+      if (!name) return null;
       if (name.startsWith('/')) return name;
+      if (name in existingAppIcons)
+        return existingAppIcons[name].icon;
+      if (name in newIcons) return newIcons[name];
       // to prioritize higher sizes
       const shareIcons = [
         `${home}/.local/share/icons/hicolor/256x256/`,
@@ -651,8 +671,27 @@ async function getApps() {
         iconDirs.flatMap(dir =>
           lines.filter(l => l.startsWith(dir))
         )[0] ?? null;
+      newIcons[name] = found;
       return found;
     })
+  );
+
+  const merged: Record<
+    string,
+    { class: string; icon: string | null }
+  > = {
+    ...existingAppIcons,
+    ...Object.fromEntries(
+      Object.entries(newIcons).map(([k, v]) => [
+        k,
+        { class: k, icon: v },
+      ])
+    ),
+  };
+
+  await writeFileAsync(
+    `${home}/.config/ags/icons.json`,
+    JSON.stringify(merged, null, 2)
   );
 
   return filtered.map((d, i: number) => [

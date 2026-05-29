@@ -1,0 +1,198 @@
+{
+  "steam_icon_359550": {
+    "class": "steam_icon_359550",
+    "icon": "/home/alexmn/.local/share/icons/hicolor/256x256/apps/steam_icon_359550.png"
+  },
+  "steam_icon_322170": {
+    "class": "steam_icon_322170",
+    "icon": "/home/alexmn/.local/share/icons/hicolor/256x256/apps/steam_icon_322170.png"
+  },
+  "spotify-client": {
+    "class": "spotify-client",
+    "icon": "/usr/share/pixmaps/spotify-client.png"
+  },
+  "steam_icon_2386720": {
+    "class": "steam_icon_2386720",
+    "icon": "/home/alexmn/.local/share/icons/hicolor/48x48/apps/steam_icon_2386720.png"
+  },
+  "org.xfce.about": {
+    "class": "org.xfce.about",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/org.xfce.about.svg"
+  },
+  "steam_icon_960090": {
+    "class": "steam_icon_960090",
+    "icon": "/home/alexmn/.local/share/icons/hicolor/256x256/apps/steam_icon_960090.png"
+  },
+  "blueman": {
+    "class": "blueman",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/blueman.svg"
+  },
+  "org.pulseaudio.pavucontrol": {
+    "class": "org.pulseaudio.pavucontrol",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/org.pulseaudio.pavucontrol.svg"
+  },
+  "yazi": {
+    "class": "yazi",
+    "icon": "/usr/share/icons/hicolor/512x512/apps/yazi.png"
+  },
+  "firefox": {
+    "class": "firefox",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/firefox.svg"
+  },
+  "kdeconnect": {
+    "class": "kdeconnect",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/kdeconnect.svg"
+  },
+  "preferences-system-network": {
+    "class": "preferences-system-network",
+    "icon": "/usr/share/icons/HighContrast/24x24/apps/preferences-system-network.png"
+  },
+  "mpv": {
+    "class": "mpv",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/mpv.svg"
+  },
+  "vesktop": {
+    "class": "vesktop",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/vesktop.svg"
+  },
+  "printer": {
+    "class": "printer",
+    "icon": "/usr/share/icons/Tokyonight-Dark/apps/64/printer.svg"
+  },
+  "CMakeSetup": {
+    "class": "CMakeSetup",
+    "icon": "/usr/share/icons/hicolor/128x128/apps/CMakeSetup.png"
+  },
+  "org.kde.dolphin": {
+    "class": "org.kde.dolphin",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/org.kde.dolphin.svg"
+  },
+  "rofi": {
+    "class": "rofi",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/rofi.svg"
+  },
+  "librewolf": {
+    "class": "librewolf",
+    "icon": "/usr/share/icons/hicolor/192x192/apps/librewolf.png"
+  },
+  "java26-openjdk": {
+    "class": "java26-openjdk",
+    "icon": "/usr/share/icons/hicolor/48x48/apps/java26-openjdk.png"
+  },
+  "input-keyboard": {
+    "class": "input-keyboard",
+    "icon": "/usr/share/icons/HighContrast/24x24/devices/input-keyboard.png"
+  },
+  "network-wired": {
+    "class": "network-wired",
+    "icon": "/usr/share/icons/breeze-dark/status/24/network-wired.svg"
+  },
+  "htop": {
+    "class": "htop",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/htop.svg"
+  },
+  "org.xfce.thunar": {
+    "class": "thunar",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/org.xfce.thunar.svg"
+  },
+  "obsidian": {
+    "class": "obsidian",
+    "icon": "/usr/share/pixmaps/obsidian.png"
+  },
+  "applications-system": {
+    "class": "applications-system",
+    "icon": "/usr/share/icons/AdwaitaLegacy/16x16/legacy/applications-system.png"
+  },
+  "com.visualstudio.code.oss": {
+    "class": "code-oss",
+    "icon": "/usr/share/pixmaps/com.visualstudio.code.oss.png"
+  },
+  "nvim": {
+    "class": "nvim",
+    "icon": "/usr/share/icons/hicolor/128x128/apps/nvim.png"
+  },
+  "lunarclient": {
+    "class": "lunarclient",
+    "icon": "/usr/share/icons/hicolor/1024x1024/apps/lunarclient.png"
+  },
+  "nwg-look": {
+    "class": "nwg-look",
+    "icon": "/usr/share/pixmaps/nwg-look.svg"
+  },
+  "steam": {
+    "class": "steam",
+    "icon": "/usr/share/icons/hicolor/256x256/apps/steam.png"
+  },
+  "kitty": {
+    "class": "kitty",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/kitty.svg"
+  },
+  "chromium": {
+    "class": "chromium",
+    "icon": "/usr/share/icons/hicolor/256x256/apps/chromium.png"
+  },
+  "fcitx": {
+    "class": "fcitx",
+    "icon": "/usr/share/icons/breeze-dark/status/24/fcitx.svg"
+  },
+  "btop": {
+    "class": "btop",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/btop.svg"
+  },
+  "vencordinstaller": {
+    "class": "vencordinstaller",
+    "icon": "/usr/share/icons/hicolor/96x96/apps/vencordinstaller.png"
+  },
+  "com.obsproject.Studio": {
+    "class": "com.obsproject.Studio",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/com.obsproject.Studio.svg"
+  },
+  "qbittorrent": {
+    "class": "qbittorrent",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/qbittorrent.svg"
+  },
+  "modrinth-app": {
+    "class": "modrinth-app",
+    "icon": "/usr/share/icons/hicolor/256x256@2/apps/modrinth-app.png"
+  },
+  "copyq": {
+    "class": "copyq",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/copyq.svg"
+  },
+  "localsend": {
+    "class": "localsend",
+    "icon": "/usr/share/pixmaps/localsend.png"
+  },
+  "preferences-desktop-theme": {
+    "class": "preferences-desktop-theme",
+    "icon": "/usr/share/icons/Tokyonight-Dark/apps/64/preferences-desktop-theme.svg"
+  },
+  "qv4l2": {
+    "class": "qv4l2",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/qv4l2.svg"
+  },
+  "kvantum": {
+    "class": "kvantum",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/kvantum.svg"
+  },
+  "ncspot": {
+    "class": "ncspot",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/ncspot.svg"
+  },
+  "org.xfce.volman": {
+    "class": "org.xfce.volman",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/org.xfce.volman.svg"
+  },
+  "qvidcap": {
+    "class": "qvidcap",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/qvidcap.svg"
+  },
+  "cups": {
+    "class": "cups",
+    "icon": "/usr/share/icons/hicolor/128x128/apps/cups.png"
+  },
+  "org.gnome.eog": {
+    "class": "org.gnome.eog",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/org.gnome.eog.Devel.svg"
+  }
+}

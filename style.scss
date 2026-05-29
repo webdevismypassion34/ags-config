@@ -37,7 +37,8 @@ $arch: #1793d1;
   font-size: 1rem;
 }
 
-window.Bar {
+window.Bar,
+window.Dock {
   background: transparent;
   color: $fg;
 
@@ -45,13 +46,20 @@ window.Bar {
     background: rgba($bg, 0.6);
     border-radius: $rounding;
     margin: $outsideMargin;
-    margin-bottom: 0;
 
     > box {
       // background: rgba($bg, 0.5);
       // border-radius: 15px;
       padding: 5px;
     }
+  }
+
+  &.Bar > centerbox {
+    margin-bottom: 0;
+  }
+
+  &.Dock > centerbox {
+    margin-top: 0;
   }
 
   button {
@@ -101,7 +109,8 @@ window.Bar {
     }
   }
 
-  .mpris {
+  .mpris,
+  .apps {
     all: unset;
     margin-left: 15px;
   }

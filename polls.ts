@@ -202,10 +202,21 @@ export const notifCount = createPoll(
   out => out.replace('%', '')
 );
 
-// const notifIcon = createComputed(() => {
-//   if (parseInt(notifCount()) > 0) {
-//     return "󱅫"
-//   } else {
-//     return "󰂚"
-//   }
-// })
+export const activeWindow = createPoll({}, 500, () =>
+  execAsync(['hyprctl', 'activewindow', '-j'])
+    .then((out: string) => JSON.parse(out))
+    .catch(console.error)
+);
+
+export const openWindows = createPoll(
+  [],
+  500,
+  'hyprctl clients -j',
+  c => {
+    try {
+      return JSON.parse(c);
+    } catch {
+      return [];
+    }
+  }
+);

@@ -30,7 +30,9 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         <centerbox cssName="centerbox">
           <box $type="start">
             <ArchButton />
-            <WorkspaceButtons />
+            <WorkspaceButtons
+              icons={{ 1: '', 2: '', 3: '󰈹', 4: '' }}
+            />
             <PlayerButton gdkmonitor={gdkmonitor} />
           </box>
           <box $type="center">

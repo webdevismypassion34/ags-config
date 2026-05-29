@@ -4,6 +4,9 @@ import { Gtk, Gdk } from 'ags/gtk4';
 import { startMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
+import { activeWindow } from '../polls.ts';
+
+activeWindow.subscribe(() => {});
 
 const [archMargin, setArchMargin] = createState(0);
 const [selectedWindow, setSelectedWindow] = createState<
@@ -20,9 +23,8 @@ export function ArchButton() {
     if (activePopup() === 'arch') {
       setActivePopup(null);
     } else {
-      execAsync('hyprctl activewindow -j')
-        .then(out => setSelectedWindow(JSON.parse(out)))
-        .catch(() => {});
+      setSelectedWindow(activeWindow());
+      console.log(selectedWindow(), activeWindow());
       setArchMargin(startMargin(archButtonRef));
       setActivePopup('arch');
     }
