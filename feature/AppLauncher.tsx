@@ -11,6 +11,8 @@ import Gio from 'gi://Gio?version=2.0';
 import { readFileAsync, writeFileAsync } from 'ags/file';
 import { home } from '../polls';
 
+const terminal = 'kitty';
+
 let maxResultsLength = 11;
 let usage: Record<string, number> = {};
 
@@ -74,7 +76,7 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
     );
     const exec = app[4].replace(/%[a-zA-Z]/g, '').trim();
     if (app[5]) {
-      execAsync(['setsid', 'kitty', ...exec.split(' ')]).catch(
+      execAsync(['setsid', terminal, ...exec.split(' ')]).catch(
         console.error
       );
     } else {

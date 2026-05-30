@@ -8,7 +8,7 @@ import { home } from '../polls';
 import Graphene from 'gi://Graphene?version=1.0';
 import Gio from 'gi://Gio?version=2.0';
 
-// don't include $HOME
+// don't include $HOME, e.g. 'wallpaper' instead of '~/wallpaper'
 const wallpaperDirectory = 'wallpaper';
 
 const [wallpapers, setWallpapers] = createState<string[]>([]);
