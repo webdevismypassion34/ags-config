@@ -3,6 +3,13 @@ import { createState } from 'ags';
 import { home } from '../polls';
 import { readFileAsync, writeFileAsync } from 'ags/file';
 
+// purely visual
+export const visualClassOverrides: Record<string, string> = {
+  'com.obsproject.Studio': 'obs',
+  'code-oss': 'vsc',
+};
+
+
 export type App = [
   file: string,
   name: string,
@@ -506,7 +513,7 @@ export default appList;
 // readFileAsync(`${home}/.config/ags/icons.json`).then(console.log);
 getApps()
   .then(a => {
-    console.log(a);
+    // console.log(a);
     setAppList(a as App[]);
   })
   .catch(console.error);

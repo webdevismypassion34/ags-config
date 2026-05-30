@@ -7,15 +7,13 @@ import Gio from 'gi://Gio?version=2.0';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { centeredMargin } from '../utils/margin.ts';
+import { visualClassOverrides } from '../utils/appList.ts';
 
 const [appPopup, setAppPopup] = createState('');
 const [appMargin, setAppMargin] = createState(0);
 const [openWindows, setOpenWindows] = createState<
   Record<string, string>[]
 >([]);
-
-// purely visual
-const visualClassOverrides: Record<string, string> = {"com.obsproject.Studio": "OBS", 'code-oss': 'VS Code'}
 
 const titles = (w: Record<string, string>[]) =>
   w
@@ -72,6 +70,14 @@ export function Apps({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
             <button
               class="apps"
               onClicked={self => {
+                if (
+                  openWindows().filter(
+                    w => w.initialClass == window.initialClass
+                  ).length == 1
+                )
+                  return execAsync(
+                    `hyprctl dispatch focuswindow address:${window.address}`
+                  );
                 if (appPopup() === window.initialClass) {
                   setActivePopup(null);
                 } else {
@@ -105,7 +111,13 @@ export function Apps({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
                     />
                   )}
                 </overlay>
-                <label label={visualClassOverrides[window.initialClass] ? visualClassOverrides[window.initialClass] : window.initialClass} />
+                <label
+                  label={
+                    visualClassOverrides[window.initialClass]
+                      ? visualClassOverrides[window.initialClass]
+                      : window.initialClass
+                  }
+                />
               </box>
             </button>
           );
@@ -136,9 +148,14 @@ export function AppsPopup({
           )
         )}>
         {(window: Record<string, string>) => (
-          <button $={self => self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))}
+          <button
+            $={self =>
+              self.set_cursor(
+                Gdk.Cursor.new_from_name('pointer', null)
+              )
+            }
             onClicked={() => {
-              setActivePopup(null)
+              setActivePopup(null);
               execAsync(
                 `hyprctl dispatch focuswindow address:${window.address}`
               );

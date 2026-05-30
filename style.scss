@@ -133,10 +133,22 @@ window.Dock {
     }
   }
 
+  .smallArt {
+    margin-right: 10px;
+
+    > picture {
+      border-radius: $rounding / 3;
+    }
+  }
+
   .mpris,
   .apps {
     all: unset;
     margin-left: 15px;
+  }
+
+  .secondary {
+    color: $subtext0;
   }
 }
 

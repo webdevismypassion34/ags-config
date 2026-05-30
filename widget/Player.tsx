@@ -93,7 +93,11 @@ async function getQueue() {
   );
 }
 
-export function PlayerButton(_: { gdkmonitor: Gdk.Monitor }) {
+export function PlayerButton({
+  altLayout = false,
+}: {
+  altLayout?: Boolean;
+}) {
   function togglePlayer() {
     if (activePopup() == 'player') {
       setActivePopup(null);
@@ -113,25 +117,67 @@ export function PlayerButton(_: { gdkmonitor: Gdk.Monitor }) {
         playerButtonRef = self;
         self.set_cursor(Gdk.Cursor.new_from_name('pointer', null));
       }}>
-      <box>
+      {altLayout ? (
         <box>
-          <label
-            class="icon"
-            label={isPlaying(v => (v ? '' : ''))}
-          />
-          <Gtk.GestureClick
-            button={1}
-            onPressed={() => {
-              execAsync('playerctl play-pause -p spotify');
-            }}
-          />
+          <overlay
+            widthRequest={53}
+            heightRequest={20}
+            class="smallArt">
+            <Gtk.Picture
+              contentFit={Gtk.ContentFit.COVER}
+              $type="overlay"
+              $={self => {
+                coverArt.subscribe(() => {
+                  const path = coverArt();
+                  if (path && path !== 'none') {
+                    self.set_file(Gio.File.new_for_path(path));
+                  }
+                });
+              }}
+            />
+            <Gtk.GestureClick
+              button={1}
+              onPressed={() => {
+                execAsync('playerctl play-pause -p spotify');
+              }}
+            />
+          </overlay>
+          <box
+            orientation={Gtk.Orientation.VERTICAL}
+            valign={Gtk.Align.CENTER}>
+            <label
+              label={currentSong(s => s[0])}
+              halign={Gtk.Align.START}
+            />
+            <label
+              label={currentSong(s => s[1])}
+              halign={Gtk.Align.START}
+              class="secondary"
+            />
+            <Gtk.GestureClick button={1} onPressed={togglePlayer} />
+          </box>
         </box>
+      ) : (
         <box>
-          <label label={currentSong(s => s[0])} /> -{' '}
-          <label label={currentSong(s => s[1])} /> (spotify){' '}
-          <Gtk.GestureClick button={1} onPressed={togglePlayer} />
+          <box>
+            <label
+              class="icon"
+              label={isPlaying(v => (v ? '' : ''))}
+            />
+            <Gtk.GestureClick
+              button={1}
+              onPressed={() => {
+                execAsync('playerctl play-pause -p spotify');
+              }}
+            />
+          </box>
+          <box>
+            <label label={currentSong(s => s[0])} /> -{' '}
+            <label label={currentSong(s => s[1])} /> (spotify){' '}
+            <Gtk.GestureClick button={1} onPressed={togglePlayer} />
+          </box>
         </box>
-      </box>
+      )}
     </button>
   );
 }

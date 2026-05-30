@@ -5,7 +5,7 @@ Things I'd like to implement in the future
 - make some kind of theme switcher (not high priority, i like how default one looks)
 - make another Gtk.Picture for the first item in queue, switch between them for instant cover art loading
 - add more widgets to bar: current window, weather, temperature, GPU/CPU usage, power button, brightness, favorite apps (dock)
-- implement widget options: clock time format & vertical option, player add 2nd layout (cover art l, title tr, artist br), workspaces show windows in it
+- implement widget option: clock time format & vertical option
 - make system settings (might be ags, might be tauri, although tauri is lwk a pain to use :/): this would have the theme switching, easily change fonts system-wide, gtk theme, users, switch between hyprlock configs
 - visual editor for my ags config: move around bar/dock/launcher, change settings for it, etc
 - send a notification on low battery
@@ -16,7 +16,6 @@ Things I'd like to implement in the future
 - better screenshot tool
 - show caps lock / num lock / keyboard in bar or somewhere
 - make overlays (e.g. song, keyboard, cava?, network, cps)
-- implement lazy or async loading (e.g. app list)
 - add timers, alarms, and stopwatches
 - overview like in kde plasma
 - add equalizer to volume popup (bass boost, vocal boost, bass reduce, etc)

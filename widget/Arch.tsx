@@ -5,12 +5,13 @@ import { startMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { activeWindow } from '../polls.ts';
+import { visualClassOverrides } from '../utils/appList.ts';
 
 activeWindow.subscribe(() => {});
 
 const [archMargin, setArchMargin] = createState(0);
 const [selectedWindow, setSelectedWindow] = createState<
-  Record<string, string | number | string[] | boolean>
+  Record<string, any>
 >({});
 const windowIsSelected = createComputed(
   () => !!selectedWindow().class
@@ -84,7 +85,12 @@ export function ArchPopup({
         onClicked={() =>
           execAsync(`pkill -15 -p ${selectedWindow().pid}`)
         }>
-        <label label={selectedWindow(w => `quit ${w.class}`)} />
+        <label
+          label={selectedWindow(
+            w =>
+              `quit ${visualClassOverrides[w.initialClass] ? visualClassOverrides[w.initialClass] : w.initialClass}`
+          )}
+        />
       </button>
       <button
         visible={windowIsSelected}
@@ -94,7 +100,12 @@ export function ArchPopup({
         onClicked={() =>
           execAsync(`pkill -9 -p ${selectedWindow().pid}`)
         }>
-        <label label={selectedWindow(w => `force quit ${w.class}`)} />
+        <label
+          label={selectedWindow(
+            w =>
+              `force quit ${visualClassOverrides[w.initialClass] ? visualClassOverrides[w.initialClass] : w.initialClass}`
+          )}
+        />
       </button>
       <Gtk.Separator
         orientation={Gtk.Orientation.HORIZONTAL}

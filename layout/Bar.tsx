@@ -33,7 +33,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <WorkspaceButtons
               icons={{ 1: '', 2: '', 3: '󰈹', 4: '' }}
             />
-            <PlayerButton gdkmonitor={gdkmonitor} />
+            <PlayerButton altLayout={true} />
           </box>
           <box $type="center">
             <Clock />

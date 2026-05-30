@@ -21,7 +21,7 @@ app.start({
   },
   main() {
     app.get_monitors().map(Bar);
-    app.get_monitors().map(Dock);
+    // app.get_monitors().map(Dock);
     app.get_monitors().map(AppLauncher);
     app.get_monitors().map(WallpaperPicker);
   },
