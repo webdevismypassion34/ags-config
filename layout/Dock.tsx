@@ -1,7 +1,7 @@
 import app from 'ags/gtk4/app';
 import { Astal, Gdk } from 'ags/gtk4';
 const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor;
-import { Apps } from '../widget/Apps';
+import { Apps, AppsPopup } from '../widget/Apps';
 
 export default function Dock(gdkmonitor: Gdk.Monitor) {
   return (
@@ -17,12 +17,13 @@ export default function Dock(gdkmonitor: Gdk.Monitor) {
         <centerbox cssName="centerbox">
           <box $type="start"></box>
           <box $type="center">
-            <Apps />
+            <Apps gdkmonitor={gdkmonitor} />
           </box>
           <box $type="end"></box>
         </centerbox>
       </window>
       {/* popups */}
+      <AppsPopup gdkmonitor={gdkmonitor} />
     </>
   );
 }

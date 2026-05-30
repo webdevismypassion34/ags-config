@@ -105,7 +105,7 @@
   },
   "com.visualstudio.code.oss": {
     "class": "code-oss",
-    "icon": "/usr/share/pixmaps/com.visualstudio.code.oss.png"
+    "icon": "/home/alexmn/.local/share/icons/vscode.svg"
   },
   "nvim": {
     "class": "nvim",

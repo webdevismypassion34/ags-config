@@ -109,6 +109,30 @@ window.Dock {
     }
   }
 
+  .apps {
+    outline: 1px red solid;
+    margin: 0;
+
+    .app {
+      padding: 2px 10px;
+      border-radius: $rounding;
+      transition: 100ms ease-in-out all;
+
+      &:hover {
+        background: $surface2;
+      }
+
+      &.viewing {
+        background: $subtext1;
+        color: $bg;
+      }
+
+      label {
+        margin-top: 5px;
+      }
+    }
+  }
+
   .mpris,
   .apps {
     all: unset;
@@ -429,6 +453,35 @@ window#launcher {
           }
         }
       }
+    }
+  }
+}
+
+window#appPopup {
+  background: transparent;
+
+  button {
+    all: unset;
+    padding: 10px;
+    background: $surface0;
+
+    border-left: 1px $border solid;
+    border-right: 1px $border solid;
+
+    &:hover {
+      background: $surface1;
+    }
+
+    &:nth-child(1) {
+      border-top-right-radius: $rounding;
+      border-top-left-radius: $rounding;
+      border-top: 1px $border solid;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: $rounding;
+      border-bottom-left-radius: $rounding;
+      border-bottom: 1px $border solid;
     }
   }
 }

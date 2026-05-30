@@ -9,5 +9,6 @@ export const [activePopup, setActivePopup] = createState<
   | 'player'
   | 'launcher'
   | 'wallpaper'
+  | 'app'
   | null
 >(null);

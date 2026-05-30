@@ -13,6 +13,7 @@ export default function Popup({
   halign = Gtk.Align.CENTER,
   widthRequest,
   children,
+  valign = Gtk.Align.START,
 }: {
   gdkmonitor: Gdk.Monitor;
   name: string;
@@ -22,6 +23,7 @@ export default function Popup({
   halign?: Gtk.Align;
   widthRequest?: number;
   children?: any;
+  valign?: Gtk.Align;
 }) {
   let ref!: Gtk.Widget;
   return (
@@ -45,9 +47,10 @@ export default function Popup({
       <box
         $={self => (ref = self)}
         halign={halign}
-        valign={Gtk.Align.START}
+        valign={valign}
         orientation={Gtk.Orientation.VERTICAL}
-        marginStart={margin}
+        marginStart={margin((v: number) => v > 0 ? v : 0)}
+        marginEnd={margin((v: number) => v < 0 ? -v : 0)}
         class={cssClass}
         widthRequest={widthRequest ?? -1}>
         {children}
