@@ -129,28 +129,6 @@ export const bluetoothDevice = createPoll(
   out => (out ? out : 'none')
 );
 
-export const batteryPercent = createPoll(
-  '',
-  10000,
-  'cat /sys/class/power_supply/BAT0/capacity',
-  out => {
-    if (
-      parseInt(out) == 20 &&
-      Date.now() - lastBatteryNotif > 300000
-    ) {
-      lastBatteryNotif = Date.now();
-      execAsync([
-        'notify-send',
-        '-u',
-        'critical',
-        'Low Battery',
-        '20% remaining',
-      ]);
-    }
-    return out;
-  }
-);
-
 export const inputMethod = createPoll('', 1000, () =>
   execAsync([
     'sh',
@@ -193,6 +171,29 @@ export const batteryStatus = createPoll(
       null,
       2
     )
+);
+
+export const batteryPercent = createPoll(
+  '',
+  10000,
+  'cat /sys/class/power_supply/BAT0/capacity',
+  out => {
+    if (
+      parseInt(out) == 20 &&
+      Date.now() - lastBatteryNotif > 300000 &&
+      JSON.parse(batteryStatus()).state == 'discharging'
+    ) {
+      lastBatteryNotif = Date.now();
+      execAsync([
+        'notify-send',
+        '-u',
+        'critical',
+        'Low Battery',
+        '20% remaining',
+      ]);
+    }
+    return out;
+  }
 );
 
 export const notifCount = createPoll(

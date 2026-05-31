@@ -9,7 +9,6 @@ Things I'd like to implement in the future
 - make system settings (might be ags, might be tauri, although tauri is lwk a pain to use :/): this would have the theme switching, easily change fonts system-wide, gtk theme, users, switch between hyprlock configs
 - visual editor for my ags config: move around bar/dock/launcher, change settings for it, etc
 - send a notification on low battery
-- show brightness and volume on change
 - make function row keys tell ags to make it instant
 - hide bar when in fullscreen in special workspace
 - implement matugen theming
@@ -19,3 +18,4 @@ Things I'd like to implement in the future
 - add timers, alarms, and stopwatches
 - overview like in kde plasma
 - add equalizer to volume popup (bass boost, vocal boost, bass reduce, etc)
+- make an install script

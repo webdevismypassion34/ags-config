@@ -7,6 +7,7 @@ import WallpaperPicker from './feature/Wallpaper';
 import { activePopup, setActivePopup } from './state';
 import OSD from './feature/OSD';
 import { setBrightness, setVolume } from './feature/OSD';
+import { setTempVolume } from './widget/Volume';
 
 app.start({
   css: style,
@@ -27,6 +28,7 @@ app.start({
     }
     if (request[0] === 'updateVolume') {
       setVolume(Math.round(parseFloat(request[2]) * 100));
+      setTempVolume(Math.round(parseFloat(request[2]) * 100).toString())
       res('ok');
     }
   },

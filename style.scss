@@ -18,8 +18,6 @@ $subtext1: #bac2de;
 
 $rounding: 15px;
 $outsideMargin: 10px;
-// $rounding: 0;
-// $outsideMargin: 0;
 $font: 'JetBrainsMono Nerd Font Propo';
 $fontWeight: bold;
 $fontSize: 1rem;
@@ -211,8 +209,19 @@ window#bluetoothPopup {
     .title {
       margin-bottom: 5px;
 
+      button {
+        border-radius: 0;
+      }
+
       button:nth-child(1) {
-        margin-right: 5px;
+        margin-right: 3px;
+        border-top-left-radius: $rounding;
+        border-bottom-left-radius: $rounding;
+      }
+
+      button:last-child {
+        border-top-right-radius: $rounding;
+        border-bottom-right-radius: $rounding;
       }
     }
 

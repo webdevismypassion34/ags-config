@@ -12,6 +12,13 @@ import { centeredMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 
+const [tempVolume, setTempVolume] = createState('');
+export { setTempVolume };
+
+volume.subscribe(() => {
+  setTempVolume(volume());
+});
+
 const [volumeMargin, setVolumeMargin] = createState(0);
 
 export function VolumeButton({
@@ -29,7 +36,7 @@ export function VolumeButton({
   }
 
   const volumeIcon = createComputed(() => {
-    if (parseInt(volume()) == 0) {
+    if (parseInt(tempVolume()) == 0) {
       return '󰝟';
     } else {
       return '󰕾';
@@ -48,7 +55,7 @@ export function VolumeButton({
       onClicked={toggleVolume}>
       <box>
         <label label={volumeIcon} class="icon" />
-        <label label={volume} />
+        <label label={tempVolume} />
       </box>
     </button>
   );
@@ -79,17 +86,17 @@ export function VolumePopup({
             heightRequest={200}
             sensitive={volumeMuted(v => !v)}
             $={self => {
-              volume.subscribe(() => {
+              tempVolume.subscribe(() => {
                 self
                   .get_adjustment()
-                  .set_value(parseInt(volume()) || 0);
+                  .set_value(parseInt(tempVolume()) || 0);
               });
             }}
             adjustment={
               new Gtk.Adjustment({
                 lower: 0,
                 upper: 100,
-                value: parseInt(volume()) || 0,
+                value: parseInt(tempVolume()) || 0,
                 step_increment: 1,
               })
             }

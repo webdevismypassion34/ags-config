@@ -136,8 +136,24 @@ export function BatteryPopup({
             batteryPercent.subscribe(() => self.queue_draw());
           }}
         />
-        <label label={batteryCharging} />
-        <label label={batteryLeft} />
+        <label
+          label="calculating..."
+          visible={batteryLeft((b: string) =>
+            b.includes('undefined')
+          )}
+        />
+        <label
+          visible={batteryLeft(
+            (b: string) => !b.includes('undefined')
+          )}
+          label={batteryCharging}
+        />
+        <label
+          visible={batteryLeft(
+            (b: string) => !b.includes('undefined')
+          )}
+          label={batteryLeft}
+        />
       </box>
     </Popup>
   );
