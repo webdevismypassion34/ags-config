@@ -1,7 +1,7 @@
 // https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
 $bg: rgb(30, 30, 46);
 $fg: #eff1f5;
-$accent: #cba6f7;
+$purple: #cba6f7;
 $red: #f38ba8;
 $orange: #f9e2af;
 $green: #a6e3a1;
@@ -20,11 +20,14 @@ $rounding: 15px;
 $outsideMargin: 10px;
 // $rounding: 0;
 // $outsideMargin: 0;
+$font: 'JetBrainsMono Nerd Font Propo';
+$fontWeight: bold;
+$fontSize: 1rem;
 
 $arch: #1793d1;
 
 .icon {
-  font-size: 1.1rem;
+  font-size: $fontSize * 1.1;
 }
 
 .icon:not(.arch) {
@@ -32,9 +35,9 @@ $arch: #1793d1;
 }
 
 * {
-  font-weight: bold;
-  font-family: 'Jetbrains Mono Nerd Font Propo', sans-serif;
-  font-size: 1rem;
+  font-weight: $fontWeight;
+  font-family: $font, 'Symbols Nerd Font', sans-serif;
+  font-size: $fontSize;
 }
 
 window.Bar,
@@ -83,7 +86,7 @@ window.Dock {
     }
 
     &.bluetooth {
-      background: rgba($accent, 0.9);
+      background: rgba($purple, 0.9);
       color: $surface0;
     }
 
@@ -168,6 +171,27 @@ window#wifiPopup {
       background: $blue;
       margin-bottom: 3px;
       outline: 0;
+      border-radius: $rounding;
+
+      transition: 100ms ease-in-out all;
+
+      &:hover {
+        background: rgba($blue, 0.5);
+      }
+    }
+
+    scrolledwindow button {
+      border-radius: 0;
+
+      &:nth-child(1) {
+        border-top-right-radius: $rounding;
+        border-top-left-radius: $rounding;
+      }
+
+      &:last-child {
+        border-bottom-right-radius: $rounding;
+        border-bottom-left-radius: $rounding;
+      }
     }
 
     label {
@@ -180,7 +204,7 @@ window#bluetoothPopup {
   background: transparent;
 
   .bluetoothOverlay {
-    background: rgba($accent, 0.9);
+    background: rgba($purple, 0.9);
     padding: 8px 15px;
     border-radius: $rounding;
 
@@ -193,9 +217,30 @@ window#bluetoothPopup {
     }
 
     button {
-      background: $accent;
+      background: $purple;
       margin-bottom: 3px;
       outline: 0;
+      border-radius: $rounding;
+
+      transition: 100ms ease-in-out all;
+
+      &:hover {
+        background: rgba($purple, 0.5);
+      }
+    }
+
+    scrolledwindow button {
+      border-radius: 0;
+
+      &:nth-child(1) {
+        border-top-right-radius: $rounding;
+        border-top-left-radius: $rounding;
+      }
+
+      &:last-child {
+        border-bottom-right-radius: $rounding;
+        border-bottom-left-radius: $rounding;
+      }
     }
 
     label {
@@ -358,7 +403,7 @@ window#playerPopup {
 
     .secondary {
       color: $subtext0;
-      font-size: 0.8rem;
+      font-size: $fontSize * 0.8;
     }
 
     .song {
@@ -374,7 +419,7 @@ window#playerPopup {
         margin-top: 3px;
 
         .control {
-          font-size: 1.25rem;
+          font-size: $fontSize * 1.25;
           transition: 100ms ease-in-out color;
 
           &:nth-child(2) {
@@ -508,6 +553,25 @@ window#wallpaper {
     overlay picture {
       border: 1px $border solid;
       border-radius: $rounding;
+    }
+  }
+}
+
+window.osd {
+  background: $surface0;
+  border-radius: $rounding;
+  padding: 15px;
+  padding-top: 10px;
+
+  > box {
+    background: $surface0;
+
+    .bar {
+      margin-top: 5px;
+    }
+
+    label {
+      font-size: $fontSize;
     }
   }
 }

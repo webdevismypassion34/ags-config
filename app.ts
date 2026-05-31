@@ -5,6 +5,8 @@ import Dock from './layout/Dock';
 import AppLauncher from './feature/AppLauncher';
 import WallpaperPicker from './feature/Wallpaper';
 import { activePopup, setActivePopup } from './state';
+import OSD from './feature/OSD';
+import { setBrightness, setVolume } from './feature/OSD';
 
 app.start({
   css: style,
@@ -17,12 +19,23 @@ app.start({
       setActivePopup(
         activePopup() === 'wallpaper' ? null : 'wallpaper'
       );
+      res('ok');
+    }
+    if (request[0] === 'updateBrightness') {
+      setBrightness(parseInt(request[1].split(',')[3].replace('%', '')));
+      res('ok');
+    }
+    if (request[0] === 'updateVolume') {
+      setVolume(Math.round(parseFloat(request[2]) * 100));
+      res('ok');
     }
   },
   main() {
     app.get_monitors().map(Bar);
     // app.get_monitors().map(Dock);
+    app.get_monitors().map(OSD);
     app.get_monitors().map(AppLauncher);
     app.get_monitors().map(WallpaperPicker);
   },
 });
+

@@ -62,18 +62,22 @@ export function ArchPopup({
         $={self =>
           self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
         }
-        onClicked={() => execAsync('kitty --hold fastfetch')}>
+        onClicked={() => {
+          setActivePopup(null);
+          execAsync('kitty --hold fastfetch');
+        }}>
         <label label="about this distro" />
       </button>
       <button
         $={self =>
           self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
         }
-        onClicked={() =>
+        onClicked={() => {
+          setActivePopup(null);
           execAsync(
             'notify-send "System Settings" "this isn\'t completed yet"'
-          )
-        }>
+          );
+        }}>
         <label label="system settings" />
       </button>
       <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
@@ -82,9 +86,10 @@ export function ArchPopup({
         $={self =>
           self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
         }
-        onClicked={() =>
-          execAsync(`pkill -15 -p ${selectedWindow().pid}`)
-        }>
+        onClicked={() => {
+          setActivePopup(null);
+          execAsync(`pkill -15 -p ${selectedWindow().pid}`);
+        }}>
         <label
           label={selectedWindow(
             w =>
@@ -97,9 +102,10 @@ export function ArchPopup({
         $={self =>
           self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
         }
-        onClicked={() =>
-          execAsync(`pkill -9 -p ${selectedWindow().pid}`)
-        }>
+        onClicked={() => {
+          setActivePopup(null);
+          execAsync(`pkill -9 -p ${selectedWindow().pid}`);
+        }}>
         <label
           label={selectedWindow(
             w =>
@@ -115,21 +121,30 @@ export function ArchPopup({
         $={self =>
           self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
         }
-        onClicked={() => execAsync('hyprlock')}>
+        onClicked={() => {
+          setActivePopup(null);
+          execAsync('hyprlock');
+        }}>
         <label label="lock" />
       </button>
       <button
         $={self =>
           self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
         }
-        onClicked={() => execAsync('reboot')}>
+        onClicked={() => {
+          setActivePopup(null);
+          execAsync('reboot');
+        }}>
         <label label="reboot" />
       </button>
       <button
         $={self =>
           self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
         }
-        onClicked={() => execAsync('shutdown')}>
+        onClicked={() => {
+          setActivePopup(null);
+          execAsync('shutdown');
+        }}>
         <label label="shutdown" />
       </button>
     </Popup>

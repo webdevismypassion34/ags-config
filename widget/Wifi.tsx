@@ -147,7 +147,7 @@ export function WifiPopup({
         </button>
       </centerbox>
       <scrolledwindow heightRequest={300} widthRequest={300}>
-        <box orientation={Gtk.Orientation.VERTICAL}>
+        <box orientation={Gtk.Orientation.VERTICAL} class="wifiList">
           <For each={wifiList}>
             {(network: string) => (
               <button
