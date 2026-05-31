@@ -6,6 +6,7 @@ import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import PangoCairo from 'gi://PangoCairo?version=1.0';
 import Pango from 'gi://Pango?version=1.0';
+import { cssColor } from '../utils/parseCss.ts';
 
 const [batteryMargin, setBatteryMargin] = createState(0);
 
@@ -107,19 +108,11 @@ export function BatteryPopup({
               layout.set_font_description(desc);
               layout.set_text(`${Math.round(percent * 100)}%`, -1);
               cr.setLineWidth(12);
-              cr.setSourceRGBA(
-                0.192156863,
-                0.196078431,
-                0.266666667,
-                0.4
-              );
+              cr.setSourceRGBA(...cssColor('green', 0.11));
               cr.arc(cx, cy, r, 0, 2 * Math.PI);
               cr.stroke();
               cr.setSourceRGBA(
-                0.192156863,
-                0.196078431,
-                0.266666667,
-                1
+                ...cssColor('fg', 0.7)
               );
               cr.arc(
                 cx,

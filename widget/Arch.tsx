@@ -6,8 +6,16 @@ import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { activeWindow } from '../polls.ts';
 import { visualClassOverrides } from '../utils/appList.ts';
+import { home } from '../polls.ts';
 
 activeWindow.subscribe(() => {});
+
+const commands = {
+  lock: `${home}/.local/share/quickshell-lockscreen/lock.sh`,
+  reboot: 'reboot',
+  logout: 'uwsm stop',
+  shutdown: 'shutdown',
+};
 
 const [archMargin, setArchMargin] = createState(0);
 const [selectedWindow, setSelectedWindow] = createState<
@@ -123,7 +131,7 @@ export function ArchPopup({
         }
         onClicked={() => {
           setActivePopup(null);
-          execAsync('hyprlock');
+          execAsync(commands.lock);
         }}>
         <label label="lock" />
       </button>
@@ -133,7 +141,7 @@ export function ArchPopup({
         }
         onClicked={() => {
           setActivePopup(null);
-          execAsync('reboot');
+          execAsync(commands.reboot);
         }}>
         <label label="reboot" />
       </button>
@@ -143,7 +151,17 @@ export function ArchPopup({
         }
         onClicked={() => {
           setActivePopup(null);
-          execAsync('shutdown');
+          execAsync(commands.logout);
+        }}>
+        <label label="logout" />
+      </button>
+      <button
+        $={self =>
+          self.set_cursor(Gdk.Cursor.new_from_name('pointer', null))
+        }
+        onClicked={() => {
+          setActivePopup(null);
+          execAsync(commands.shutdown);
         }}>
         <label label="shutdown" />
       </button>

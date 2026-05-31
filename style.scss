@@ -1,11 +1,14 @@
-// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
-$bg: rgb(30, 30, 46);
-$fg: #eff1f5;
+@import 'matugen';
+
 $purple: #cba6f7;
 $red: #f38ba8;
 $orange: #f9e2af;
 $green: #a6e3a1;
 $blue: #89b4fa;
+
+/*
+$bg: #1e1e2e;
+$fg: #eff1f5;
 $border: rgba(239, 241, 245, 0.12);
 $surface0: #313244;
 $surface1: #45475a;
@@ -15,13 +18,13 @@ $overlay1: #7f849c;
 $overlay2: #9399b2;
 $subtext0: #a6adc8;
 $subtext1: #bac2de;
+*/
 
 $rounding: 15px;
 $outsideMargin: 10px;
 $font: 'JetBrainsMono Nerd Font Propo';
 $fontWeight: bold;
 $fontSize: 1rem;
-
 $arch: #1793d1;
 
 .icon {
@@ -44,13 +47,12 @@ window.Dock {
   color: $fg;
 
   > centerbox {
-    background: rgba($bg, 0.6);
+    background: rgba($bg, 0.3);
     border-radius: $rounding;
     margin: $outsideMargin;
+    border: 1px $border solid;
 
     > box {
-      // background: rgba($bg, 0.5);
-      // border-radius: 15px;
       padding: 5px;
     }
   }
@@ -103,8 +105,14 @@ window.Dock {
       color: $surface0;
     }
 
+    &.workspace,
+    &.arch {
+      // background: rgba($surface0, 0.2);
+      background: transparent;
+    }
+
     &.selected {
-      background: rgba($surface1, 0.7);
+      background: rgba($overlay1, 0.1);
       // background: rgba($surface2, 0.7);
       padding: 8px 20px;
     }
@@ -120,11 +128,11 @@ window.Dock {
       transition: 100ms ease-in-out all;
 
       &:hover {
-        background: $surface2;
+        background: rgba($surface2, 0.7);
       }
 
       &.viewing {
-        background: $subtext1;
+        background: rgba($subtext1, 0.7);
         color: $bg;
       }
 
@@ -138,7 +146,7 @@ window.Dock {
     margin-right: 10px;
 
     > picture {
-      border-radius: $rounding / 3;
+      border-radius: calc($rounding / 3);
     }
   }
 
@@ -157,7 +165,8 @@ window#wifiPopup {
   background: transparent;
 
   .wifiOverlay {
-    background-color: rgba($blue, 0.9);
+    background-color: rgba($blue, 0.3);
+    border: 1px $border solid;
     padding: 8px 15px;
     border-radius: $rounding;
 
@@ -166,7 +175,7 @@ window#wifiPopup {
     }
 
     button {
-      background: $blue;
+      background: rgba($blue, 0.3);
       margin-bottom: 3px;
       outline: 0;
       border-radius: $rounding;
@@ -174,11 +183,11 @@ window#wifiPopup {
       transition: 100ms ease-in-out all;
 
       &:hover {
-        background: rgba($blue, 0.5);
+        background: rgba($blue, 0.4);
       }
     }
 
-    scrolledwindow button {
+    button {
       border-radius: 0;
 
       &:nth-child(1) {
@@ -192,8 +201,13 @@ window#wifiPopup {
       }
     }
 
+    .title button {
+      border-top-right-radius: $rounding;
+      border-top-left-radius: $rounding;
+    }
+
     label {
-      color: $surface0;
+      color: $fg;
     }
   }
 }
@@ -202,7 +216,8 @@ window#bluetoothPopup {
   background: transparent;
 
   .bluetoothOverlay {
-    background: rgba($purple, 0.9);
+    background: rgba($purple, 0.3);
+    border: 1px $border solid;
     padding: 8px 15px;
     border-radius: $rounding;
 
@@ -226,7 +241,7 @@ window#bluetoothPopup {
     }
 
     button {
-      background: $purple;
+      background: rgba($purple, 0.3);
       margin-bottom: 3px;
       outline: 0;
       border-radius: $rounding;
@@ -234,7 +249,7 @@ window#bluetoothPopup {
       transition: 100ms ease-in-out all;
 
       &:hover {
-        background: rgba($purple, 0.5);
+        background: rgba($purple, 0.4);
       }
     }
 
@@ -253,7 +268,7 @@ window#bluetoothPopup {
     }
 
     label {
-      color: $surface0;
+      color: $fg;
     }
   }
 }
@@ -262,7 +277,8 @@ window#batteryPopup {
   background: transparent;
 
   .batteryOverlay {
-    background: rgba($green, 0.9);
+    background: rgba($green, 0.3);
+    border: 1px $border solid;
     padding: 8px 15px;
     border-radius: $rounding;
 
@@ -281,7 +297,7 @@ window#batteryPopup {
     }
 
     label {
-      color: $surface0;
+      color: $fg;
     }
   }
 }
@@ -290,10 +306,11 @@ window#archPopup {
   background: transparent;
 
   .archOverlay {
-    background: rgba($surface0, 0.95);
+    background: rgba($surface0, 0.3);
     padding: 8px;
     border-radius: $rounding;
     min-width: 200px;
+    border: 1px $border solid;
 
     button {
       all: unset;
@@ -304,7 +321,7 @@ window#archPopup {
       transition: 100ms ease-in-out background;
 
       &:hover {
-        background: rgba($surface1, 0.8);
+        background: rgba($subtext0, 0.2);
       }
     }
 
@@ -320,7 +337,8 @@ window#volumePopup {
   background: transparent;
 
   .volumeOverlay {
-    background: rgba($orange, 0.9);
+    background: rgba($orange, 0.3);
+    border: 1px $border solid;
     padding: 8px 15px;
     border-radius: $rounding;
 
@@ -341,19 +359,19 @@ window#volumePopup {
     }
 
     label {
-      color: $surface0;
+      color: $fg;
     }
 
     scale {
       transform: rotate(180deg);
       trough {
-        background: rgba($surface0, 0.4);
+        background: rgba($fg, 0.4);
         border-radius: $rounding;
 
         highlight {
           border-radius: 0;
 
-          background: $surface0;
+          background: $fg;
         }
       }
       slider {
@@ -372,7 +390,8 @@ window#playerPopup {
   background: transparent;
 
   .playerOverlay {
-    background: rgba($surface0, 0.95);
+    background: rgba($surface0, 0.3);
+    border: 1px $border solid;
     padding: 8px;
     border-radius: $rounding;
     min-width: 200px;
@@ -462,10 +481,11 @@ scrolledwindow scrollbar {
 }
 
 window#launcher {
-  background: rgba($bg, 0.5);
+  background: rgba($bg, 0.11);
 
   .launcher {
-    background: $surface0;
+    background: rgba($surface0, 0.8);
+
     border: 1px $border solid;
     border-radius: $rounding;
 
@@ -529,7 +549,8 @@ window#appPopup {
   button {
     all: unset;
     padding: 10px;
-    background: $surface0;
+    background: rgba($surface0, 0.3);
+    border: 1px $border solid;
 
     border-left: 1px $border solid;
     border-right: 1px $border solid;
@@ -553,7 +574,7 @@ window#appPopup {
 }
 
 window#wallpaper {
-  background: transparent;
+  background: rgba($bg, 0.11);
 
   .preview {
     margin-top: 15px;
@@ -567,13 +588,14 @@ window#wallpaper {
 }
 
 window.osd {
-  background: $surface0;
+  background: rgba($surface0, 0.3);
+  border: 1px $border solid;
   border-radius: $rounding;
   padding: 15px;
   padding-top: 10px;
 
   > box {
-    background: $surface0;
+    background: transparent;
 
     .bar {
       margin-top: 5px;

@@ -58,8 +58,8 @@ const parseValue = (value: string) => {
   }
 };
 
-readFileAsync(`${home}/.config/ags/style.scss`)
-  .then(contents => {
+const parseFile = async (file: string) =>
+  await readFileAsync(file).then(contents => {
     const lines = contents.split('\n');
     const parsed = lines
       .filter(line => line.startsWith('$'))
@@ -72,5 +72,11 @@ readFileAsync(`${home}/.config/ags/style.scss`)
       });
 
     return Object.fromEntries(parsed);
-  })
-  .then(setCssVars);
+  });
+
+parseFile(`${home}/.config/ags/matugen.scss`).then(
+  async (obj: Record<string, string | number | number[]>) => {
+    const obj2 = await parseFile(`${home}/.config/ags/style.scss`);
+    setCssVars({ ...obj, ...obj2 });
+  }
+);

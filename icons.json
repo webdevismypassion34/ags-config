@@ -194,5 +194,9 @@
   "org.gnome.eog": {
     "class": "org.gnome.eog",
     "icon": "/usr/share/icons/hicolor/scalable/apps/org.gnome.eog.Devel.svg"
+  },
+  "java25-openjdk": {
+    "class": "java25-openjdk",
+    "icon": "/usr/share/icons/hicolor/48x48/apps/java25-openjdk.png"
   }
 }

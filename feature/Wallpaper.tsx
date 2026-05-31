@@ -3,30 +3,43 @@ import { createState, createComputed, For } from 'ags';
 import { Astal, Gdk, Gtk } from 'ags/gtk4';
 const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 import { activePopup, setActivePopup } from '../state';
-import { execAsync } from 'ags/process';
+import { exec, execAsync } from 'ags/process';
 import { home } from '../polls';
 import Graphene from 'gi://Graphene?version=1.0';
 import Gio from 'gi://Gio?version=2.0';
 
 // don't include $HOME, e.g. 'wallpaper' instead of '~/wallpaper'
 const wallpaperDirectory = 'wallpaper';
+const thumbnailDirectory = `${home}/.config/ags/wpthumbnail`;
+
+const needsThumbnail = (wp: string) => wp.endsWith('.gif') || wp.endsWith('.mp4');
+const thumbnailPath = (wp: string) => `${thumbnailDirectory}/${wp}.png`;
 
 const [wallpapers, setWallpapers] = createState<string[]>([]);
 const [selected, select] = createState<number>(0);
 const [using, setUsing] = createState<string>('');
 
-execAsync(`ls ${home}/${wallpaperDirectory}`).then((out: string) => {
-  setWallpapers(
-    out
+execAsync(`mkdir -p ${thumbnailDirectory}`).then(() =>
+  execAsync(`ls ${home}/${wallpaperDirectory}`).then((out: string) => {
+    const wps = out
       .split('\n')
-      .filter(
-        wp =>
-          wp.endsWith('jpeg') ||
-          wp.endsWith('jpg') ||
-          wp.endsWith('png')
-      )
-  );
-});
+      .filter(wp =>
+        wp.endsWith('.jpeg') ||
+        wp.endsWith('.jpg') ||
+        wp.endsWith('.png') ||
+        wp.endsWith('.gif') ||
+        wp.endsWith('.mp4')
+      );
+    setWallpapers(wps);
+    for (const wp of wps) {
+      if (needsThumbnail(wp)) {
+        const thumb = Gio.File.new_for_path(thumbnailPath(wp));
+        if (!thumb.query_exists(null))
+          execAsync(`ffmpeg -i "${home}/${wallpaperDirectory}/${wp}" -vframes 1 "${thumbnailPath(wp)}"`).catch(console.error);
+      }
+    }
+  })
+);
 
 execAsync('awww query -j').then((out: string) => {
   setUsing(JSON.parse(out)[''][0].displaying.image ?? '');
@@ -51,8 +64,9 @@ function WallpaperOption({
           $type="overlay"
           class="icon"
           file={Gio.File.new_for_path(
-            `${home}/${wallpaperDirectory}/${wallpaper}` ||
-              '/usr/share/icons/Tokyonight-Dark/status/32/image-missing.svg'
+            needsThumbnail(wallpaper)
+              ? thumbnailPath(wallpaper)
+              : `${home}/${wallpaperDirectory}/${wallpaper}`
           )}
         />
       </overlay>
@@ -99,7 +113,7 @@ export default function WallpaperPicker(gdkmonitor: Gdk.Monitor) {
         });
         const ctrl = new Gtk.EventControllerKey();
 
-        ctrl.connect('key-pressed', (_, keyval) => {
+        ctrl.connect('key-pressed', async (_, keyval) => {
           if (keyval === Gdk.KEY_Up) {
             if (selected() == 0) {
               select(wallpapers().length - 1);
@@ -115,12 +129,24 @@ export default function WallpaperPicker(gdkmonitor: Gdk.Monitor) {
             }
           }
           if (keyval === Gdk.KEY_Return) {
-            execAsync(
-              `awww img --transition-type grow --transition-pos 0.857,0.977 --transition-step 90 ${home}/${wallpaperDirectory}/${wallpapers()[selected()]}`
-            );
-            execAsync(
-              `setsid matugen -m dark --source-color-index 0 image ${home}/${wallpaperDirectory}/${wallpapers()[selected()]}`
-            );
+            await execAsync('pkill mpvpaper').catch(() => {});
+            const wp = wallpapers()[selected()];
+            const matugenSrc = needsThumbnail(wp) ? thumbnailPath(wp) : `${home}/${wallpaperDirectory}/${wp}`;
+            if (wp.endsWith('.mp4')) {
+              await execAsync(
+                `setsid mpvpaper -o "no-audio loop" '*' "${home}/${wallpaperDirectory}/${wp}"`
+              );
+              execAsync(
+                `matugen -m dark --source-color-index 0 image ${matugenSrc}`
+              ).catch(console.error);
+            } else {
+              execAsync(
+                `awww img --transition-type grow --transition-pos 0.857,0.977 --transition-step 90 ${home}/${wallpaperDirectory}/${wp}`
+              );
+              execAsync(
+                `setsid matugen -m dark --source-color-index 0 image ${matugenSrc}`
+              ).catch(console.error);
+            }
           }
         });
         self.add_controller(ctrl);
