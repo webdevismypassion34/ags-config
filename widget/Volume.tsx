@@ -100,13 +100,17 @@ export function VolumePopup({
               let settingFromCode = false;
               tempVolume.subscribe(() => {
                 settingFromCode = true;
-                self.get_adjustment().set_value(parseInt(tempVolume()) || 0);
+                self
+                  .get_adjustment()
+                  .set_value(parseInt(tempVolume()) || 0);
                 settingFromCode = false;
               });
               self.connect('value-changed', () => {
                 if (!settingFromCode) {
                   setTempVolume(self.get_value().toString());
-                  execAsync(`wpctl set-volume @DEFAULT_SINK@ ${self.get_value() / 100}`);
+                  execAsync(
+                    `wpctl set-volume @DEFAULT_SINK@ ${self.get_value() / 100}`
+                  );
                 }
               });
             }}
@@ -141,12 +145,16 @@ export function VolumePopup({
               let settingFromCode = false;
               input.subscribe(() => {
                 settingFromCode = true;
-                self.get_adjustment().set_value(parseInt(input()) || 0);
+                self
+                  .get_adjustment()
+                  .set_value(parseInt(input()) || 0);
                 settingFromCode = false;
               });
               self.connect('value-changed', () => {
                 if (!settingFromCode)
-                  execAsync(`wpctl set-volume @DEFAULT_SOURCE@ ${self.get_value() / 100}`);
+                  execAsync(
+                    `wpctl set-volume @DEFAULT_SOURCE@ ${self.get_value() / 100}`
+                  );
               });
             }}
             adjustment={

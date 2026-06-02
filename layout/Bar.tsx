@@ -19,6 +19,7 @@ import {
   BrightnessButton,
   BrightnessPopup,
 } from '../widget/Brightness.tsx';
+import { WeatherButton } from '../widget/Weather.tsx';
 
 // layout = x corresponds to _barx.scss
 const layout: number = 1;
@@ -46,7 +47,8 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <Clock />
           </box>
           <box $type="end">
-            <Keyboard />
+            <WeatherButton gdkmonitor={gdkmonitor} />
+            {/* <Keyboard /> */}
             <WifiButton gdkmonitor={gdkmonitor} />
             <BluetoothButton gdkmonitor={gdkmonitor} />
             <BatteryButton gdkmonitor={gdkmonitor} />

@@ -34,10 +34,11 @@ These are my config files for Aylur's GTK Shell, a GTK-based desktop shell frame
   - Props: `altLayout<boolean>`
 - Volume: show volume, click to open a menu with sliders to change volume and mic volume
   - Props: `percent<boolean>`, `display<"both" | "label"| "icon">`
-- Workspaces: lists the workspaces, click to go to it
-  - Props: `icons<string[]>`, `hideInactive<boolean>`
+- Weather: shows the current temperature and condition
 - Wifi: shows connected wifi and strength and click it to list and connect to wifi networks
   - Props: `display<"both" | "label"| "icon">`
+- Workspaces: lists the workspaces, click to go to it
+  - Props: `icons<string[]>`, `hideInactive<boolean>`
 
 ### Screenshots
 
@@ -61,14 +62,11 @@ _Dock Style 2_
 <details>
 <summary>Popups</summary>
 
+![](./screenshots/screenshot-20260601-182041.png)<br>
+_Apps_
+
 ![](./screenshots/screenshot-20260601-180450.png)<br>
 _Arch_
-
-![](./screenshots/screenshot-20260601-180457.png)<br>
-_Player_
-
-![](./screenshots/screenshot-20260601-180509.png)<br>
-_Wifi_
 
 ![](./screenshots/screenshot-20260601-181628.png)<br>
 _Bluetooth_
@@ -76,14 +74,17 @@ _Bluetooth_
 ![](./screenshots/screenshot-20260601-180625.png)<br>
 _Battery_
 
-![](./screenshots/screenshot-20260601-180631.png)<br>
-_Volume_
-
 ![](./screenshots/screenshot-20260601-180637.png)<br>
 _Brightness_
 
-![](./screenshots/screenshot-20260601-182041.png)<br>
-_Apps_
+![](./screenshots/screenshot-20260601-180457.png)<br>
+_Player_
+
+![](./screenshots/screenshot-20260601-180631.png)<br>
+_Volume_
+
+![](./screenshots/screenshot-20260601-180509.png)<br>
+_Wifi_
 
 </details>
 
