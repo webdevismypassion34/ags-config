@@ -49,8 +49,10 @@ function updateNetworks() {
 
 export function WifiButton({
   gdkmonitor,
+  display = 'both',
 }: {
   gdkmonitor: Gdk.Monitor;
+  display?: 'both' | 'icon' | 'label';
 }) {
   function toggleWifi() {
     if (activePopup() == 'wifi') {
@@ -63,7 +65,7 @@ export function WifiButton({
   }
 
   const wifiIcon = createPoll(
-    '',
+    '󰤯',
     5000,
     [
       'sh',
@@ -102,8 +104,12 @@ export function WifiButton({
       class="wifi"
       onClicked={toggleWifi}>
       <box>
-        <label class="icon" label={wifiLabel} />
-        <label label={wifi} />
+        <label
+          class="icon"
+          label={wifiLabel}
+          visible={display !== 'label'}
+        />
+        <label label={wifi} visible={display !== 'icon'} />
       </box>
     </button>
   );

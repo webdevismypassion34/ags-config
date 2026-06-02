@@ -49,8 +49,8 @@ export default function Popup({
         halign={halign}
         valign={valign}
         orientation={Gtk.Orientation.VERTICAL}
-        marginStart={margin((v: number) => v > 0 ? v : 0)}
-        marginEnd={margin((v: number) => v < 0 ? -v : 0)}
+        marginStart={margin((v: number) => (v > 0 ? v : 0))}
+        marginEnd={margin((v: number) => (v < 0 ? -v : 0))}
         class={cssClass}
         widthRequest={widthRequest ?? -1}>
         {children}

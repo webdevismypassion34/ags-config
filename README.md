@@ -2,6 +2,114 @@
 
 These are my config files for Aylur's GTK Shell, a GTK-based desktop shell framework. This has been tested on Arch Linux with Hyprland, I am not sure if it works on other distros or compositors.
 
+### Features
+
+**Layouts:**
+
+- Bar
+- Dock
+
+**Features:**
+
+- App Launcher
+- OSD (On-Screen Display) for brightness and volume
+- Wallpaper
+
+**Widgets:**
+
+- Apps: list the open apps and click to go to it or open a list of opened instances if more than one open
+- Arch: click to view a list of options inspired by Mac
+- Battery: view the battery and click to see how much is charging and how much time to full/empty
+  - Props: `percent<boolean>`, `display<"both" | "label"| "icon">`
+- Bluetooth: view the currently connected Bluetooth device and click it to list, scan, and connect to devices
+  - Props: `display<"both" | "label"| "icon">`
+- Brightness: see the brightness, click to open a menu with a slider
+  - Props: `percent<boolean>`, `display<"both" | "label"| "icon">`
+- Clock: clock and date
+  - Props: `hour12<boolean>`, `showDate<boolean>`
+- Keyboard: show fcitx5 keyboard, caps lock, and num lock status
+- Notifications: show unread notifications, click it to open swaync
+  - Props: `display<"both" | "label"| "icon">`
+- Player: show artist and title, optionally cover art (with alt layout)
+  - Props: `altLayout<boolean>`
+- Volume: show volume, click to open a menu with sliders to change volume and mic volume
+  - Props: `percent<boolean>`, `display<"both" | "label"| "icon">`
+- Workspaces: lists the workspaces, click to go to it
+  - Props: `icons<string[]>`, `hideInactive<boolean>`
+- Wifi: shows connected wifi and strength and click it to list and connect to wifi networks
+  - Props: `display<"both" | "label"| "icon">`
+
+### Screenshots
+
+<details>
+<summary>Bar/Dock Styles</summary>
+
+![](./screenshots/screenshot-20260601-180313.png)<br>
+_Bar Style 1 (I use this one)_
+
+![](./screenshots/screenshot-20260601-181852.png)
+_Dock style 1_
+
+![](./screenshots/screenshot-20260601-174843.png)<br>
+_Bar Style 2 (Made to test out making other styles, replicated dusklinux/dusky)_
+
+![](./screenshots/screenshot-20260601-183210.png)<br>
+_Dock Style 2_
+
+</details>
+
+<details>
+<summary>Popups</summary>
+
+![](./screenshots/screenshot-20260601-180450.png)<br>
+_Arch_
+
+![](./screenshots/screenshot-20260601-180457.png)<br>
+_Player_
+
+![](./screenshots/screenshot-20260601-180509.png)<br>
+_Wifi_
+
+![](./screenshots/screenshot-20260601-181628.png)<br>
+_Bluetooth_
+
+![](./screenshots/screenshot-20260601-180625.png)<br>
+_Battery_
+
+![](./screenshots/screenshot-20260601-180631.png)<br>
+_Volume_
+
+![](./screenshots/screenshot-20260601-180637.png)<br>
+_Brightness_
+
+![](./screenshots/screenshot-20260601-182041.png)<br>
+_Apps_
+
+</details>
+
+<details>
+<summary>Features</summary>
+
+<img src="./screenshots/screenshot-20260601-195938.png" width="600" />
+
+_App Launcher_
+
+<img src="./screenshots/screenshot-20260601-200535.png" width="600" />
+
+_App Launcher Calculator_
+
+<img src="./screenshots/screenshot-20260601-200003.png" width="600" />
+
+_Wallpaper Selector, images above and below are previews of above and below, use arrow keys to cycle through_
+
+![](./screenshots/screenshot-20260601-200101.png)<br>
+_Volume OSD_
+
+![](./screenshots/screenshot-20260601-201107.png)<br>
+_Brightness OSD_
+
+</details>
+
 ### Installing
 
 I'll probably write an install script if people actually use this config

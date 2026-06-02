@@ -4,7 +4,11 @@ import { Gdk } from 'ags/gtk4';
 import { setActivePopup } from '../state';
 import { execAsync } from 'ags/process';
 
-export function NotificationButton({}) {
+export function NotificationButton({
+  display = 'both',
+}: {
+  display?: 'both' | 'icon' | 'label';
+}) {
   const notifIcon = createComputed(() => {
     if (parseInt(notifCount()) > 0) {
       return '󱅫';
@@ -24,8 +28,12 @@ export function NotificationButton({}) {
         execAsync('swaync-client -op');
       }}>
       <box>
-        <label class="icon" label={notifIcon} />
-        <label label={notifCount} />
+        <label
+          class="icon"
+          label={notifIcon}
+          visible={display !== 'label'}
+        />
+        <label label={notifCount} visible={display !== 'icon'} />
       </box>
     </button>
   );

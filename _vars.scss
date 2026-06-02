@@ -1,0 +1,29 @@
+$purple: #cba6f7;
+$red: #f38ba8;
+$orange: #fab387;
+$yellow: #f9e2af;
+$green: #a6e3a1;
+$blue: #89b4fa;
+
+$rounding: 15px; // default: 15px for bar 1, 20px for bar 2
+$outsideMargin: 10px; // default: 10px
+$font: 'JetBrainsMono Nerd Font Propo'; // default: 'JetBrainsMono Nerd Font Propo'
+$fontWeight: bold; // default: bold
+$fontSize: 1rem; // default: 1rem
+
+// I wouldn't change this, as it's the official Arch logo's color
+$arch: #1793d1;
+
+.icon {
+  font-size: $fontSize * 1.1;
+}
+
+.icon:not(.arch) {
+  margin-right: 7.5px;
+}
+
+* {
+  font-weight: $fontWeight;
+  font-family: $font, 'Symbols Nerd Font', sans-serif;
+  font-size: $fontSize;
+}

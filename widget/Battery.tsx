@@ -44,8 +44,12 @@ const batteryIcon = createComputed(() => {
 
 export function BatteryButton({
   gdkmonitor,
+  display = 'both',
+  percent = false,
 }: {
   gdkmonitor: Gdk.Monitor;
+  display?: 'both' | 'icon' | 'label';
+  percent?: boolean;
 }) {
   function toggleBattery() {
     if (activePopup() == 'battery') {
@@ -69,8 +73,17 @@ export function BatteryButton({
         toggleBattery();
       }}>
       <box>
-        <label label={batteryIcon} class="icon" />
-        <label label={batteryPercent} />
+        <label
+          label={batteryIcon}
+          class="icon"
+          visible={display !== 'label'}
+        />
+        <label
+          label={
+            percent ? batteryPercent(v => v + '%') : batteryPercent
+          }
+          visible={display !== 'icon'}
+        />
       </box>
     </button>
   );
@@ -111,9 +124,7 @@ export function BatteryPopup({
               cr.setSourceRGBA(...cssColor('green', 0.11));
               cr.arc(cx, cy, r, 0, 2 * Math.PI);
               cr.stroke();
-              cr.setSourceRGBA(
-                ...cssColor('fg', 0.7)
-              );
+              cr.setSourceRGBA(...cssColor('fg', 0.7));
               cr.arc(
                 cx,
                 cy,

@@ -1,5 +1,5 @@
 import app from 'ags/gtk4/app';
-import { createState, createComputed, For } from 'ags';
+import { createState, createComputed, For, Accessor } from 'ags';
 import { Astal, Gdk, Gtk } from 'ags/gtk4';
 const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 import { activePopup, setActivePopup } from '../state';
@@ -12,33 +12,40 @@ import Gio from 'gi://Gio?version=2.0';
 const wallpaperDirectory = 'wallpaper';
 const thumbnailDirectory = `${home}/.config/ags/wpthumbnail`;
 
-const needsThumbnail = (wp: string) => wp.endsWith('.gif') || wp.endsWith('.mp4');
-const thumbnailPath = (wp: string) => `${thumbnailDirectory}/${wp}.png`;
+const needsThumbnail = (wp: string) =>
+  wp.endsWith('.gif') || wp.endsWith('.mp4');
+const thumbnailPath = (wp: string) =>
+  `${thumbnailDirectory}/${wp}.png`;
 
 const [wallpapers, setWallpapers] = createState<string[]>([]);
 const [selected, select] = createState<number>(0);
 const [using, setUsing] = createState<string>('');
 
 execAsync(`mkdir -p ${thumbnailDirectory}`).then(() =>
-  execAsync(`ls ${home}/${wallpaperDirectory}`).then((out: string) => {
-    const wps = out
-      .split('\n')
-      .filter(wp =>
-        wp.endsWith('.jpeg') ||
-        wp.endsWith('.jpg') ||
-        wp.endsWith('.png') ||
-        wp.endsWith('.gif') ||
-        wp.endsWith('.mp4')
-      );
-    setWallpapers(wps);
-    for (const wp of wps) {
-      if (needsThumbnail(wp)) {
-        const thumb = Gio.File.new_for_path(thumbnailPath(wp));
-        if (!thumb.query_exists(null))
-          execAsync(`ffmpeg -i "${home}/${wallpaperDirectory}/${wp}" -vframes 1 "${thumbnailPath(wp)}"`).catch(console.error);
+  execAsync(`ls ${home}/${wallpaperDirectory}`).then(
+    (out: string) => {
+      const wps = out
+        .split('\n')
+        .filter(
+          wp =>
+            wp.endsWith('.jpeg') ||
+            wp.endsWith('.jpg') ||
+            wp.endsWith('.png') ||
+            wp.endsWith('.gif') ||
+            wp.endsWith('.mp4')
+        );
+      setWallpapers(wps);
+      for (const wp of wps) {
+        if (needsThumbnail(wp)) {
+          const thumb = Gio.File.new_for_path(thumbnailPath(wp));
+          if (!thumb.query_exists(null))
+            execAsync(
+              `ffmpeg -i "${home}/${wallpaperDirectory}/${wp}" -vframes 1 "${thumbnailPath(wp)}"`
+            ).catch(console.error);
+        }
       }
     }
-  })
+  )
 );
 
 execAsync('awww query -j').then((out: string) => {
@@ -49,13 +56,19 @@ function WallpaperOption({
   wallpaper,
   visible,
   active,
+  caption,
 }: {
   wallpaper: any;
   visible: any;
   active: any;
+  caption: Accessor<boolean>;
 }) {
   return (
-    <box halign={Gtk.Align.CENTER} visible={visible} class="preview">
+    <box
+      halign={Gtk.Align.CENTER}
+      visible={visible}
+      class="preview"
+      orientation={Gtk.Orientation.VERTICAL}>
       <overlay
         widthRequest={active() ? 960 : 240}
         heightRequest={active() ? 540 : 135}>
@@ -70,6 +83,7 @@ function WallpaperOption({
           )}
         />
       </overlay>
+      <label label={wallpaper} visible={caption} />
     </box>
   );
 }
@@ -131,7 +145,9 @@ export default function WallpaperPicker(gdkmonitor: Gdk.Monitor) {
           if (keyval === Gdk.KEY_Return) {
             await execAsync('pkill mpvpaper').catch(() => {});
             const wp = wallpapers()[selected()];
-            const matugenSrc = needsThumbnail(wp) ? thumbnailPath(wp) : `${home}/${wallpaperDirectory}/${wp}`;
+            const matugenSrc = needsThumbnail(wp)
+              ? thumbnailPath(wp)
+              : `${home}/${wallpaperDirectory}/${wp}`;
             if (wp.endsWith('.mp4')) {
               await execAsync(
                 `setsid mpvpaper -o "no-audio loop" '*' "${home}/${wallpaperDirectory}/${wp}"`
@@ -147,6 +163,9 @@ export default function WallpaperPicker(gdkmonitor: Gdk.Monitor) {
                 `setsid matugen -m dark --source-color-index 0 image ${matugenSrc}`
               ).catch(console.error);
             }
+          }
+          if (keyval === Gdk.KEY_Escape) {
+            setActivePopup(null);
           }
         });
         self.add_controller(ctrl);
@@ -165,19 +184,33 @@ export default function WallpaperPicker(gdkmonitor: Gdk.Monitor) {
       <box
         halign={Gtk.Align.CENTER}
         valign={Gtk.Align.CENTER}
-        orientation={Gtk.Orientation.VERTICAL}
-        class="wallpaper">
-        <For each={visibleWallpapers}>
-          {item => {
-            return (
-              <WallpaperOption
-                wallpaper={item.wallpaper}
-                visible={() => true}
-                active={() => item.active}
-              />
-            );
-          }}
-        </For>
+        orientation={Gtk.Orientation.VERTICAL}>
+        {/* <box
+          halign={Gtk.Align.CENTER}
+          valign={Gtk.Align.CENTER}
+          marginBottom={30}>
+          <label label="search" />
+        </box> */}
+        <box
+          halign={Gtk.Align.CENTER}
+          valign={Gtk.Align.CENTER}
+          orientation={Gtk.Orientation.VERTICAL}
+          class="wallpaper">
+          <For each={visibleWallpapers}>
+            {item => {
+              return (
+                <WallpaperOption
+                  wallpaper={item.wallpaper}
+                  visible={() => true}
+                  active={() => item.active}
+                  caption={visibleWallpapers(
+                    i => i.indexOf(item) == 1
+                  )}
+                />
+              );
+            }}
+          </For>
+        </box>
       </box>
     </window>
   );

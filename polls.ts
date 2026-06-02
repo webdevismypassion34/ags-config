@@ -70,20 +70,26 @@ export const bluetoothBlocked = createPoll(false, 5000, () =>
     .catch(() => false)
 );
 
+export const brightness = createPoll(
+  0,
+  1000,
+  'brightnessctl -m',
+  out => parseInt(out.split(',')[3].split('%')[0])
+);
+
 export const volume = createPoll(
   '',
-  200,
+  1000,
   'wpctl get-volume @DEFAULT_SINK@',
-  out => {
-    return Math.floor(
+  out =>
+    Math.floor(
       parseFloat(out.replace('Volume: ', '')) * 100
-    ).toString();
-  }
+    ).toString()
 );
 
 export const volumeMuted = createPoll(
   false,
-  200,
+  1000,
   'wpctl get-volume @DEFAULT_SINK@',
   out => out.includes('[MUTED]')
 );
@@ -143,6 +149,29 @@ export const inputMethod = createPoll('', 1000, () =>
       const method = await execAsync('fcitx5-remote -n');
       return method == 'pinyin' ? '拼' : 'unknown';
     })
+);
+
+export const lock = createPoll(
+  { caps: false, num: false },
+  1000,
+  () =>
+    execAsync('cat /sys/class/leds/input3::capslock/brightness')
+      .then(async out => {
+        const num = await execAsync(
+          'cat /sys/class/leds/input3::numlock/brightness'
+        );
+        return { caps: parseInt(out) ?? 0, num: parseInt(num) ?? 0 };
+      })
+      .then(out => {
+        return {
+          caps: !!out.caps,
+          num: !!out.num,
+        };
+      })
+      .catch(out => {
+        console.error(out);
+        return { caps: false, num: false };
+      })
 );
 
 export const bluetoothPercent = createPoll(

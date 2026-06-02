@@ -1,21 +1,15 @@
 Things I'd like to implement in the future
 
-- add a file search and shell to app launcher (maybe start it with +, >)
+- add more widgets to bar: current window, weather, temperature, GPU/CPU usage, power button, favorite apps (dock)
+- add more widget options: clock time format & vertical option
 - replace swaync/notification button with a custom popup like for the other buttons
-- make some kind of theme switcher (not high priority, i like how default one looks)
 - make another Gtk.Picture for the first item in queue, switch between them for instant cover art loading
-- add more widgets to bar: current window, weather, temperature, GPU/CPU usage, power button, brightness, favorite apps (dock)
-- implement widget option: clock time format & vertical option
 - make system settings (might be ags, might be tauri, although tauri is lwk a pain to use :/): this would have the theme switching, easily change fonts system-wide, gtk theme, users, switch between hyprlock configs
 - visual editor for my ags config: move around bar/dock/launcher, change settings for it, etc
-- send a notification on low battery
-- make function row keys tell ags to make it instant
-- hide bar when in fullscreen in special workspace
-- implement matugen theming
 - better screenshot tool
-- show caps lock / num lock / keyboard in bar or somewhere
 - make overlays (e.g. song, keyboard, cava?, network, cps)
 - add timers, alarms, and stopwatches
 - overview like in kde plasma
 - add equalizer to volume popup (bass boost, vocal boost, bass reduce, etc)
 - make an install script
+- add a file search and shell to app launcher (maybe start it with +, >) (not high priority, i don't use this often)

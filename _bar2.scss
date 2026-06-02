@@ -1,0 +1,133 @@
+window.Bar,
+window.Dock {
+  background: transparent;
+  color: $overlay2;
+  padding: 0;
+  margin: 0;
+
+  > centerbox {
+    background: transparent;
+    margin: $outsideMargin;
+    margin-top: calc($outsideMargin / 2);
+    padding: 0;
+  }
+
+  &.Bar > centerbox {
+    margin-bottom: 0;
+  }
+
+  &.Dock > centerbox {
+    margin-top: 0;
+  }
+
+  box.workspaces {
+    border: 2px mix($surface0, $blue, 20%) solid;
+    border-radius: $rounding;
+    background: rgba($surface0, 0.7);
+    padding-bottom: 1px;
+  }
+
+  button {
+    all: unset;
+    background: rgba($surface0, 0.7);
+    border: 2px mix($surface0, $blue, 20%) solid;
+    padding: 4px 15px;
+    border-radius: $rounding;
+    transition: 100ms ease-in-out all;
+
+    &.workspace {
+      border: none;
+      // background: mix($surface0, $blue, 30%);
+      background: transparent;
+      padding: 0;
+      color: $surface0;
+      margin: 0;
+      margin-top: 1px;
+
+      &:nth-child(1) {
+        margin-left: 1px;
+      }
+
+      &:last-child {
+        margin-right: 1px;
+      }
+
+      label {
+        transition: 100ms ease-in-out all;
+        background: mix($surface0, $blue, 30%);
+        border-radius: $rounding;
+        padding: 0px 13px;
+        margin: 3px;
+      }
+
+      &.selected {
+        padding: 0;
+
+        label {
+          padding: 0 10px;
+          background: mix($surface0, $blue, 10%);
+        }
+      }
+    }
+
+    margin: 2px;
+    margin-bottom: 0;
+    outline: 0px;
+    transition:
+      100ms linear padding,
+      100ms ease-in-out background;
+
+    &.clock {
+      margin-left: 10px;
+      margin-right: 10px;
+      padding-top: 5px;
+
+      label {
+        font-size: 1.1rem;
+        color: mix($fg, $blue, 50%);
+      }
+    }
+
+    &.wifi {
+      padding-right: 1px;
+      padding-left: 8px;
+      padding-top: 5px;
+      margin-right: 10px;
+    }
+
+    &.bluetooth {
+      margin-right: 10px;
+    }
+
+    &.battery {
+      margin-right: 10px;
+    }
+
+    &.arch {
+      padding-right: 9px;
+      padding-left: 9px;
+      padding-top: 3px;
+      margin-right: 10px;
+    }
+
+    &.swaync {
+      padding-right: 3px;
+      padding-left: 11px;
+      padding-top: 5px;
+    }
+  }
+
+  .appContainer {
+    background: rgba($surface0, 0.7);
+    border-radius: $rounding;
+    border: 2px mix($surface0, $blue, 20%) solid;
+
+    .apps {
+      border: none;
+
+      &:hover {
+        background: rgba($overlay0, 0.7);
+      }
+    }
+  }
+}

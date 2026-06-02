@@ -7,6 +7,7 @@ export const [activePopup, setActivePopup] = createState<
   | 'volume'
   | 'arch'
   | 'player'
+  | 'brightness'
   | 'launcher'
   | 'wallpaper'
   | 'app'

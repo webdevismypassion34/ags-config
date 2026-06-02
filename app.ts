@@ -23,12 +23,16 @@ app.start({
       res('ok');
     }
     if (request[0] === 'updateBrightness') {
-      setBrightness(parseInt(request[1].split(',')[3].replace('%', '')));
+      setBrightness(
+        parseInt(request[1].split(',')[3].replace('%', ''))
+      );
       res('ok');
     }
     if (request[0] === 'updateVolume') {
       setVolume(Math.round(parseFloat(request[2]) * 100));
-      setTempVolume(Math.round(parseFloat(request[2]) * 100).toString())
+      setTempVolume(
+        Math.round(parseFloat(request[2]) * 100).toString()
+      );
       res('ok');
     }
   },
@@ -40,4 +44,3 @@ app.start({
     app.get_monitors().map(WallpaperPicker);
   },
 });
-

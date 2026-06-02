@@ -76,7 +76,7 @@ const parseFile = async (file: string) =>
 
 parseFile(`${home}/.config/ags/matugen.scss`).then(
   async (obj: Record<string, string | number | number[]>) => {
-    const obj2 = await parseFile(`${home}/.config/ags/style.scss`);
+    const obj2 = await parseFile(`${home}/.config/ags/_vars.scss`);
     setCssVars({ ...obj, ...obj2 });
   }
 );

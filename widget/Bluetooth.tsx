@@ -44,8 +44,10 @@ function updateBluetoothDevices() {
 
 export function BluetoothButton({
   gdkmonitor,
+  display = 'both',
 }: {
   gdkmonitor: Gdk.Monitor;
+  display?: 'both' | 'icon' | 'label';
 }) {
   function toggleBluetooth() {
     if (activePopup() == 'bluetooth') {
@@ -74,8 +76,12 @@ export function BluetoothButton({
       class="bluetooth"
       onClicked={toggleBluetooth}>
       <box>
-        <label label={bluetoothIcon} class="icon" />
-        <label label={bluetoothDevice} />
+        <label
+          label={bluetoothIcon}
+          class="icon"
+          visible={display !== 'label'}
+        />
+        <label label={bluetoothDevice} visible={display !== 'icon'} />
       </box>
     </button>
   );

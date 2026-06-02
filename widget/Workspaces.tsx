@@ -5,8 +5,10 @@ import { Gdk } from 'ags/gtk4';
 
 export function WorkspaceButtons({
   icons = {},
+  blankInactive = false,
 }: {
   icons?: Record<number, string>;
+  blankInactive?: boolean;
 }) {
   const workspaces = createPoll(
     [],
@@ -26,11 +28,10 @@ export function WorkspaceButtons({
   );
 
   return (
-    <box>
+    <box class="workspaces">
       <For each={workspaces}>
         {(ws: any) => (
           <button
-            label={icons[ws.id] ?? String(ws.id)}
             onClicked={() =>
               execAsync('hyprctl dispatch workspace ' + ws.id)
             }
@@ -43,8 +44,15 @@ export function WorkspaceButtons({
                 Gdk.Cursor.new_from_name('pointer', null)
               )
             }
-            widthRequest={10}
-          />
+            widthRequest={10}>
+            <label
+              label={activeWorkspace(aws =>
+                !blankInactive || ws.id === aws.id
+                  ? (icons[ws.id] ?? String(ws.id))
+                  : ''
+              )}
+            />
+          </button>
         )}
       </For>
     </box>

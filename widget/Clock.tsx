@@ -1,31 +1,28 @@
 import { createState } from 'ags';
 
-const [clock, setClock] = createState('now');
+const [now, setNow] = createState(new Date());
 
-function updateTime() {
-  const now = new Date();
-  setClock(
-    now.toLocaleTimeString('pl-PL', {
-      hour12: false,
-      timeStyle: 'short',
-    }) +
-      ' ' +
-      now.toLocaleDateString('en-US', {
-        month: 'short',
-        day: '2-digit',
-      })
-  );
-}
-
-updateTime();
 setTimeout(
   () => {
-    updateTime();
-    setInterval(updateTime, 60000);
+    setNow(new Date());
+    setInterval(() => setNow(new Date()), 60000);
   },
   60000 - (Date.now() % 60000)
 );
 
-export function Clock() {
-  return <label label={clock} />;
+export function Clock({
+  hour12 = false,
+  showDate = true,
+}: {
+  hour12?: boolean;
+  showDate?: boolean;
+}) {
+  const label = now(d => {
+    const time = d.toLocaleTimeString('en-US', { hour12, timeStyle: 'short' });
+    if (!showDate) return time;
+    const date = d.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
+    return `${time} ${date}`;
+  });
+
+  return <button class="clock" label={label} />;
 }
