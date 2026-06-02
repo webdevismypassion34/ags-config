@@ -1,0 +1,147 @@
+// this one has its own vars:
+$bg0: #171521;
+$bg1: #222035;
+$inactive: #444157;
+$mauve: #b197d1;
+
+window.Bar,
+window.Dock {
+  background: transparent;
+  color: $overlay2;
+  padding: 0;
+  margin: 0;
+
+  > centerbox {
+    background: transparent;
+    margin: $outsideMargin;
+    margin-top: calc($outsideMargin / 2);
+    padding: 0;
+  }
+
+  &.Bar > centerbox {
+    margin-bottom: 0;
+  }
+
+  &.Dock > centerbox {
+    margin-top: 0;
+  }
+
+  box.workspaces {
+    margin-top: 8px;
+    background: $bg0;
+    border-radius: $rounding;
+    padding-top: 3px;
+    padding-bottom: 4px;
+  }
+
+  label {
+    padding: 0;
+    margin: 0;
+  }
+
+  button {
+    all: unset;
+    background: $bg0;
+    padding: 0px;
+    border-radius: $rounding;
+    transition: 100ms ease-in-out all;
+
+    &.workspace {
+      border: none;
+      // background: mix($surface0, $blue, 30%);
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      margin-top: 1px;
+
+      &:nth-child(1) {
+        margin-left: 4px;
+      }
+
+      &:last-child {
+        margin-right: 4px;
+      }
+
+      label {
+        font-size: 1.1rem;
+        transition: 100ms ease-in-out all;
+        background: $bg1;
+        color: $inactive;
+        border-radius: $rounding;
+        padding: 2px 18px;
+        min-height: 0;
+        margin: 3px;
+      }
+
+      &.selected {
+        padding: 0;
+
+        label {
+          color: $surface2;
+          background: $purple;
+        }
+      }
+    }
+
+    margin: 2px;
+    margin-bottom: 0;
+    outline: 0px;
+    transition:
+      100ms linear padding,
+      100ms ease-in-out background;
+
+    &.clock {
+      margin-top: 8px;
+      padding-left: 12px;
+      padding-right: 2px;
+      label {
+        color: white;
+      }
+    }
+
+    &.volume {
+      margin-top: 8px;
+      padding-left: 10px;
+      padding-right: 12px;
+
+      label {
+        color: $red;
+      }
+    }
+
+    &.wifi {
+      margin-top: 8px;
+      padding-left: 10px;
+      padding-right: 12px;
+
+      label {
+        color: $yellow;
+      }
+    }
+
+    &.battery {
+      margin-top: 8px;
+      padding-left: 12px;
+      padding-right: 12px;
+
+      label {
+        color: mix($blue, $purple, 30%);
+        font-weight: 900;
+      }
+    }
+  }
+
+  .appContainer {
+    background: rgba($surface0, 0.7);
+    border-radius: $rounding;
+    border: 2px mix($surface0, $blue, 20%) solid;
+
+    .apps {
+      border: none;
+
+      &:hover {
+        background: rgba($overlay0, 0.7);
+      }
+    }
+  }
+}

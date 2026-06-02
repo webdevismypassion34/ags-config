@@ -48,7 +48,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           </box>
           <box $type="end">
             <WeatherButton gdkmonitor={gdkmonitor} />
-            {/* <Keyboard /> */}
             <WifiButton gdkmonitor={gdkmonitor} />
             <BluetoothButton gdkmonitor={gdkmonitor} />
             <BatteryButton gdkmonitor={gdkmonitor} />
@@ -99,6 +98,30 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
               percent
             />
             <NotificationButton display="icon" />
+          </box>
+        </centerbox>
+      </window>
+      <window
+        visible={layout === 3}
+        name="bar"
+        class="Bar"
+        gdkmonitor={gdkmonitor}
+        exclusivity={Astal.Exclusivity.EXCLUSIVE}
+        anchor={TOP | LEFT | RIGHT}
+        application={app}>
+        <centerbox cssName="centerbox">
+          <box $type="start">
+            <WeatherButton gdkmonitor={gdkmonitor} minimal />
+            <PlayerButton />
+          </box>
+          <box $type="center">
+            <WorkspaceButtons />
+          </box>
+          <box $type="end">
+            <Clock showDate={false} />
+            <VolumeButton gdkmonitor={gdkmonitor} percent />
+            <WifiButton gdkmonitor={gdkmonitor} />
+            <BatteryButton gdkmonitor={gdkmonitor} display="label" />
           </box>
         </centerbox>
       </window>

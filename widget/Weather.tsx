@@ -35,27 +35,38 @@ function weatherLabel(code: number): string {
 
 export function WeatherButton({
   gdkmonitor,
+  minimal = false,
 }: {
   gdkmonitor: Gdk.Monitor;
+  minimal?: boolean;
 }) {
   return (
     <button class="weather">
       <box orientation={Gtk.Orientation.HORIZONTAL}>
         <label
-          class="weatherIcon"
+          class={minimal ? 'icon' : 'weatherIcon'}
           label={weather(w =>
             weatherIcon(w.current?.weathercode ?? 0)
           )}
         />
-        <box orientation={Gtk.Orientation.VERTICAL}>
+        <box
+          orientation={
+            minimal
+              ? Gtk.Orientation.HORIZONTAL
+              : Gtk.Orientation.VERTICAL
+          }>
           <label
             label={weather(
               w =>
                 (w.current?.temperature_2m?.toString() ?? '') +
-                (w.current_units?.temperature_2m?.toString() ?? '')
+                (minimal
+                  ? '°'
+                  : (w.current_units?.temperature_2m?.toString() ??
+                    ''))
             )}
           />
           <label
+            visible={!minimal}
             class="secondary"
             label={weather(w =>
               weatherLabel(w.current?.weathercode ?? 0)

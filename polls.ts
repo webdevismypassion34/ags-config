@@ -1,54 +1,54 @@
 import { createPoll } from 'ags/time';
 import { execAsync } from 'ags/process';
+import { createComputed, createState } from 'ags';
 import GLib from 'gi://GLib?version=2.0';
+import Gio from 'gi://Gio?version=2.0';
 export const home = GLib.get_home_dir();
 
 let lastBatteryNotif = 0;
-
-export const title = createPoll(
-  '',
+const playerData = createPoll(
+  ['', '', '', false] as (string | boolean)[],
   1000,
-  'playerctl metadata xesam:title -p spotify'
-);
-
-export const artist = createPoll(
-  '',
-  1000,
-  'playerctl metadata xesam:artist -p spotify'
-);
-
-export const album = createPoll(
-  '',
-  1000,
-  'playerctl metadata xesam:album -p spotify'
-);
-
-export const coverArt = createPoll(
-  '',
-  1000,
-  'playerctl metadata mpris:artUrl -p spotify',
+  `playerctl metadata --format '["{{xesam:title}}","{{xesam:artist}}","{{mpris:artUrl}}","{{status}}"]' -p spotify`,
   out => {
-    const name = out.split('/').pop();
-    if (!name && title())
-      return `${home}/.config/ags/spotify/local.png`;
-    if (!out || !name) return '';
-
-    execAsync(
-      `test -f "${home}/.config/ags/spotify/${name}.jpg"`
-    ).catch(() =>
+    try {
+      const data = JSON.parse(out);
+      const playing = data[3].trim() === 'Playing';
+      const name = data[2].split('/').pop();
+      if (!name && data[0])
+        return [
+          data[0],
+          data[1],
+          `${home}/.config/ags/spotify/local.png`,
+          playing,
+        ];
+      if (!name) return [data[0], data[1], '', playing];
       execAsync(
-        `wget -q "${out}" -O "${home}/.config/ags/spotify/${name}.jpg"`
-      ).catch(console.error)
-    );
-
-    return `${home}/.config/ags/spotify/${name}.jpg`;
+        `test -f "${home}/.config/ags/spotify/${name}.jpg"`
+      ).catch(() =>
+        execAsync(
+          `wget -q "${data[2]}" -O "${home}/.config/ags/spotify/${name}.jpg"`
+        ).catch(console.error)
+      );
+      return [
+        data[0],
+        data[1],
+        `${home}/.config/ags/spotify/${name}.jpg`,
+        playing,
+      ];
+    } catch {
+      return ['', '', '', false];
+    }
   }
 );
 
-export const isPlaying = createPoll(false, 200, () =>
-  execAsync('playerctl status -p spotify')
-    .then(s => s.trim() === 'Playing')
-    .catch(() => false)
+export const title = createComputed(() => playerData()[0] as string);
+export const artist = createComputed(() => playerData()[1] as string);
+export const coverArt = createComputed(
+  () => playerData()[2] as string
+);
+export const isPlaying = createComputed(
+  () => playerData()[3] as boolean
 );
 
 export const wifi = createPoll(
@@ -77,39 +77,34 @@ export const brightness = createPoll(
   out => parseInt(out.split(',')[3].split('%')[0])
 );
 
-export const volume = createPoll(
+const volumePoll = createPoll(
   '',
-  1000,
-  'wpctl get-volume @DEFAULT_SINK@',
-  out =>
-    Math.floor(
-      parseFloat(out.replace('Volume: ', '')) * 100
-    ).toString()
+  2000,
+  'wpctl get-volume @DEFAULT_SINK@'
 );
 
-export const volumeMuted = createPoll(
-  false,
-  1000,
-  'wpctl get-volume @DEFAULT_SINK@',
-  out => out.includes('[MUTED]')
+export const volume = createComputed(() =>
+  Math.floor(
+    parseFloat(volumePoll().replace('Volume: ', '')) * 100
+  ).toString()
+);
+export const volumeMuted = createComputed(
+  () => volumePoll().includes('[MUTED]') as boolean
 );
 
-export const input = createPoll(
+const inputPoll = createPoll(
   '',
-  200,
-  'wpctl get-volume @DEFAULT_SOURCE@',
-  out => {
-    return Math.floor(
-      parseFloat(out.replace('Volume: ', '')) * 100
-    ).toString();
-  }
+  2000,
+  'wpctl get-volume @DEFAULT_SOURCE@'
 );
 
-export const inputMuted = createPoll(
-  false,
-  200,
-  'wpctl get-volume @DEFAULT_SOURCE@',
-  out => out.includes('[MUTED]')
+export const input = createComputed(() =>
+  Math.floor(
+    parseFloat(inputPoll().replace('Volume: ', '')) * 100
+  ).toString()
+);
+export const inputMuted = createComputed(
+  () => inputPoll().includes('[MUTED]') as boolean
 );
 
 export const appsUsingMic = createPoll(
@@ -232,21 +227,85 @@ export const notifCount = createPoll(
   out => out.replace('%', '')
 );
 
-export const activeWindow = createPoll({}, 500, () =>
-  execAsync(['hyprctl', 'activewindow', '-j'])
-    .then((out: string) => JSON.parse(out))
-    .catch(console.error)
+export const [activeWindow, setActiveWindow] = createState<
+  Record<string, any>
+>({});
+export const [openWindows, setOpenWindows] = createState<any[]>([]);
+export const [workspaces, setWorkspaces] = createState<any[]>([]);
+export const [activeWorkspace, setActiveWorkspace] = createState<any>(
+  { id: 0 }
 );
 
-export const openWindows = createPoll(
-  [],
-  500,
-  'hyprctl clients -j',
-  c => {
-    try {
-      return JSON.parse(c);
-    } catch {
-      return [];
-    }
-  }
+const refreshActiveWindow = () =>
+  execAsync(['hyprctl', 'activewindow', '-j'])
+    .then(out => setActiveWindow(JSON.parse(out)))
+    .catch(() => {});
+
+const refreshOpenWindows = () =>
+  execAsync(['hyprctl', 'clients', '-j'])
+    .then(out => setOpenWindows(JSON.parse(out)))
+    .catch(() => {});
+
+const refreshWorkspaces = () =>
+  execAsync(['hyprctl', 'workspaces', '-j'])
+    .then(out =>
+      setWorkspaces(
+        JSON.parse(out)
+          .filter((ws: any) => ws.id > 0)
+          .sort((a: any, b: any) => a.id - b.id)
+      )
+    )
+    .catch(() => {});
+
+const refreshActiveWorkspace = () =>
+  execAsync(['hyprctl', 'activeworkspace', '-j'])
+    .then(out => setActiveWorkspace(JSON.parse(out)))
+    .catch(() => {});
+
+refreshActiveWindow();
+refreshOpenWindows();
+refreshWorkspaces();
+refreshActiveWorkspace();
+
+const his = GLib.getenv('HYPRLAND_INSTANCE_SIGNATURE');
+const socketPath = `${GLib.getenv('XDG_RUNTIME_DIR')}/hypr/${his}/.socket2.sock`;
+const conn = new Gio.SocketClient().connect(
+  Gio.UnixSocketAddress.new(socketPath),
+  null
 );
+const stream = new Gio.DataInputStream({
+  base_stream: conn.get_input_stream(),
+});
+
+function readLine() {
+  stream.read_line_async(
+    GLib.PRIORITY_DEFAULT,
+    null,
+    (_: any, result: any) => {
+      const [line] = stream.read_line_finish_utf8(result);
+      if (line) {
+        const event = line.split('>>')[0];
+        if (event === 'activewindow' || event === 'activewindowv2')
+          refreshActiveWindow();
+        if (
+          ['openwindow', 'closewindow', 'movewindow'].includes(event)
+        )
+          refreshOpenWindows();
+        if (
+          [
+            'createworkspace',
+            'destroyworkspace',
+            'renameworkspace',
+            'moveworkspace',
+          ].includes(event)
+        )
+          refreshWorkspaces();
+        if (event === 'workspacev2' || event === 'focusedmon')
+          refreshActiveWorkspace();
+      }
+      readLine();
+    }
+  );
+}
+
+readLine();

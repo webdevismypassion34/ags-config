@@ -13,3 +13,4 @@ Things I'd like to implement in the future
 - add equalizer to volume popup (bass boost, vocal boost, bass reduce, etc)
 - make an install script
 - add a file search and shell to app launcher (maybe start it with +, >) (not high priority, i don't use this often)
+- respect pan ratio when changing volume

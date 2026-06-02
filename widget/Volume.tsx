@@ -13,10 +13,22 @@ import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 
 const [tempVolume, setTempVolume] = createState('');
+const [tempVolumeMuted, setTempVolumeMuted] =
+  createState<boolean>(false);
+const [tempInputMuted, setTempInputMuted] =
+  createState<boolean>(false);
 export { setTempVolume };
 
 volume.subscribe(() => {
   setTempVolume(volume());
+});
+
+volumeMuted.subscribe(() => {
+  setTempVolumeMuted(volumeMuted());
+});
+
+inputMuted.subscribe(() => {
+  setTempInputMuted(inputMuted());
 });
 
 const [volumeMargin, setVolumeMargin] = createState(0);
@@ -95,7 +107,7 @@ export function VolumePopup({
           <Gtk.Scale
             orientation={Gtk.Orientation.VERTICAL}
             heightRequest={200}
-            sensitive={volumeMuted(v => !v)}
+            sensitive={tempVolumeMuted(v => !v)}
             $={self => {
               let settingFromCode = false;
               tempVolume.subscribe(() => {
@@ -130,9 +142,10 @@ export function VolumePopup({
                 Gdk.Cursor.new_from_name('pointer', null)
               )
             }
-            onClicked={() =>
-              execAsync('wpctl set-mute @DEFAULT_SINK@ toggle')
-            }>
+            onClicked={() => {
+              setTempVolumeMuted(!tempVolumeMuted());
+              execAsync('wpctl set-mute @DEFAULT_SINK@ toggle');
+            }}>
             <label label="vol" />
           </button>
         </box>
@@ -140,7 +153,7 @@ export function VolumePopup({
           <Gtk.Scale
             orientation={Gtk.Orientation.VERTICAL}
             heightRequest={200}
-            sensitive={inputMuted(v => !v)}
+            sensitive={tempInputMuted(v => !v)}
             $={self => {
               let settingFromCode = false;
               input.subscribe(() => {
@@ -173,9 +186,10 @@ export function VolumePopup({
                 Gdk.Cursor.new_from_name('pointer', null)
               )
             }
-            onClicked={() =>
-              execAsync('wpctl set-mute @DEFAULT_SOURCE@ toggle')
-            }>
+            onClicked={() => {
+              setTempInputMuted(!tempInputMuted());
+              execAsync('wpctl set-mute @DEFAULT_SOURCE@ toggle');
+            }}>
             <label label="mic" />
           </button>
         </box>

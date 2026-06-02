@@ -2,6 +2,7 @@ import { createPoll } from 'ags/time';
 import { For } from 'ags';
 import { execAsync } from 'ags/process';
 import { Gdk } from 'ags/gtk4';
+import { workspaces, activeWorkspace } from '../polls';
 
 export function WorkspaceButtons({
   icons = {},
@@ -10,23 +11,6 @@ export function WorkspaceButtons({
   icons?: Record<number, string>;
   blankInactive?: boolean;
 }) {
-  const workspaces = createPoll(
-    [],
-    1000,
-    'hyprctl workspaces -j',
-    out =>
-      JSON.parse(out)
-        .filter((ws: any) => ws.id > 0)
-        .sort((ws: any, nextWs: any) => ws.id > nextWs.id)
-  );
-
-  const activeWorkspace = createPoll(
-    { id: 0 } as any,
-    200,
-    'hyprctl activeworkspace -j',
-    out => JSON.parse(out)
-  );
-
   return (
     <box class="workspaces">
       <For each={workspaces}>
