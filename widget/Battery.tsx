@@ -75,7 +75,7 @@ export function BatteryButton({
       <box>
         <label
           label={batteryIcon}
-          class="icon"
+          class={'icon' + (display === 'icon' ? ' iconOnly' : '')}
           visible={display !== 'label'}
         />
         <label

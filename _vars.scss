@@ -5,10 +5,9 @@ $yellow: #f9e2af;
 $green: #a6e3a1;
 $blue: #89b4fa;
 
-$rounding: 20px; // default: 15px for bar 1, 20px for bar 2
+$rounding: 15px; // default: 15px for bar 1, 20px for bar 2
 $outsideMargin: 10px; // default: 10px
-$font:
-  'Rubik', 'JetBrainsMono Nerd Font Propo'; // default: 'JetBrainsMono Nerd Font Propo'
+$font: 'JetBrainsMono Nerd Font Propo'; // default: 'JetBrainsMono Nerd Font Propo'
 $fontWeight: bold; // default: bold
 $fontSize: 1rem; // default: 1rem
 
@@ -19,7 +18,7 @@ $arch: #1793d1;
   font-size: $fontSize * 1.1;
 }
 
-.icon:not(.arch) {
+.icon:not(.arch):not(.iconOnly) {
   margin-right: 7.5px;
 }
 

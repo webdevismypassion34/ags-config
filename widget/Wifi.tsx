@@ -105,7 +105,7 @@ export function WifiButton({
       onClicked={toggleWifi}>
       <box>
         <label
-          class="icon"
+          class={'icon' + (display === 'icon' ? ' iconOnly' : '')}
           label={wifiLabel}
           visible={display !== 'label'}
         />

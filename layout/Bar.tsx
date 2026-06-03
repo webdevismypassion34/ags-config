@@ -22,7 +22,7 @@ import {
 import { WeatherButton } from '../widget/Weather.tsx';
 
 // layout = x corresponds to _barx.scss
-const layout: number = 1;
+const layout: number = 4;
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
@@ -41,7 +41,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <WorkspaceButtons
               icons={{ 1: '', 2: '', 3: '󰈹', 4: '' }}
             />
-            <PlayerButton altLayout={true} />
+            <PlayerButton gdkmonitor={gdkmonitor} altLayout={true} />
           </box>
           <box $type="center">
             <Clock />
@@ -109,10 +109,14 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={TOP | LEFT | RIGHT}
         application={app}>
+        wifi, weather (just temperature), digital clock, volume, wifi
+        (just the signal strength/not connect/no wifi etc, I don't
+        need wifi name, it takes up too much space tbh), bluetooth,
+        battery
         <centerbox cssName="centerbox">
           <box $type="start">
             <WeatherButton gdkmonitor={gdkmonitor} minimal />
-            <PlayerButton />
+            <PlayerButton gdkmonitor={gdkmonitor} />
           </box>
           <box $type="center">
             <WorkspaceButtons />
@@ -122,6 +126,34 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <VolumeButton gdkmonitor={gdkmonitor} percent />
             <WifiButton gdkmonitor={gdkmonitor} />
             <BatteryButton gdkmonitor={gdkmonitor} display="label" />
+          </box>
+        </centerbox>
+      </window>
+      <window
+        visible={layout === 4}
+        name="bar"
+        class="Bar"
+        gdkmonitor={gdkmonitor}
+        exclusivity={Astal.Exclusivity.EXCLUSIVE}
+        anchor={TOP | LEFT | RIGHT}
+        application={app}>
+        wifi, weather (just temperature), digital clock, volume, wifi
+        (just the signal strength/not connect/no wifi etc, I don't
+        need wifi name, it takes up too much space tbh), bluetooth,
+        battery
+        <centerbox cssName="centerbox">
+          <box $type="start">
+            <WeatherButton gdkmonitor={gdkmonitor} minimal />
+          </box>
+          <box $type="center">
+            <WorkspaceButtons />
+          </box>
+          <box $type="end">
+            <BluetoothButton display="icon" gdkmonitor={gdkmonitor} />
+            <WifiButton display="icon" gdkmonitor={gdkmonitor} />
+            <VolumeButton gdkmonitor={gdkmonitor} percent />
+            <BatteryButton gdkmonitor={gdkmonitor} display="label" />
+            <Clock showDate={false} />
           </box>
         </centerbox>
       </window>

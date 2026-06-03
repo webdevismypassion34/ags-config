@@ -2,7 +2,7 @@ import { For, createState } from 'ags';
 import { execAsync } from 'ags/process';
 import { Gdk, Gtk } from 'ags/gtk4';
 import { title, artist, coverArt, isPlaying } from '../polls.ts';
-import { startMargin } from '../utils/margin.ts';
+import { centeredMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { spotifyAccessToken } from '../utils/spotifyAuth.ts';
@@ -95,14 +95,16 @@ async function getQueue() {
 
 export function PlayerButton({
   altLayout = false,
+  gdkmonitor,
 }: {
   altLayout?: Boolean;
+  gdkmonitor: Gdk.Monitor;
 }) {
   function togglePlayer() {
     if (activePopup() == 'player') {
       setActivePopup(null);
     } else {
-      setPlayerMargin(startMargin(playerButtonRef));
+      setPlayerMargin(centeredMargin(playerButtonRef, gdkmonitor));
       getQueue();
       setActivePopup('player');
     }
@@ -194,7 +196,7 @@ export function PlayerPopup({
       visible={activePopup(a => a == 'player')}
       margin={playerMargin}
       cssClass="playerOverlay"
-      halign={Gtk.Align.START}
+      // halign={Gtk.Align.START}
       widthRequest={200}>
       <box
         class="title"

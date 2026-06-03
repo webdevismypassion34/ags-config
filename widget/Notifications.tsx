@@ -29,7 +29,7 @@ export function NotificationButton({
       }}>
       <box>
         <label
-          class="icon"
+          class={'icon' + (display === 'icon' ? ' iconOnly' : '')}
           label={notifIcon}
           visible={display !== 'label'}
         />

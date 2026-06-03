@@ -72,7 +72,7 @@ export function VolumeButton({
       <box>
         <label
           label={volumeIcon}
-          class="icon"
+          class={'icon' + (display === 'icon' ? ' iconOnly' : '')}
           visible={display !== 'label'}
         />
         <label

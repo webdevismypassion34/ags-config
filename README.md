@@ -1,6 +1,6 @@
 # AGS Config
 
-These are my config files for Aylur's GTK Shell, a GTK-based desktop shell framework. This has been tested on Arch Linux with Hyprland, I am not sure if it works on other distros or compositors.
+These are my config files for Aylur's GTK Shell, a GTK-based desktop shell framework. This is written for Arch Linux with Hyprland and will not work on any other distro/compositor without porting.
 
 ### Features
 
@@ -35,8 +35,9 @@ These are my config files for Aylur's GTK Shell, a GTK-based desktop shell frame
 - Volume: show volume, click to open a menu with sliders to change volume and mic volume
   - Props: `percent<boolean>`, `display<"both" | "label"| "icon">`
 - Weather: shows the current temperature and condition
+  - Props: `minimal<boolean>`
 - Wifi: shows connected wifi and strength and click it to list and connect to wifi networks
-  - Props: `display<"both" | "label"| "icon">`
+  - Props: `display<"both" | "label" | "icon">`
 - Workspaces: lists the workspaces, click to go to it
   - Props: `icons<string[]>`, `hideInactive<boolean>`
 

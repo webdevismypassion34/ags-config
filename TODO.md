@@ -1,6 +1,6 @@
 Things I'd like to implement in the future
 
-- add more widgets to bar: current window, weather, temperature, GPU/CPU usage, power button, favorite apps (dock)
+- add more widgets to bar: current window, temperature, GPU/CPU usage, power button, favorite apps (dock)
 - add more widget options: clock time format & vertical option
 - replace swaync/notification button with a custom popup like for the other buttons
 - make another Gtk.Picture for the first item in queue, switch between them for instant cover art loading

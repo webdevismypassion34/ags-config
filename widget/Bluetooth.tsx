@@ -78,7 +78,7 @@ export function BluetoothButton({
       <box>
         <label
           label={bluetoothIcon}
-          class="icon"
+          class={'icon' + (display === 'icon' ? ' iconOnly' : '')}
           visible={display !== 'label'}
         />
         <label label={bluetoothDevice} visible={display !== 'icon'} />

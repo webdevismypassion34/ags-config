@@ -56,7 +56,7 @@ export function BrightnessButton({
       <box>
         <label
           label={brightnessIcon}
-          class="icon"
+          class={'icon' + (display === 'icon' ? ' iconOnly' : '')}
           visible={display !== 'label'}
         />
         <label
