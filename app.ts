@@ -8,6 +8,7 @@ import { activePopup, setActivePopup } from './state';
 import OSD from './feature/OSD';
 import { setBrightness, setVolume } from './feature/OSD';
 import { setTempVolume } from './widget/Volume';
+import { setTempBrightness } from './widget/Brightness';
 
 app.start({
   css: style,
@@ -24,6 +25,9 @@ app.start({
     }
     if (request[0] === 'updateBrightness') {
       setBrightness(
+        parseInt(request[1].split(',')[3].replace('%', ''))
+      );
+      setTempBrightness(
         parseInt(request[1].split(',')[3].replace('%', ''))
       );
       res('ok');

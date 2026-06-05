@@ -39,6 +39,7 @@ export default function OSD() {
       class="osd"
       anchor={TOP}
       marginTop={10}
+      application={app}
       visible={display(d => d.type != 'none')}
       keymode={Astal.Keymode.NONE}>
       <box orientation={Gtk.Orientation.VERTICAL}>

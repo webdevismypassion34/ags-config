@@ -1,7 +1,7 @@
 import { For, createState } from 'ags';
 import { execAsync } from 'ags/process';
 import { Gtk, Gdk } from 'ags/gtk4';
-import { openWindows as openWindowsPoll } from '../polls.ts';
+import { openWindows } from '../polls.ts';
 import iconsData from '../icons.json';
 import Gio from 'gi://Gio?version=2.0';
 import Popup from '../components/Popup.tsx';
@@ -11,22 +11,12 @@ import { visualClassOverrides } from '../utils/appList.ts';
 
 const [appPopup, setAppPopup] = createState('');
 const [appMargin, setAppMargin] = createState(0);
-const [openWindows, setOpenWindows] = createState<
-  Record<string, string>[]
->([]);
 
 const titles = (w: Record<string, string>[]) =>
   w
     .map(w => w.title)
     .sort()
     .join(',');
-
-// increase performance, reduce visual bugs (hover, cursor, etc) by only updating when it changes instead of every 500ms, when it polls
-openWindowsPoll.subscribe(() => {
-  if (titles(openWindowsPoll()) !== titles(openWindows())) {
-    setOpenWindows(openWindowsPoll());
-  }
-});
 
 activePopup.subscribe(() => {
   if (activePopup() === null) setAppPopup('');
@@ -61,9 +51,9 @@ export function Apps({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
           const icon =
             Object.values(icons)?.filter(
               icon =>
-                icon.class.toLowerCase() ==
+                icon.name.toLowerCase() ==
                   window.initialClass.toLowerCase() ||
-                icon.class.toLowerCase() ==
+                icon.name.toLowerCase() ==
                   window.initialTitle.toLowerCase()
             )?.[0]?.icon ?? null;
           return (

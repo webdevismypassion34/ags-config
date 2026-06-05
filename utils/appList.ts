@@ -5,8 +5,10 @@ import { readFileAsync, writeFileAsync } from 'ags/file';
 
 // purely visual
 export const visualClassOverrides: Record<string, string> = {
-  'com.obsproject.Studio': 'obs',
-  'code-oss': 'vsc',
+  'com.obsproject.Studio': 'OBS',
+  'code-oss': 'VS Code',
+  'kbd-layout-viewer': 'Keyboard',
+  'org.kde.kdeconnect.app': 'KDE Connect'
 };
 
 export type App = [
@@ -31,7 +33,7 @@ getApps()
 async function getApps() {
   let existingAppIcons: Record<
     string,
-    { class: string; icon: string | null }
+    { icon: string | null; name?: string; desktopName?: string }
   > = JSON.parse(
     await readFileAsync(`${home}/.config/ags/icons.json`).catch(
       () => '{}'
@@ -84,6 +86,12 @@ async function getApps() {
   );
 
   const newIcons: Record<string, string | null> = {};
+
+  const desktopNameMap: Record<string, string> = {};
+  filtered.forEach(json => {
+    if (json.Icon)
+      desktopNameMap[json.Icon] = json.file.split('/').pop()!.replace('.desktop', '');
+  });
 
   const appIcons = await Promise.all(
     filtered.map(async json => {
@@ -195,16 +203,24 @@ async function getApps() {
 
   const merged: Record<
     string,
-    { class: string; icon: string | null }
-  > = {
-    ...existingAppIcons,
-    ...Object.fromEntries(
-      Object.entries(newIcons).map(([k, v]) => [
-        k,
-        { class: k, icon: v },
-      ])
-    ),
-  };
+    { icon: string | null; name: string; desktopName: string }
+  > = {};
+
+  Object.entries(existingAppIcons).forEach(([k, v]) => {
+    merged[k] = {
+      ...v,
+      name: v.name ?? desktopNameMap[k] ?? k,
+      desktopName: desktopNameMap[k] ?? k,
+    };
+  });
+
+  Object.entries(newIcons).forEach(([k, v]) => {
+    merged[k] = {
+      icon: v,
+      name: desktopNameMap[k] ?? k,
+      desktopName: desktopNameMap[k] ?? k,
+    };
+  });
 
   await writeFileAsync(
     `${home}/.config/ags/icons.json`,

@@ -44,17 +44,31 @@ export default function Popup({
           }
         }}
       />
-      <box
-        $={self => (ref = self)}
-        halign={halign}
-        valign={valign}
-        orientation={Gtk.Orientation.VERTICAL}
-        marginStart={margin((v: number) => (v > 0 ? v : 0))}
-        marginEnd={margin((v: number) => (v < 0 ? -v : 0))}
-        class={cssClass}
-        widthRequest={widthRequest ?? -1}>
-        {children}
-      </box>
+      <Gtk.Revealer
+        transitionType={Gtk.RevealerTransitionType.SWING_DOWN}
+        transitionDuration={300}
+        revealChild={false}
+        $={self => {
+          visible.subscribe(() => {
+            if (visible()) {
+              setTimeout(() => self.set_reveal_child(true), 0);
+            } else {
+              self.set_reveal_child(false);
+            }
+          });
+        }}>
+        <box
+          $={self => (ref = self)}
+          halign={halign}
+          valign={valign}
+          orientation={Gtk.Orientation.VERTICAL}
+          marginStart={margin((v: number) => (v > 0 ? v : 0))}
+          marginEnd={margin((v: number) => (v < 0 ? -v : 0))}
+          class={cssClass}
+          widthRequest={widthRequest ?? -1}>
+          {children}
+        </box>
+      </Gtk.Revealer>
     </window>
   );
 }

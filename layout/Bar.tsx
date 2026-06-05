@@ -22,7 +22,7 @@ import {
 import { WeatherButton } from '../widget/Weather.tsx';
 
 // layout = x corresponds to _barx.scss
-const layout: number = 4;
+const layout: number = 1;
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (

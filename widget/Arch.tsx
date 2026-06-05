@@ -33,7 +33,6 @@ export function ArchButton() {
       setActivePopup(null);
     } else {
       setSelectedWindow(activeWindow());
-      console.log(selectedWindow(), activeWindow());
       setArchMargin(startMargin(archButtonRef));
       setActivePopup('arch');
     }
