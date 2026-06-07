@@ -19,7 +19,7 @@ import {
   BrightnessButton,
   BrightnessPopup,
 } from '../widget/Brightness.tsx';
-import { WeatherButton } from '../widget/Weather.tsx';
+import { WeatherButton, WeatherPopup } from '../widget/Weather.tsx';
 
 // layout = x corresponds to _barx.scss
 const layout: number = 1;
@@ -39,7 +39,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <box $type="start">
             <ArchButton />
             <WorkspaceButtons
-              icons={{ 1: '', 2: '', 3: '󰈹', 4: '' }}
+              icons={{ 1: '', 2: '', 3: '󰈹', 4: '', 6: '󰍳' }}
             />
             <PlayerButton gdkmonitor={gdkmonitor} altLayout={true} />
           </box>
@@ -159,6 +159,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       </window>
       <ArchPopup gdkmonitor={gdkmonitor} />
       <PlayerPopup gdkmonitor={gdkmonitor} />
+      <WeatherPopup gdkmonitor={gdkmonitor} />
       <WifiPopup gdkmonitor={gdkmonitor} />
       <BluetoothPopup gdkmonitor={gdkmonitor} />
       <BatteryPopup gdkmonitor={gdkmonitor} />

@@ -52,3 +52,5 @@ export function Clock({
     </button>
   );
 }
+
+// popup will have alarms, stopwatches, world clock, maybe also calendar

@@ -23,6 +23,12 @@ type WeatherResponse = {
     temperature_2m: number;
     weathercode: number;
   };
+  daily?: {
+    time: string[];
+    weather_code: number[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+  };
 };
 
 export const [weather, setWeather] = createState<WeatherResponse>({});
@@ -46,9 +52,13 @@ async function getWeather() {
       return execAsync([
         'curl',
         '-s',
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,weathercode`,
-      ]);
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,weathercode&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
+      ]).catch(err => {
+        console.error(err);
+        return {};
+      });
     })
+    // @ts-ignoree
     .then(JSON.parse)
     .catch(console.error);
 

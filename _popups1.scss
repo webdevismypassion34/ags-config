@@ -476,6 +476,34 @@ window#wallpaper {
   }
 }
 
+window#weatherPopup {
+  background: transparent;
+
+  .weatherOverlay {
+    background: rgba($surface0, 0.3);
+    border: 1px $border solid;
+    padding: 8px;
+    border-radius: $rounding;
+    color: $fg;
+
+    .day {
+      .condition {
+        color: $subtext0;
+      }
+      .max {
+        color: $red;
+      }
+      .min {
+        color: $blue;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
 window.osd {
   background: rgba($surface0, 0.3);
   border: 1px $border solid;
