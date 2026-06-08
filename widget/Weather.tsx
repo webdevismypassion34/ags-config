@@ -175,6 +175,57 @@ export function WeatherButton({
 }
 */
 
+const forecastDisplay = (day: string) => {
+  const entry = weather().daily?.time?.indexOf(day);
+  const data: [string, number, string, string] = Object.values(
+    weather().daily ?? {}
+  ).map(e => e[entry ?? 0]) as [string, number, string, string];
+  const days = weather().daily?.time.map((_, i) =>
+    new Intl.RelativeTimeFormat('en', {
+      numeric: 'auto',
+    }).format(i, 'day')
+  );
+  
+  return (
+    <box
+      widthRequest={110}
+      orientation={Gtk.Orientation.VERTICAL}
+      halign={Gtk.Align.START}
+      class="day">
+      <label
+        label={(days ?? [])[entry ?? 0]}
+        class="dayLabel"
+        halign={Gtk.Align.START}
+      />
+      <label
+        label={
+          weatherIcon(data[1] ?? 0) + ' ' + weatherLabel(data[1] ?? 0)
+        }
+        class="condition"
+        halign={Gtk.Align.START}
+      />
+      <label
+        label={
+          'max: ' +
+          data[2] +
+          (weather().current_units?.temperature_2m?.toString() ?? '')
+        }
+        class="max"
+        halign={Gtk.Align.START}
+      />
+      <label
+        label={
+          'min: ' +
+          data[3] +
+          (weather().current_units?.temperature_2m?.toString() ?? '')
+        }
+        class="min"
+        halign={Gtk.Align.START}
+      />
+    </box>
+  );
+};
+
 export function WeatherPopup({
   gdkmonitor,
 }: {
@@ -187,52 +238,18 @@ export function WeatherPopup({
       visible={activePopup(a => a == 'weather')}
       margin={weatherMargin}
       cssClass="weatherOverlay">
-      <For each={weather(w => w.daily?.time ?? [])}>
-        {(day: string) => {
-          const entry = weather().daily?.time?.indexOf(day);
-          const data: [string, number, string, string] =
-            Object.values(weather().daily ?? {}).map(
-              e => e[entry ?? 0]
-            ) as [string, number, string, string];
-          const days = weather().daily?.time.map((_, i) =>
-            new Intl.RelativeTimeFormat('en', {
-              numeric: 'auto',
-            }).format(i, 'day')
-          );
-          return (
-            <box
-              widthRequest={200}
-              orientation={Gtk.Orientation.VERTICAL}
-              halign={Gtk.Align.START}
-              class="day">
-              <label
-                label={(days ?? [])[entry ?? 0]}
-                class="dayLabel"
-                halign={Gtk.Align.START}
-              />
-              <label
-                label={
-                  weatherIcon(data[1] ?? 0) +
-                  ' ' +
-                  weatherLabel(data[1] ?? 0)
-                }
-                class="condition"
-                halign={Gtk.Align.START}
-              />
-              <label
-                label={'max: ' + data[2]}
-                class="max"
-                halign={Gtk.Align.START}
-              />
-              <label
-                label={'min: ' + data[3]}
-                class="min"
-                halign={Gtk.Align.START}
-              />
-            </box>
-          );
-        }}
-      </For>
+      <box orientation={Gtk.Orientation.VERTICAL}>
+        <box orientation={Gtk.Orientation.HORIZONTAL}>
+          <For each={weather(w => w.daily?.time.slice(0, 3) ?? [])}>
+            {forecastDisplay}
+          </For>
+        </box>
+        <box orientation={Gtk.Orientation.HORIZONTAL}>
+          <For each={weather(w => w.daily?.time.slice(3, 6) ?? [])}>
+            {forecastDisplay}
+          </For>
+        </box>
+      </box>
     </Popup>
   );
 }

@@ -31,6 +31,7 @@ export default function Popup({
       name={name}
       visible={visible}
       anchor={TOP | BOTTOM | LEFT | RIGHT}
+      keymode={Astal.Keymode.ON_DEMAND}
       application={app}
       gdkmonitor={gdkmonitor}>
       <Gtk.GestureClick

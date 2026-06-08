@@ -5,7 +5,7 @@ const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 import { ArchButton, ArchPopup } from '../widget/Arch.tsx';
 import { WorkspaceButtons } from '../widget/Workspaces.tsx';
 import { PlayerButton, PlayerPopup } from '../widget/Player.tsx';
-import { Clock } from '../widget/Clock.tsx';
+import { Clock, ClockPopup } from '../widget/Clock.tsx';
 import { Keyboard } from '../widget/Keyboard.tsx';
 import { WifiButton, WifiPopup } from '../widget/Wifi.tsx';
 import {
@@ -44,7 +44,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <PlayerButton gdkmonitor={gdkmonitor} altLayout={true} />
           </box>
           <box $type="center">
-            <Clock />
+            <Clock gdkmonitor={gdkmonitor} />
           </box>
           <box $type="end">
             <WeatherButton gdkmonitor={gdkmonitor} />
@@ -86,7 +86,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           </box>
           <box $type="center">
             <BrightnessButton gdkmonitor={gdkmonitor} percent />
-            <Clock showDate={false} />
+            <Clock gdkmonitor={gdkmonitor} showDate={false} />
             <VolumeButton gdkmonitor={gdkmonitor} percent />
           </box>
           <box $type="end">
@@ -122,7 +122,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <WorkspaceButtons />
           </box>
           <box $type="end">
-            <Clock showDate={false} />
+            <Clock gdkmonitor={gdkmonitor} showDate={false} />
             <VolumeButton gdkmonitor={gdkmonitor} percent />
             <WifiButton gdkmonitor={gdkmonitor} />
             <BatteryButton gdkmonitor={gdkmonitor} display="label" />
@@ -153,13 +153,14 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <WifiButton display="icon" gdkmonitor={gdkmonitor} />
             <VolumeButton gdkmonitor={gdkmonitor} percent />
             <BatteryButton gdkmonitor={gdkmonitor} display="label" />
-            <Clock showDate={false} />
+            <Clock gdkmonitor={gdkmonitor} showDate={false} />
           </box>
         </centerbox>
       </window>
       <ArchPopup gdkmonitor={gdkmonitor} />
       <PlayerPopup gdkmonitor={gdkmonitor} />
       <WeatherPopup gdkmonitor={gdkmonitor} />
+      <ClockPopup gdkmonitor={gdkmonitor} />
       <WifiPopup gdkmonitor={gdkmonitor} />
       <BluetoothPopup gdkmonitor={gdkmonitor} />
       <BatteryPopup gdkmonitor={gdkmonitor} />

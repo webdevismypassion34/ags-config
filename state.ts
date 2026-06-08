@@ -12,5 +12,6 @@ export const [activePopup, setActivePopup] = createState<
   | 'wallpaper'
   | 'app'
   | 'weather'
+  | 'clock'
   | null
 >(null);
