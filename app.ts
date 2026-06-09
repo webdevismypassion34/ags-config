@@ -10,6 +10,8 @@ import { setBrightness, setVolume } from './feature/OSD';
 import { setTempVolume } from './widget/Volume';
 import { setTempBrightness } from './widget/Brightness';
 
+import settings from './utils/settings';
+
 app.start({
   css: style,
   requestHandler(request: string[], res: (response: string) => void) {
@@ -41,10 +43,12 @@ app.start({
     }
   },
   main() {
-    app.get_monitors().map(Bar);
-    // app.get_monitors().map(Dock);
-    app.get_monitors().map(OSD);
-    app.get_monitors().map(AppLauncher);
-    app.get_monitors().map(WallpaperPicker);
+    if (settings().bar?.enabled) app.get_monitors().map(Bar);
+    if (settings().dock?.enabled) app.get_monitors().map(Dock);
+    if (settings().osd?.enabled) app.get_monitors().map(OSD);
+    if (settings().appLauncher?.enabled)
+      app.get_monitors().map(AppLauncher);
+    if (settings().wallpaper?.enabled)
+      app.get_monitors().map(WallpaperPicker);
   },
 });

@@ -1,29 +1,23 @@
 import app from 'ags/gtk4/app';
 import { Astal, Gdk } from 'ags/gtk4';
 const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor;
-import { Apps, AppsPopup } from '../widget/Apps';
+import settings, { Layout } from '../utils/settings';
+import { buttonsFromLayout, mountPopups } from './renderer';
+
+let layout: Layout = settings().dock?.layout as Layout;
 
 export default function Dock(gdkmonitor: Gdk.Monitor) {
+  mountPopups(layout, gdkmonitor);
   return (
-    <>
-      <window
-        visible
-        name="dock"
-        class="Dock"
-        gdkmonitor={gdkmonitor}
-        exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        anchor={BOTTOM | LEFT | RIGHT}
-        application={app}>
-        <centerbox cssName="centerbox">
-          <box $type="start"></box>
-          <box $type="center">
-            <Apps gdkmonitor={gdkmonitor} />
-          </box>
-          <box $type="end"></box>
-        </centerbox>
-      </window>
-      {/* popups */}
-      <AppsPopup gdkmonitor={gdkmonitor} />
-    </>
+    <window
+      visible={true}
+      name="dock"
+      class="Dock"
+      gdkmonitor={gdkmonitor}
+      exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      anchor={BOTTOM | LEFT | RIGHT}
+      application={app}>
+      {buttonsFromLayout(layout, gdkmonitor)}
+    </window>
   );
 }

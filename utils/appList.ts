@@ -3,14 +3,6 @@ import { createState } from 'ags';
 import { home } from '../polls';
 import { readFileAsync, writeFileAsync } from 'ags/file';
 
-// purely visual
-export const visualClassOverrides: Record<string, string> = {
-  'com.obsproject.Studio': 'OBS',
-  'code-oss': 'VS Code',
-  'kbd-layout-viewer': 'Keyboard',
-  'org.kde.kdeconnect.app': 'KDE Connect'
-};
-
 export type App = [
   file: string,
   name: string,

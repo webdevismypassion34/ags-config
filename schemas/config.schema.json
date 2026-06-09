@@ -1,0 +1,228 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AGS Config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "visualClassOverrides": {
+      "type": "object",
+      "description": "Map window class names to custom display names",
+      "additionalProperties": { "type": "string" }
+    },
+    "bar": { "$ref": "#/$defs/panel", "description": "Top bar" },
+    "dock": { "$ref": "#/$defs/panel", "description": "Bottom dock" },
+    "widgets": { "$ref": "#/$defs/widgets" },
+    "appLauncher": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "terminal": {
+          "type": "string",
+          "description": "Terminal emulator command for opening terminal apps"
+        }
+      }
+    },
+    "wallpaper": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "wallpaperDirectory": {
+          "type": "string",
+          "description": "Directory to pull wallpapers from. Use %H for the home directory."
+        }
+      }
+    },
+    "osd": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "display": {
+      "type": "string",
+      "enum": ["icon", "label", "both"],
+      "description": "What to show: icon only, label only, or both"
+    },
+    "widgetName": {
+      "type": "string",
+      "enum": [
+        "arch",
+        "workspaces",
+        "player",
+        "clock",
+        "weather",
+        "wifi",
+        "bluetooth",
+        "battery",
+        "volume",
+        "brightness",
+        "notifications",
+        "keyboard",
+        "apps"
+      ]
+    },
+    "panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "layout": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Preset layout number. Set to 0 to use custom_layout instead."
+        },
+        "custom_layout": {
+          "type": "object",
+          "description": "Custom widget arrangement. Used when layout is 0.",
+          "additionalProperties": false,
+          "properties": {
+            "left": { "type": "array", "items": { "$ref": "#/$defs/widgetName" } },
+            "center": { "type": "array", "items": { "$ref": "#/$defs/widgetName" } },
+            "right": { "type": "array", "items": { "$ref": "#/$defs/widgetName" } }
+          }
+        }
+      }
+    },
+    "widgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Widget-specific configuration. Omit a widget to use defaults.",
+      "properties": {
+        "apps": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display": { "$ref": "#/$defs/display" }
+          }
+        },
+        "arch": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "actions": {
+              "type": "object",
+              "description": "Commands for arch menu actions. Use %H for home directory, %P for PID.",
+              "additionalProperties": false,
+              "properties": {
+                "about": { "type": "string" },
+                "system_settings": { "type": "string" },
+                "quit": { "type": "string" },
+                "forcequit": { "type": "string" },
+                "lock": { "type": "string" },
+                "reboot": { "type": "string" },
+                "logout": { "type": "string" },
+                "shutdown": { "type": "string" }
+              }
+            }
+          }
+        },
+        "battery": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display": { "$ref": "#/$defs/display" },
+            "percent": { "type": "boolean", "description": "Show percentage number" }
+          }
+        },
+        "bluetooth": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display": { "$ref": "#/$defs/display" }
+          }
+        },
+        "brightness": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display": { "$ref": "#/$defs/display" },
+            "percent": { "type": "boolean", "description": "Show percentage number" }
+          }
+        },
+        "clock": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hour12": { "type": "boolean", "description": "Use 12-hour format" },
+            "showDate": { "type": "boolean", "description": "Show date alongside the time" },
+            "stacked": {
+              "type": "boolean",
+              "description": "Stack time and date vertically. Only applies when showDate is true."
+            }
+          }
+        },
+        "keyboard": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fcitx5": { "type": "boolean", "description": "Show fcitx5 input method indicator" },
+            "num_lock": { "type": "boolean", "description": "Show num lock indicator" },
+            "caps_lock": { "type": "boolean", "description": "Show caps lock indicator" }
+          }
+        },
+        "notifications": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display": { "$ref": "#/$defs/display" }
+          }
+        },
+        "player": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "altLayout": {
+              "type": "boolean",
+              "description": "Show cover art and stacked title & artist instead of plain 'song - artist' text"
+            }
+          }
+        },
+        "volume": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display": { "$ref": "#/$defs/display" },
+            "percent": { "type": "boolean", "description": "Show percentage number" }
+          }
+        },
+        "weather": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minimal": {
+              "type": "boolean",
+              "description": "Show only temperature and icon instead of label with unit"
+            }
+          }
+        },
+        "wifi": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "display": { "$ref": "#/$defs/display" }
+          }
+        },
+        "workspaces": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "icons": {
+              "type": "object",
+              "description": "Map workspace numbers to custom labels or nerd font icons",
+              "additionalProperties": { "type": "string" }
+            },
+            "hideInactive": {
+              "type": "boolean",
+              "description": "Hide the label of inactive workspace buttons"
+            }
+          }
+        }
+      }
+    }
+  }
+}

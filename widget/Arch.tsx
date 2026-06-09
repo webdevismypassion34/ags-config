@@ -5,17 +5,21 @@ import { startMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { activeWindow } from '../polls.ts';
-import { visualClassOverrides } from '../utils/appList.ts';
+import settings from '../utils/settings.ts';
 import { home } from '../polls.ts';
+
+const visualClassOverrides: Record<string, string> = settings()
+  .visualClassOverrides as Record<string, string>;
 
 activeWindow.subscribe(() => {});
 
-const commands = {
-  lock: `${home}/.local/share/quickshell-lockscreen/lock.sh`,
-  reboot: 'reboot',
-  logout: 'uwsm stop',
-  shutdown: 'shutdown',
-};
+const commands: Record<string, string> = Object.fromEntries(
+  Object.entries(
+    settings().widgets?.arch?.actions as Record<string, string>
+  )?.map(([n, a]) => [n, a.replaceAll('%H', home) ?? ''])
+);
+
+console.log(commands)
 
 const [archMargin, setArchMargin] = createState(0);
 const [selectedWindow, setSelectedWindow] = createState<
@@ -71,7 +75,7 @@ export function ArchPopup({
         }
         onClicked={() => {
           setActivePopup(null);
-          execAsync('kitty --hold fastfetch');
+          execAsync(commands.about);
         }}>
         <label label="about this distro" />
       </button>
@@ -81,9 +85,7 @@ export function ArchPopup({
         }
         onClicked={() => {
           setActivePopup(null);
-          execAsync(
-            'notify-send "System Settings" "this isn\'t completed yet"'
-          );
+          execAsync(commands.system_settings);
         }}>
         <label label="system settings" />
       </button>
@@ -95,7 +97,9 @@ export function ArchPopup({
         }
         onClicked={() => {
           setActivePopup(null);
-          execAsync(`pkill -15 -p ${selectedWindow().pid}`);
+          execAsync(
+            commands.quit.replaceAll('%P', selectedWindow().pid)
+          );
         }}>
         <label
           label={selectedWindow(
@@ -111,7 +115,9 @@ export function ArchPopup({
         }
         onClicked={() => {
           setActivePopup(null);
-          execAsync(`pkill -9 -p ${selectedWindow().pid}`);
+          execAsync(
+            commands.forcequit.replaceAll('%P', selectedWindow().pid)
+          );
         }}>
         <label
           label={selectedWindow(

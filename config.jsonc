@@ -1,0 +1,123 @@
+{
+  // GLOBAL OPTIONS
+  "visualClassOverrides": {
+    "com.obsproject.Studio": "OBS",
+    "code-oss": "VS Code",
+    "kbd-layout-viewer": "Keyboard",
+    "org.kde.kdeconnect.app": "KDE Connect"
+  },
+  // LAYOUTS/WIDGETS
+  "bar": {
+    "enabled": true,
+    "layout": 0, // set to 0 to use custom_layout instead
+    "custom_layout": {
+      "left": [
+        "arch",
+        "workspaces",
+        "player"
+      ],
+      "center": [
+        "clock"
+      ],
+      "right": [
+        "weather",
+        "wifi",
+        "bluetooth",
+        "battery",
+        "volume",
+        "brightness",
+        "notifications"
+      ]
+    }
+  },
+  "dock": {
+    "enabled": false,
+    "layout": 1, // set to 0 to use custom_layout instead
+    "custom_layout": {
+      "left": [],
+      "center": [
+        "apps"
+      ],
+      "right": []
+    }
+  },
+  // omit a widget to use defaults
+  "widgets": {
+    "apps": {
+      "display": "both"
+    },
+    "arch": {
+      // use %H for home directory, %P for process ID (quit, forcequit)
+      "actions": {
+        "about": "kitty --hold 'echo hi'",
+        "system_settings": "notify-send 'nothing here for now'",
+        "quit": "pkill -15 -p %P",
+        "forcequit": "pkill -9 -p %P",
+        "lock": "%H/.local/share/quickshell-lockscreen/lock.sh",
+        "reboot": "reboot",
+        "logout": "uwsm stop",
+        "shutdown": "shutdown"
+      }
+    },
+    "battery": {
+      "display": "both",
+      "percent": false
+    },
+    "bluetooth": {
+      "display": "both"
+    },
+    "brightness": {
+      "display": "both",
+      "percent": false
+    },
+    "clock": {
+      "hour12": false,
+      "showDate": true,
+      "stacked": false // only applies when showDate is true
+    },
+    "keyboard": {
+      "fcitx5": true,
+      "num_lock": false,
+      "caps_lock": false
+    },
+    "notifications": {
+      "display": "both"
+    },
+    "player": {
+      "altLayout": true
+    },
+    "volume": {
+      "display": "both",
+      "percent": false
+    },
+    "weather": {
+      "minimal": false
+    },
+    "wifi": {
+      "display": "both"
+    },
+    "workspaces": {
+      // nerd font icons or custom labels per workspace number
+      "icons": {
+        "1": "",
+        "2": "",
+        "3": "󰈹",
+        "4": "",
+        "6": "󰍳"
+      },
+      "hideInactive": false
+    }
+  },
+  // FEATURES
+  "appLauncher": {
+    "enabled": true,
+    "terminal": "kitty"
+  },
+  "wallpaper": {
+    "enabled": true,
+    "wallpaperDirectory": "%H/wallpaper" // use %H for home directory
+  },
+  "osd": {
+    "enabled": true
+  }
+}

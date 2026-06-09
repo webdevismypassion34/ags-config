@@ -10,8 +10,9 @@ import { activePopup, setActivePopup } from '../state';
 import Gio from 'gi://Gio?version=2.0';
 import { readFileAsync, writeFileAsync } from 'ags/file';
 import { home } from '../polls';
+import settings from '../utils/settings';
 
-const terminal = 'kitty';
+const terminal = settings().appLauncher?.terminal as string;
 
 let maxResultsLength = 11;
 let usage: Record<string, number> = {};

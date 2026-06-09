@@ -7,7 +7,9 @@ import Gio from 'gi://Gio?version=2.0';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';
 import { centeredMargin } from '../utils/margin.ts';
-import { visualClassOverrides } from '../utils/appList.ts';
+import settings from '../utils/settings.ts';
+const visualClassOverrides: Record<string, string> = settings()
+  .visualClassOverrides as Record<string, string>;
 
 const [appPopup, setAppPopup] = createState('');
 const [appMargin, setAppMargin] = createState(0);
@@ -24,7 +26,13 @@ activePopup.subscribe(() => {
 
 const icons = iconsData as Record<string, Record<string, string>>;
 
-export function Apps({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
+export function Apps({
+  gdkmonitor,
+  display = 'both',
+}: {
+  gdkmonitor: Gdk.Monitor;
+  display?: 'both' | 'icon' | 'label';
+}) {
   return (
     <box class="appContainer">
       <For
@@ -86,7 +94,7 @@ export function Apps({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
                 class={appPopup(p =>
                   p == window.initialClass ? 'app viewing' : 'app'
                 )}>
-                <overlay widthRequest={40} heightRequest={40}>
+                <overlay visible={display !== 'label'} widthRequest={40} heightRequest={40}>
                   {icon ? (
                     <Gtk.Picture
                       file={Gio.File.new_for_path(icon)}
@@ -102,6 +110,7 @@ export function Apps({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
                   )}
                 </overlay>
                 <label
+                  visible={display !== 'icon'}
                   label={
                     visualClassOverrides[window.initialClass]
                       ? visualClassOverrides[window.initialClass]
