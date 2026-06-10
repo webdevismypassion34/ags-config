@@ -46,7 +46,7 @@ export default function Popup({
         }}
       />
       <Gtk.Revealer
-        transitionType={Gtk.RevealerTransitionType.SWING_DOWN}
+        transitionType={valign === Gtk.Align.START ? Gtk.RevealerTransitionType.SWING_DOWN : Gtk.RevealerTransitionType.SWING_UP}
         transitionDuration={300}
         revealChild={false}
         $={self => {

@@ -32,7 +32,7 @@
   },
   "dock": {
     "enabled": false,
-    "layout": 1, // set to 0 to use custom_layout instead
+    "layout": 0, // set to 0 to use custom_layout instead
     "custom_layout": {
       "left": [],
       "center": [

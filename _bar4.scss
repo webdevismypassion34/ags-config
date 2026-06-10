@@ -1,0 +1,155 @@
+window.Bar,
+window.Dock {
+  background: transparent;
+  color: $fg;
+
+  > centerbox {
+    margin: $outsideMargin;
+
+    > box {
+      background: rgba($bg, 0.3);
+      border-radius: $rounding;
+      border: 1px $border solid;
+      padding: 5px;
+    }
+  }
+
+  &.Bar > centerbox {
+    margin-bottom: 0;
+  }
+
+  &.Dock > centerbox {
+    margin-top: 0;
+  }
+
+  button {
+    all: unset;
+    background: rgba($surface0, 0.7);
+    padding: 8px 15px;
+    border-radius: $rounding;
+    margin: 2px;
+    outline: 0px;
+    transition:
+      100ms linear padding,
+      100ms ease-in-out background;
+
+    &.arch {
+      color: $arch;
+    }
+
+    &.wifi,
+    &.bluetooth,
+    &.battery,
+    &.volume {
+      background: transparent;
+      color: $fg;
+      margin-right: -13px;
+    }
+
+    &.brightness {
+      background: rgba($orange, 0.9);
+      color: $surface0;
+    }
+
+    &.swaync {
+      background: rgba($red, 0.9);
+      color: $surface0;
+    }
+
+    &.workspace,
+    &.arch {
+      // background: rgba($surface0, 0.2);
+      background: transparent;
+    }
+
+    &.selected {
+      background: rgba($overlay1, 0.1);
+      // background: rgba($surface2, 0.7);
+      padding: 8px 20px;
+    }
+  }
+
+  .keyboard {
+    margin-right: 3px;
+
+    label {
+      margin-right: 7px;
+      &.icon {
+        font-size: $fontSize * 1.5;
+      }
+    }
+  }
+
+  .apps {
+    outline: 1px red solid;
+    margin: 0;
+
+    .app {
+      padding: 2px 10px;
+      border-radius: $rounding;
+      transition: 100ms ease-in-out all;
+
+      &:hover {
+        background: rgba($surface2, 0.7);
+      }
+
+      &.viewing {
+        background: rgba($subtext1, 0.7);
+        color: $bg;
+      }
+
+      label {
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .smallArt {
+    margin-right: 10px;
+
+    > picture {
+      border-radius: calc($rounding / 3);
+    }
+  }
+
+  .mpris,
+  .apps {
+    all: unset;
+    margin-left: 15px;
+  }
+
+  .clock,
+  .weather {
+    all: unset;
+  }
+
+  .clock {
+    margin-left: 10px;
+    margin-right: 10px;
+    box.stacked {
+      margin-top: 2px;
+    }
+
+    .date.stacked {
+      margin-top: -2px;
+      margin-bottom: -2px;
+    }
+  }
+
+  .weather {
+    margin-right: 10px;
+    margin-left: 10px;
+    // outline: 1px red solid;
+
+    .weatherIcon {
+      font-size: calc($fontSize * 2);
+      padding: 0;
+      margin: 0;
+      margin-right: 10px;
+    }
+  }
+
+  .secondary {
+    color: $subtext0;
+  }
+}
