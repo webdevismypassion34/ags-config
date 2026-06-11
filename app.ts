@@ -1,5 +1,4 @@
 import app from 'ags/gtk4/app';
-import style from './style.scss';
 import Bar from './layout/Bar';
 import Dock from './layout/Dock';
 import AppLauncher from './feature/AppLauncher';
@@ -10,10 +9,46 @@ import { setBrightness, setVolume } from './feature/OSD';
 import { setTempVolume } from './widget/Volume';
 import { setTempBrightness } from './widget/Brightness';
 
+import popups1 from './_popups1.scss';
+import bar1 from './_bar1.scss';
+import bar2 from './_bar2.scss';
+import bar3 from './_bar3.scss';
+import bar4 from './_bar4.scss';
+
+const { panelStyle, popupStyle } = settings();
+
+const panelFromStyle = (n: number) => {
+  switch (n) {
+    case 1:
+      return bar1;
+    case 2:
+      return bar2;
+    case 3:
+      return bar3;
+    case 4:
+      return bar4;
+    default:
+      return bar1;
+  }
+};
+
+const popupFromStyle = (n: number) => {
+  switch (n) {
+    case 1:
+      return popups1;
+    default:
+      return popups1;
+  }
+};
+
+const combinedStyle =
+  panelFromStyle(panelStyle as number) +
+  popupFromStyle(popupStyle as number);
+
 import settings from './utils/settings';
 
 app.start({
-  css: style,
+  css: combinedStyle,
   requestHandler(request: string[], res: (response: string) => void) {
     if (request[0] === 'toggleLauncher') {
       setActivePopup(activePopup() == 'launcher' ? null : 'launcher');

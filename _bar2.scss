@@ -3,6 +3,9 @@ Heavily inspired by Dusk (dusklinux/dusky on Github)
 None of his code was taken, 100% written myself
 */
 
+@import './matugen';
+@import './vars';
+
 window.Bar,
 window.Dock {
   background: transparent;
@@ -94,14 +97,15 @@ window.Dock {
     }
 
     &.wifi {
-      padding-right: 1px;
+      padding-right: 10px;
       padding-left: 8px;
-      padding-top: 5px;
+      padding-top: 4px;
       margin-right: 10px;
     }
 
     &.bluetooth {
       margin-right: 10px;
+      padding-top: 4px;
     }
 
     &.battery {
@@ -116,7 +120,7 @@ window.Dock {
     }
 
     &.swaync {
-      padding-right: 3px;
+      padding-right: 10px;
       padding-left: 11px;
       padding-top: 5px;
     }

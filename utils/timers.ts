@@ -59,6 +59,10 @@ async function callTimer(id: number) {
   const timer = timers().find(t => t.id === id);
   if (!timer) return;
 
+  if (currentTimer() !== null) {
+    execAsync(['pkill', '-p', currentTimerPID]);
+  }
+
   setCurrentTimer(timer);
   setTimers(timers().filter(t => t.id !== id));
 
@@ -92,8 +96,8 @@ export { timers, currentTimer, createTimer, pauseTimer, deleteTimer };
 
 activePopup.subscribe(() => {
   if (activePopup() !== null) {
-    deleteTimer(currentTimer()?.id ?? 0)
+    deleteTimer(currentTimer()?.id ?? 0);
   }
-})
+});
 
 // createTimer(5000);

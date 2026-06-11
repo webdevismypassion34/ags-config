@@ -7,16 +7,38 @@
     "visualClassOverrides": {
       "type": "object",
       "description": "Map window class names to custom display names",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
-    "bar": { "$ref": "#/$defs/panel", "description": "Top bar" },
-    "dock": { "$ref": "#/$defs/panel", "description": "Bottom dock" },
-    "widgets": { "$ref": "#/$defs/widgets" },
+    "panelStyle": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Specify which style to use for the panels."
+    },
+    "popupStyle": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Specify which style to use for the popups."
+    },
+    "bar": {
+      "$ref": "#/$defs/panel",
+      "description": "Top bar"
+    },
+    "dock": {
+      "$ref": "#/$defs/panel",
+      "description": "Bottom dock"
+    },
+    "widgets": {
+      "$ref": "#/$defs/widgets"
+    },
     "appLauncher": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "enabled": { "type": "boolean" },
+        "enabled": {
+          "type": "boolean"
+        },
         "terminal": {
           "type": "string",
           "description": "Terminal emulator command for opening terminal apps"
@@ -27,7 +49,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "enabled": { "type": "boolean" },
+        "enabled": {
+          "type": "boolean"
+        },
         "wallpaperDirectory": {
           "type": "string",
           "description": "Directory to pull wallpapers from. Use %H for the home directory."
@@ -38,14 +62,20 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "enabled": { "type": "boolean" }
+        "enabled": {
+          "type": "boolean"
+        }
       }
     }
   },
   "$defs": {
     "display": {
       "type": "string",
-      "enum": ["icon", "label", "both"],
+      "enum": [
+        "icon",
+        "label",
+        "both"
+      ],
       "description": "What to show: icon only, label only, or both"
     },
     "widgetName": {
@@ -70,7 +100,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "enabled": { "type": "boolean" },
+        "enabled": {
+          "type": "boolean"
+        },
         "layout": {
           "type": "integer",
           "minimum": 0,
@@ -81,9 +113,24 @@
           "description": "Custom widget arrangement. Used when layout is 0.",
           "additionalProperties": false,
           "properties": {
-            "left": { "type": "array", "items": { "$ref": "#/$defs/widgetName" } },
-            "center": { "type": "array", "items": { "$ref": "#/$defs/widgetName" } },
-            "right": { "type": "array", "items": { "$ref": "#/$defs/widgetName" } }
+            "left": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/widgetName"
+              }
+            },
+            "center": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/widgetName"
+              }
+            },
+            "right": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/widgetName"
+              }
+            }
           }
         }
       }
@@ -97,7 +144,9 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "display": { "$ref": "#/$defs/display" }
+            "display": {
+              "$ref": "#/$defs/display"
+            }
           }
         },
         "arch": {
@@ -109,14 +158,30 @@
               "description": "Commands for arch menu actions. Use %H for home directory, %P for PID.",
               "additionalProperties": false,
               "properties": {
-                "about": { "type": "string" },
-                "system_settings": { "type": "string" },
-                "quit": { "type": "string" },
-                "forcequit": { "type": "string" },
-                "lock": { "type": "string" },
-                "reboot": { "type": "string" },
-                "logout": { "type": "string" },
-                "shutdown": { "type": "string" }
+                "about": {
+                  "type": "string"
+                },
+                "system_settings": {
+                  "type": "string"
+                },
+                "quit": {
+                  "type": "string"
+                },
+                "forcequit": {
+                  "type": "string"
+                },
+                "lock": {
+                  "type": "string"
+                },
+                "reboot": {
+                  "type": "string"
+                },
+                "logout": {
+                  "type": "string"
+                },
+                "shutdown": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -125,31 +190,49 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "display": { "$ref": "#/$defs/display" },
-            "percent": { "type": "boolean", "description": "Show percentage number" }
+            "display": {
+              "$ref": "#/$defs/display"
+            },
+            "percent": {
+              "type": "boolean",
+              "description": "Show percentage number"
+            }
           }
         },
         "bluetooth": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "display": { "$ref": "#/$defs/display" }
+            "display": {
+              "$ref": "#/$defs/display"
+            }
           }
         },
         "brightness": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "display": { "$ref": "#/$defs/display" },
-            "percent": { "type": "boolean", "description": "Show percentage number" }
+            "display": {
+              "$ref": "#/$defs/display"
+            },
+            "percent": {
+              "type": "boolean",
+              "description": "Show percentage number"
+            }
           }
         },
         "clock": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "hour12": { "type": "boolean", "description": "Use 12-hour format" },
-            "showDate": { "type": "boolean", "description": "Show date alongside the time" },
+            "hour12": {
+              "type": "boolean",
+              "description": "Use 12-hour format"
+            },
+            "showDate": {
+              "type": "boolean",
+              "description": "Show date alongside the time"
+            },
             "stacked": {
               "type": "boolean",
               "description": "Stack time and date vertically. Only applies when showDate is true."
@@ -160,16 +243,27 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fcitx5": { "type": "boolean", "description": "Show fcitx5 input method indicator" },
-            "num_lock": { "type": "boolean", "description": "Show num lock indicator" },
-            "caps_lock": { "type": "boolean", "description": "Show caps lock indicator" }
+            "fcitx5": {
+              "type": "boolean",
+              "description": "Show fcitx5 input method indicator"
+            },
+            "num_lock": {
+              "type": "boolean",
+              "description": "Show num lock indicator"
+            },
+            "caps_lock": {
+              "type": "boolean",
+              "description": "Show caps lock indicator"
+            }
           }
         },
         "notifications": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "display": { "$ref": "#/$defs/display" }
+            "display": {
+              "$ref": "#/$defs/display"
+            }
           }
         },
         "player": {
@@ -186,8 +280,13 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "display": { "$ref": "#/$defs/display" },
-            "percent": { "type": "boolean", "description": "Show percentage number" }
+            "display": {
+              "$ref": "#/$defs/display"
+            },
+            "percent": {
+              "type": "boolean",
+              "description": "Show percentage number"
+            }
           }
         },
         "weather": {
@@ -204,7 +303,9 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "display": { "$ref": "#/$defs/display" }
+            "display": {
+              "$ref": "#/$defs/display"
+            }
           }
         },
         "workspaces": {
@@ -214,7 +315,9 @@
             "icons": {
               "type": "object",
               "description": "Map workspace numbers to custom labels or nerd font icons",
-              "additionalProperties": { "type": "string" }
+              "additionalProperties": {
+                "type": "string"
+              }
             },
             "hideInactive": {
               "type": "boolean",

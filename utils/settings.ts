@@ -17,6 +17,8 @@ type Panel = {
 
 export type Config = {
   visualClassOverrides?: Record<string, string>;
+  panelStyle?: number;
+  popupStyle?: number;
   bar?: Panel;
   dock?: Panel;
   widgets?: {
@@ -102,6 +104,8 @@ const defaults: Config = {
     'kbd-layout-viewer': 'Keyboard',
     'org.kde.kdeconnect.app': 'KDE Connect',
   },
+  panelStyle: 1,
+  popupStyle: 1,
   bar: { enabled: true, layout: presetLayouts[1] },
   dock: { enabled: false, layout: presetLayouts[1] },
   widgets: {
@@ -147,10 +151,10 @@ const defaults: Config = {
 const [settings, setSettings] = createState<Config>(defaults);
 export default settings;
 
-
 const b = (v: unknown, d: boolean) =>
   typeof v === 'boolean' ? v : d;
 const s = (v: unknown, d: string) => (typeof v === 'string' ? v : d);
+const n = (v: unknown, d: number) => (typeof v === 'number' ? v : d);
 const resolveLayout = (
   layoutNum: unknown,
   customLayout: unknown
@@ -203,6 +207,8 @@ function applySettings(raw: unknown) {
       j.visualClassOverrides,
       defaults.visualClassOverrides!
     ),
+    panelStyle: n(j.panelStyle, defaults.panelStyle!),
+    popupStyle: n(j.popupStyle, defaults.popupStyle!),
     bar: {
       enabled: b(bar.enabled, defaults.bar!.enabled!),
       layout: resolveLayout(bar.layout, bar.custom_layout),
@@ -316,7 +322,9 @@ function applySettings(raw: unknown) {
 const configPath = `${home}/.config/ags/config.jsonc`;
 
 try {
-  applySettings(JSON.parse(readFile(configPath).replace(/\/\/[^\n]*/g, '')));
+  applySettings(
+    JSON.parse(readFile(configPath).replace(/\/\/[^\n]*/g, ''))
+  );
 } catch {
   console.log('no config file found, using defaults');
   applySettings(defaults);

@@ -1,3 +1,6 @@
+@import './matugen';
+@import './vars';
+
 window.Bar,
 window.Dock {
   background: transparent;
@@ -35,6 +38,7 @@ window.Dock {
 
     &.arch {
       color: $arch;
+      padding-top: 2px;
     }
 
     &.wifi,

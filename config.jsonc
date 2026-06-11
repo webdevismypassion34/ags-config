@@ -6,10 +6,12 @@
     "kbd-layout-viewer": "Keyboard",
     "org.kde.kdeconnect.app": "KDE Connect"
   },
+  "panelStyle": 1,
+  "popupStyle": 1,
   // LAYOUTS/WIDGETS
   "bar": {
     "enabled": true,
-    "layout": 0, // set to 0 to use custom_layout instead
+    "layout": 1, // set to 0 to use custom_layout instead
     "custom_layout": {
       "left": [
         "arch",

@@ -205,9 +205,12 @@ export function ClockPopup({
                             heightRequest={60}
                             $={self => {
                               self.set_draw_func((_, cr, w, h) => {
-                                const percent =
-                                  (timer.expires - +now()) /
-                                  timer.length;
+                                const percent = !timer.paused
+                                  ? (timer.expires - +now()) /
+                                    timer.length
+                                  : (timer.expires -
+                                      timer.pausedSince) /
+                                    timer.length;
                                 const cx = w / 2,
                                   cy = h / 2,
                                   r = 20;
@@ -218,7 +221,10 @@ export function ClockPopup({
                                 cr.arc(cx, cy, r, 0, 2 * Math.PI);
                                 cr.stroke();
                                 cr.setSourceRGBA(
-                                  ...cssColor('fg', 0.7)
+                                  ...cssColor(
+                                    'fg',
+                                    !timer.paused ? 0.7 : 0.4
+                                  )
                                 );
                                 cr.arc(
                                   cx,
@@ -233,16 +239,36 @@ export function ClockPopup({
                             }}
                           />
                         </box>
+                        <Gtk.GestureClick
+                          button={1}
+                          onPressed={() => {
+                            pauseTimer(timer.id);
+                          }}
+                        />
+                        <Gtk.GestureClick
+                          button={3}
+                          onPressed={() => {
+                            deleteTimer(timer.id);
+                          }}
+                        />
                         <box
                           orientation={Gtk.Orientation.VERTICAL}
                           valign={Gtk.Align.CENTER}
                           class="label">
-                          <label label={timer.name} />
+                          <label
+                            label={
+                              timer.name
+                            }
+                          />
                           <label
                             label={now(n =>
                               formatDuration(
                                 Math.round(
-                                  (timer.expires - +n) / 1000
+                                  !timer.paused
+                                    ? (timer.expires - +n) / 1000
+                                    : (timer.expires -
+                                        timer.pausedSince) /
+                                        1000
                                 )
                               )
                             )}
@@ -325,7 +351,7 @@ export function ClockAlert({
       <Gtk.GestureClick
         button={1}
         onPressed={() => {
-          deleteTimer(currentTimer()?.id ?? -1)
+          deleteTimer(currentTimer()?.id ?? -1);
         }}
       />
       <box orientation={Gtk.Orientation.VERTICAL}>
