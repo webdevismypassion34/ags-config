@@ -94,7 +94,10 @@ export function Apps({
                 class={appPopup(p =>
                   p == window.initialClass ? 'app viewing' : 'app'
                 )}>
-                <overlay visible={display !== 'label'} widthRequest={40} heightRequest={40}>
+                <overlay
+                  visible={display !== 'label'}
+                  widthRequest={40}
+                  heightRequest={40}>
                   {icon ? (
                     <Gtk.Picture
                       file={Gio.File.new_for_path(icon)}

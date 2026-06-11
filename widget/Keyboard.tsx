@@ -14,8 +14,15 @@ export function Keyboard({
   return (
     <box orientation={Gtk.Orientation.HORIZONTAL} class="keyboard">
       <label visible={fcitx5} label={inputMethod} />
-      <label class="icon" visible={caps_lock ? lock(l => l.caps) : false} label="󰌎" />
-      <label visible={num_lock ? lock(l => l.num) : false} label="󰎾" />
+      <label
+        class="icon"
+        visible={caps_lock ? lock(l => l.caps) : false}
+        label="󰌎"
+      />
+      <label
+        visible={num_lock ? lock(l => l.num) : false}
+        label="󰎾"
+      />
     </box>
   );
 }

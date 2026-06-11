@@ -82,7 +82,10 @@ async function getApps() {
   const desktopNameMap: Record<string, string> = {};
   filtered.forEach(json => {
     if (json.Icon)
-      desktopNameMap[json.Icon] = json.file.split('/').pop()!.replace('.desktop', '');
+      desktopNameMap[json.Icon] = json.file
+        .split('/')
+        .pop()!
+        .replace('.desktop', '');
   });
 
   const appIcons = await Promise.all(

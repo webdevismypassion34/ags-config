@@ -13,14 +13,8 @@
     "enabled": true,
     "layout": 1, // set to 0 to use custom_layout instead
     "custom_layout": {
-      "left": [
-        "arch",
-        "workspaces",
-        "player"
-      ],
-      "center": [
-        "clock"
-      ],
+      "left": ["arch", "workspaces", "player"],
+      "center": ["clock"],
       "right": [
         "weather",
         "wifi",
@@ -37,9 +31,7 @@
     "layout": 0, // set to 0 to use custom_layout instead
     "custom_layout": {
       "left": [],
-      "center": [
-        "apps"
-      ],
+      "center": ["apps"],
       "right": []
     }
   },

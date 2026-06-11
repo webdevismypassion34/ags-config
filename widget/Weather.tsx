@@ -185,7 +185,7 @@ const forecastDisplay = (day: string) => {
       numeric: 'auto',
     }).format(i, 'day')
   );
-  
+
   return (
     <box
       widthRequest={110}

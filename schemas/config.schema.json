@@ -71,11 +71,7 @@
   "$defs": {
     "display": {
       "type": "string",
-      "enum": [
-        "icon",
-        "label",
-        "both"
-      ],
+      "enum": ["icon", "label", "both"],
       "description": "What to show: icon only, label only, or both"
     },
     "widgetName": {

@@ -255,11 +255,7 @@ export function ClockPopup({
                           orientation={Gtk.Orientation.VERTICAL}
                           valign={Gtk.Align.CENTER}
                           class="label">
-                          <label
-                            label={
-                              timer.name
-                            }
-                          />
+                          <label label={timer.name} />
                           <label
                             label={now(n =>
                               formatDuration(

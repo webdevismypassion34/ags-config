@@ -30,7 +30,10 @@ async function newAccessToken() {
 
     if (Date.now() < SPOTIFY_CACHE_EXPIRATION) {
       setToken(SPOTIFY_CACHED_TOKEN);
-      setTimeout(newAccessToken, SPOTIFY_CACHE_EXPIRATION - Date.now());
+      setTimeout(
+        newAccessToken,
+        SPOTIFY_CACHE_EXPIRATION - Date.now()
+      );
       return console.log(
         `Using cached token. Expiring in ${(SPOTIFY_CACHE_EXPIRATION - Date.now()) / 1000} seconds`
       );
@@ -39,24 +42,27 @@ async function newAccessToken() {
     const auth = new TextEncoder().encode(
       `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`
     );
-    const data: { expires_in: number; access_token: string } = JSON.parse(
-      await execAsync([
-        'curl',
-        '-s',
-        '-X',
-        'POST',
-        'https://accounts.spotify.com/api/token',
-        '-H',
-        `Authorization: Basic ${GLib.base64_encode(auth)}`,
-        '-H',
-        'Content-Type: application/x-www-form-urlencoded',
-        '-d',
-        `grant_type=refresh_token&refresh_token=${SPOTIFY_REFRESH_TOKEN}`,
-      ])
-    );
+    const data: { expires_in: number; access_token: string } =
+      JSON.parse(
+        await execAsync([
+          'curl',
+          '-s',
+          '-X',
+          'POST',
+          'https://accounts.spotify.com/api/token',
+          '-H',
+          `Authorization: Basic ${GLib.base64_encode(auth)}`,
+          '-H',
+          'Content-Type: application/x-www-form-urlencoded',
+          '-d',
+          `grant_type=refresh_token&refresh_token=${SPOTIFY_REFRESH_TOKEN}`,
+        ])
+      );
 
     if (!data.access_token)
-      throw new Error(`No access token in response: ${JSON.stringify(data)}`);
+      throw new Error(
+        `No access token in response: ${JSON.stringify(data)}`
+      );
 
     console.log(
       `Spotify access token: ${data.access_token.substring(0, 20)}...`
@@ -80,7 +86,9 @@ async function newAccessToken() {
     );
     setTimeout(newAccessToken, expires);
   } catch (err) {
-    console.error(`Failed to refresh Spotify access token, retrying in 30s: ${err}`);
+    console.error(
+      `Failed to refresh Spotify access token, retrying in 30s: ${err}`
+    );
     setTimeout(newAccessToken, 30000);
   }
 }
