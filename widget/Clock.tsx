@@ -1,5 +1,5 @@
 import { createState, For } from 'ags';
-import { Gdk, Gtk } from 'ags/gtk4';
+import { Astal, Gdk, Gtk } from 'ags/gtk4';
 import Popup from '../components/Popup';
 import { activePopup, setActivePopup } from '../state';
 import { centeredMargin } from '../utils/margin';
@@ -12,6 +12,8 @@ import {
   Timer,
 } from '../utils/timers.ts';
 import { cssColor } from '../utils/parseCss.ts';
+
+const { TOP, LEFT, BOTTOM, RIGHT } = Astal.WindowAnchor;
 
 const [now, setNow] = createState(new Date());
 const [clockMargin, setClockMargin] = createState(0);
@@ -306,5 +308,30 @@ export function ClockPopup({
         </box>
       </box>
     </Popup>
+  );
+}
+
+export function ClockAlert({
+  gdkmonitor,
+}: {
+  gdkmonitor: Gdk.Monitor;
+}) {
+  return (
+    <window
+      visible={currentTimer(t => !!t)}
+      anchor={TOP}
+      marginTop={10}
+      class="timer">
+      <Gtk.GestureClick
+        button={1}
+        onPressed={() => {
+          deleteTimer(currentTimer()?.id ?? -1)
+        }}
+      />
+      <box orientation={Gtk.Orientation.VERTICAL}>
+        <label label={currentTimer(t => (t ? t.name : 'no timer'))} />
+        <label label="Time's up!" class="secondary" />
+      </box>
+    </window>
   );
 }

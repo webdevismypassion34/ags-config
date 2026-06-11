@@ -3,6 +3,7 @@ import { createState } from 'ags';
 import { Gdk, Gtk, Astal } from 'ags/gtk4';
 const { TOP, LEFT, BOTTOM, RIGHT } = Astal.WindowAnchor;
 import { cssColor } from '../utils/parseCss';
+import { currentTimer } from '../utils/timers';
 
 const [brightness, setBrightness] = createState<number>(0);
 const [volume, setVolume] = createState<number>(0);
@@ -16,21 +17,29 @@ let hideTimer: ReturnType<typeof setTimeout>;
 export { setBrightness, setVolume };
 
 brightness.subscribe(() => {
-  clearTimeout(hideTimer);
-  setDisplay({ type: 'brightness', value: brightness() });
-  hideTimer = setTimeout(
-    () => setDisplay({ type: 'none', value: 0 }),
-    2000
-  );
+  if (!currentTimer()) {
+    clearTimeout(hideTimer);
+    setDisplay({ type: 'brightness', value: brightness() });
+    hideTimer = setTimeout(
+      () => setDisplay({ type: 'none', value: 0 }),
+      2000
+    );
+  }
 });
 
 volume.subscribe(() => {
-  clearTimeout(hideTimer);
-  setDisplay({ type: 'volume', value: volume() });
-  hideTimer = setTimeout(
-    () => setDisplay({ type: 'none', value: 0 }),
-    2000
-  );
+  if (!currentTimer()) {
+    clearTimeout(hideTimer);
+    setDisplay({ type: 'volume', value: volume() });
+    hideTimer = setTimeout(
+      () => setDisplay({ type: 'none', value: 0 }),
+      2000
+    );
+  }
+});
+
+currentTimer.subscribe(() => {
+  setDisplay({ type: 'none', value: 0 });
 });
 
 export default function OSD() {

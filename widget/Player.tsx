@@ -49,8 +49,10 @@ coverArt.subscribe(() => {
 async function getQueue() {
   if (!queueOutdated) return;
   queueOutdated = false;
-  const data = JSON.parse(
-    await execAsync([
+
+  let data;
+  try {
+    const res = await execAsync([
       'curl',
       '--request',
       'GET',
@@ -58,11 +60,14 @@ async function getQueue() {
       'https://api.spotify.com/v1/me/player/queue',
       '--header',
       `Authorization: Bearer ${spotifyAccessToken()}`,
-    ]).catch(r => {
-      console.error(`Error with Spotify request: ${r}`);
-      return r;
-    })
-  ).queue;
+    ]);
+    data = JSON.parse(res).queue;
+    if (!data) throw new Error(`Unexpected Spotify response: ${res}`);
+  } catch (err) {
+    console.error(`Error with Spotify request: ${err}`);
+    queueOutdated = true;
+    return;
+  }
 
   const images = data.map((song: Record<string, any>) => {
     const imageUrl = song.album.images[0]?.url; // 640x640, about 120kb

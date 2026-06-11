@@ -3,7 +3,7 @@ import settings, { Layout } from '../utils/settings';
 import { ArchButton, ArchPopup } from '../widget/Arch';
 import { WorkspaceButtons } from '../widget/Workspaces';
 import { PlayerButton, PlayerPopup } from '../widget/Player';
-import { Clock, ClockPopup } from '../widget/Clock';
+import { Clock, ClockPopup, ClockAlert } from '../widget/Clock';
 import { Keyboard } from '../widget/Keyboard';
 import { WifiButton, WifiPopup } from '../widget/Wifi';
 import { BluetoothButton, BluetoothPopup } from '../widget/Bluetooth';
@@ -136,6 +136,7 @@ export function mountPopups(layout: Layout, gdkmonitor: Gdk.Monitor) {
   if (all.includes('arch')) <ArchPopup gdkmonitor={gdkmonitor} />;
   if (all.includes('player')) <PlayerPopup gdkmonitor={gdkmonitor} />;
   if (all.includes('clock')) <ClockPopup gdkmonitor={gdkmonitor} />;
+  if (all.includes('clock')) <ClockAlert gdkmonitor={gdkmonitor} />;
   if (all.includes('weather'))
     <WeatherPopup gdkmonitor={gdkmonitor} />;
   if (all.includes('wifi')) <WifiPopup gdkmonitor={gdkmonitor} />;

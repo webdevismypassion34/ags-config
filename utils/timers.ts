@@ -1,4 +1,7 @@
 import { createState } from 'ags';
+import { execAsync } from 'ags/process';
+import { home } from '../polls';
+import { activePopup } from '../state';
 
 export type Timer = {
   id: number;
@@ -14,6 +17,7 @@ const [timers, setTimers] = createState<Timer[]>([]);
 const [currentTimer, setCurrentTimer] = createState<Timer | null>(
   null
 );
+let currentTimerPID = '';
 let counter = 0;
 
 function createTimer(length: number, name: string = 'timer') {
@@ -51,21 +55,31 @@ function pauseTimer(id: number) {
   setTimers([...timers()]);
 }
 
-function callTimer(id: number) {
-  console.log(`timer went off: ${id}`);
-
+async function callTimer(id: number) {
   const timer = timers().find(t => t.id === id);
   if (!timer) return;
 
   setCurrentTimer(timer);
   setTimers(timers().filter(t => t.id !== id));
+
+  await execAsync([
+    'bash',
+    '-c',
+    `mpv --loop=inf --no-video --really-quiet "${home}/.config/ags/alarm.mp3" >/dev/null 2>&1 & echo $!`,
+  ])
+    .then(out => {
+      currentTimerPID = out.trim();
+      console.log(currentTimerPID);
+    })
+    .catch(console.error);
 }
 
-function deleteTimer(id: number) {
+async function deleteTimer(id: number) {
   const timer = timers().find(t => t.id === id);
   if (!timer) {
     if (currentTimer()?.id === id) {
       setCurrentTimer(null);
+      await execAsync(['pkill', '-p', currentTimerPID]);
     }
     return;
   }
@@ -76,4 +90,10 @@ function deleteTimer(id: number) {
 
 export { timers, currentTimer, createTimer, pauseTimer, deleteTimer };
 
-createTimer(450000)
+activePopup.subscribe(() => {
+  if (activePopup() !== null) {
+    deleteTimer(currentTimer()?.id ?? 0)
+  }
+})
+
+// createTimer(5000);
