@@ -3,11 +3,13 @@ import Bar from './layout/Bar';
 import Dock from './layout/Dock';
 import AppLauncher from './feature/AppLauncher';
 import WallpaperPicker from './feature/Wallpaper';
+import NotificationAlert from './feature/Notifications';
 import { activePopup, setActivePopup } from './state';
 import OSD from './feature/OSD';
 import { setBrightness, setVolume } from './feature/OSD';
 import { setTempVolume } from './widget/Volume';
 import { setTempBrightness } from './widget/Brightness';
+import { startDaemon } from './utils/notifications';
 
 import popups1 from './_popups1.scss';
 import bar1 from './_bar1.scss';
@@ -78,6 +80,7 @@ app.start({
     }
   },
   main() {
+    startDaemon();
     if (settings().bar?.enabled) app.get_monitors().map(Bar);
     if (settings().dock?.enabled) app.get_monitors().map(Dock);
     if (settings().osd?.enabled) app.get_monitors().map(OSD);
@@ -85,5 +88,6 @@ app.start({
       app.get_monitors().map(AppLauncher);
     if (settings().wallpaper?.enabled)
       app.get_monitors().map(WallpaperPicker);
+    app.get_monitors().map(NotificationAlert);
   },
 });

@@ -581,3 +581,23 @@ window.timer {
     color: $subtext0;
   }
 }
+
+window.notifications {
+  // margin-left: 1500px;
+
+  > box > box:not(.hide) {
+    background: rgba($surface0, 0.3);
+    border: 1px $border solid;
+    border-radius: $rounding;
+    padding: 15px;
+    padding-top: 10px;
+
+    .body {
+      color: $subtext0;
+    }
+  }
+
+  .hide {
+    background: rgba(0, 0, 0, 0.004);
+  }
+}
