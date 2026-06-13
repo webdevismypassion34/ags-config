@@ -49,6 +49,7 @@ const combinedStyle =
   popupFromStyle(popupStyle as number);
 
 import settings from './utils/settings';
+import { startMprisDaemon } from './utils/mpris';
 
 app.start({
   css: combinedStyle,
@@ -84,6 +85,7 @@ app.start({
     }
   },
   main() {
+    startMprisDaemon();
     if (settings().useNotificationDaemon) startDaemon();
     if (settings().bar?.enabled) app.get_monitors().map(Bar);
     if (settings().dock?.enabled) app.get_monitors().map(Dock);

@@ -6,50 +6,6 @@ import Gio from 'gi://Gio?version=2.0';
 export const home = GLib.get_home_dir();
 
 let lastBatteryNotif = 0;
-const playerData = createPoll(
-  ['', '', '', false] as (string | boolean)[],
-  1000,
-  `playerctl metadata --format '["{{xesam:title}}","{{xesam:artist}}","{{mpris:artUrl}}","{{status}}"]' -p spotify`,
-  out => {
-    try {
-      const data = JSON.parse(out);
-      const playing = data[3].trim() === 'Playing';
-      const name = data[2].split('/').pop();
-      if (!name && data[0])
-        return [
-          data[0],
-          data[1],
-          `${home}/.config/ags/spotify/local.png`,
-          playing,
-        ];
-      if (!name) return [data[0], data[1], '', playing];
-      execAsync(
-        `test -f "${home}/.config/ags/spotify/${name}.jpg"`
-      ).catch(() =>
-        execAsync(
-          `wget -q "${data[2]}" -O "${home}/.config/ags/spotify/${name}.jpg"`
-        ).catch(console.error)
-      );
-      return [
-        data[0],
-        data[1],
-        `${home}/.config/ags/spotify/${name}.jpg`,
-        playing,
-      ];
-    } catch {
-      return ['', '', '', false];
-    }
-  }
-);
-
-export const title = createComputed(() => playerData()[0] as string);
-export const artist = createComputed(() => playerData()[1] as string);
-export const coverArt = createComputed(
-  () => playerData()[2] as string
-);
-export const isPlaying = createComputed(
-  () => playerData()[3] as boolean
-);
 
 export const wifi = createPoll(
   '',

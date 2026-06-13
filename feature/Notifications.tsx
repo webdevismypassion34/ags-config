@@ -5,6 +5,7 @@ const { TOP, RIGHT } = Astal.WindowAnchor;
 import {
   deleteNotification,
   hideNotification,
+  invokeAction,
   NotificationReceived,
   visibleNotifications,
 } from '../utils/notifications';
@@ -18,11 +19,20 @@ const dummyNotification = {
   id: -1,
 } as unknown as NotificationReceived;
 
+const getIcon = (notification: NotificationReceived) => {
+  const desktopEntry = notification.hints['desktop-entry'];
+
+  if (desktopEntry === 'org.freedesktop.network-manager-applet')
+    return '/usr/share/icons/Tokyonight-Dark/status/48/nm-device-wireless.svg';
+
+  return (
+    Object.values(icons).find(i => i.desktopName === desktopEntry)
+      ?.icon ?? null
+  );
+};
+
 export function NotificationItem(notification: NotificationReceived) {
-  const icon =
-    Object.values(icons).find(
-      i => i.desktopName === notification.hints['desktop-entry']
-    )?.icon ?? null;
+  const icon = getIcon(notification);
   return (
     <box
       class="notification"
@@ -36,6 +46,7 @@ export function NotificationItem(notification: NotificationReceived) {
       <Gtk.GestureClick
         button={1}
         onPressed={() => {
+          invokeAction(notification.id, 'default');
           hideNotification(notification.id);
           deleteNotification(notification.id);
         }}

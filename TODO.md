@@ -11,5 +11,4 @@ Things I'd like to implement in the future
 - add equalizer to volume popup (bass boost, vocal boost, bass reduce, etc)
 - add a file search and shell to app launcher (maybe start it with +, >) (not high priority, i don't use this often)
 - respect pan ratio when changing volume
-- notification daemon (I attempted this earlier for two days but for some reason the UI had bug after bug)
-- add workspace option to get icon based off apps inside it, with priority. E.g. if there's a browser (firefox, librewolf, tor1)
+- add workspace option to get icon based off apps inside it, with priority, e.g. show firefox icon if there's a browser (firefox, librewolf, zen)

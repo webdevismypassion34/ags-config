@@ -1,7 +1,12 @@
 import { For, createState } from 'ags';
 import { execAsync } from 'ags/process';
 import { Gdk, Gtk } from 'ags/gtk4';
-import { title, artist, coverArt, isPlaying } from '../polls.ts';
+import {
+  title,
+  artist,
+  coverArt,
+  isPlaying,
+} from '../utils/mpris.ts';
 import { centeredMargin } from '../utils/margin.ts';
 import Popup from '../components/Popup.tsx';
 import { activePopup, setActivePopup } from '../state.ts';

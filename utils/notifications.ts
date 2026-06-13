@@ -82,6 +82,10 @@ export function deleteNotification(id: number) {
   setNotifications(clone);
 }
 
+export function invokeAction(id: number, actionId: string) {
+  AstalNotifd.get_default().get_notification(id)?.invoke(actionId);
+}
+
 function testNotif() {
   handleNotification({
     id: Math.floor(Math.random() * 1000000),
