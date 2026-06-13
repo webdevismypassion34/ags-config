@@ -3,6 +3,8 @@ import { For } from 'ags';
 import { Gtk, Astal } from 'ags/gtk4';
 const { TOP, RIGHT } = Astal.WindowAnchor;
 import {
+  deleteNotification,
+  hideNotification,
   NotificationReceived,
   visibleNotifications,
 } from '../utils/notifications';
@@ -16,7 +18,7 @@ const dummyNotification = {
   id: -1,
 } as unknown as NotificationReceived;
 
-function NotificationItem(notification: NotificationReceived) {
+export function NotificationItem(notification: NotificationReceived) {
   const icon =
     Object.values(icons).find(
       i => i.desktopName === notification.hints['desktop-entry']
@@ -31,6 +33,13 @@ function NotificationItem(notification: NotificationReceived) {
           ? 0
           : 5
       )}>
+      <Gtk.GestureClick
+        button={1}
+        onPressed={() => {
+          hideNotification(notification.id);
+          deleteNotification(notification.id);
+        }}
+      />
       <box valign={Gtk.Align.START} class="art">
         <overlay widthRequest={46} heightRequest={39} marginTop={2}>
           <box widthRequest={46} heightRequest={39} />

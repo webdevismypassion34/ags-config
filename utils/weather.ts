@@ -34,10 +34,10 @@ type WeatherResponse = {
 export const [weather, setWeather] = createState<WeatherResponse>({});
 
 async function getWeather() {
-  const cache = JSON.parse(
-    await readFileAsync(`${home}/.config/ags/weather.json`)
-  );
-  if (cache.expires > Date.now) return cache.data;
+  const cache = await readFileAsync(`${home}/.config/ags/weather.json`)
+    .then(JSON.parse)
+    .catch(() => ({ expires: 0 }));
+  if (cache.expires > Date.now()) return cache.data;
 
   const weatherData = await execAsync([
     'curl',

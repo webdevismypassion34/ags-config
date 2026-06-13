@@ -10,7 +10,10 @@ import { BluetoothButton, BluetoothPopup } from '../widget/Bluetooth';
 import { BatteryButton, BatteryPopup } from '../widget/Battery';
 import { VolumeButton, VolumePopup } from '../widget/Volume';
 import { Apps, AppsPopup } from '../widget/Apps';
-import { NotificationButton } from '../widget/Notifications';
+import {
+  NotificationButton,
+  NotificationPopup,
+} from '../widget/Notifications';
 import {
   BrightnessButton,
   BrightnessPopup,
@@ -147,4 +150,6 @@ export function mountPopups(layout: Layout, gdkmonitor: Gdk.Monitor) {
   if (all.includes('volume')) <VolumePopup gdkmonitor={gdkmonitor} />;
   if (all.includes('brightness'))
     <BrightnessPopup gdkmonitor={gdkmonitor} />;
+  if (all.includes('notifications'))
+    <NotificationPopup gdkmonitor={gdkmonitor} />;
 }

@@ -10,6 +10,7 @@ import { setBrightness, setVolume } from './feature/OSD';
 import { setTempVolume } from './widget/Volume';
 import { setTempBrightness } from './widget/Brightness';
 import { startDaemon } from './utils/notifications';
+import { notifications } from './utils/notifications';
 
 import popups1 from './_popups1.scss';
 import bar1 from './_bar1.scss';
@@ -77,6 +78,9 @@ app.start({
         Math.round(parseFloat(request[2]) * 100).toString()
       );
       res('ok');
+    }
+    if (request[0] === 'notifications') {
+      res(JSON.stringify(notifications()))
     }
   },
   main() {

@@ -220,13 +220,6 @@ export const batteryPercent = createPoll(
   }
 );
 
-export const notifCount = createPoll(
-  '',
-  5000,
-  'swaync-client -c',
-  out => out.replace('%', '')
-);
-
 export const [activeWindow, setActiveWindow] = createState<
   Record<string, any>
 >({});

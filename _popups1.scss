@@ -553,6 +553,34 @@ window#clockPopup {
   }
 }
 
+window#ncPopup {
+  background: transparent;
+
+  .ncOverlay {
+    background: rgba($surface0, 0.6);
+    border: 1px $border solid;
+    padding: 8px;
+    border-radius: $rounding;
+    color: $fg;
+
+    .title {
+      margin-bottom: 5px;
+    }
+
+    .notification {
+      background: rgba($surface0, 0.3);
+      border: 1px $border solid;
+      border-radius: $rounding;
+      padding: 15px;
+      padding-top: 10px;
+
+      .body {
+        color: $subtext0;
+      }
+    }
+  }
+}
+
 window.osd,
 window.timer {
   background: rgba($surface0, 0.3);

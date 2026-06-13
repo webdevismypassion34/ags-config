@@ -13,5 +13,6 @@ export const [activePopup, setActivePopup] = createState<
   | 'app'
   | 'weather'
   | 'clock'
+  | 'nc'
   | null
 >(null);

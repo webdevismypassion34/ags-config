@@ -14,6 +14,7 @@ export default function Popup({
   widthRequest,
   children,
   valign = Gtk.Align.START,
+  fullscreen = false
 }: {
   gdkmonitor: Gdk.Monitor;
   name: string;
@@ -24,6 +25,7 @@ export default function Popup({
   widthRequest?: number;
   children?: any;
   valign?: Gtk.Align;
+  fullscreen?: boolean;
 }) {
   let ref!: Gtk.Widget;
   return (
@@ -47,9 +49,10 @@ export default function Popup({
       />
       <Gtk.Revealer
         transitionType={
+          fullscreen ? Gtk.RevealerTransitionType.SWING_LEFT :(
           valign === Gtk.Align.START
             ? Gtk.RevealerTransitionType.SWING_DOWN
-            : Gtk.RevealerTransitionType.SWING_UP
+            : Gtk.RevealerTransitionType.SWING_UP)
         }
         transitionDuration={300}
         revealChild={false}
@@ -63,6 +66,7 @@ export default function Popup({
           });
         }}>
         <box
+        heightRequest={fullscreen ? 1000 : -1}
           $={self => (ref = self)}
           halign={halign}
           valign={valign}
@@ -70,7 +74,7 @@ export default function Popup({
           marginStart={margin((v: number) => (v > 0 ? v : 0))}
           marginEnd={margin((v: number) => (v < 0 ? -v : 0))}
           class={cssClass}
-          widthRequest={widthRequest ?? -1}>
+          widthRequest={widthRequest ?? (fullscreen ? 400 : -1)}>
           {children}
         </box>
       </Gtk.Revealer>
