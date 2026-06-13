@@ -61,6 +61,7 @@ export type Config = {
   appLauncher?: { enabled?: boolean; terminal?: string };
   wallpaper?: { enabled?: boolean; wallpaperDirectory?: string };
   osd?: { enabled?: boolean };
+  useNotificationDaemon?: boolean;
 };
 
 const presetLayouts: Record<
@@ -146,6 +147,7 @@ const defaults: Config = {
   appLauncher: { enabled: true, terminal: 'kitty' },
   wallpaper: { enabled: true, wallpaperDirectory: '%H/wallpaper' },
   osd: { enabled: true },
+  useNotificationDaemon: true,
 };
 
 const [settings, setSettings] = createState<Config>(defaults);
@@ -316,6 +318,10 @@ function applySettings(raw: unknown) {
     osd: {
       enabled: b(osd.enabled, defaults.osd!.enabled!),
     },
+    useNotificationDaemon: b(
+      j.useNotificationDaemon,
+      defaults.useNotificationDaemon!
+    ),
   });
 }
 

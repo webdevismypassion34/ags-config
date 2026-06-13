@@ -66,6 +66,10 @@
           "type": "boolean"
         }
       }
+    },
+    "useNotificationDaemon": {
+      "type": "boolean",
+      "description": "Whether to start the built-in notification daemon and mount the notification UI"
     }
   },
   "$defs": {

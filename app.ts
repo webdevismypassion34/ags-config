@@ -80,11 +80,11 @@ app.start({
       res('ok');
     }
     if (request[0] === 'notifications') {
-      res(JSON.stringify(notifications()))
+      res(JSON.stringify(notifications()));
     }
   },
   main() {
-    startDaemon();
+    if (settings().useNotificationDaemon) startDaemon();
     if (settings().bar?.enabled) app.get_monitors().map(Bar);
     if (settings().dock?.enabled) app.get_monitors().map(Dock);
     if (settings().osd?.enabled) app.get_monitors().map(OSD);
@@ -92,6 +92,7 @@ app.start({
       app.get_monitors().map(AppLauncher);
     if (settings().wallpaper?.enabled)
       app.get_monitors().map(WallpaperPicker);
-    app.get_monitors().map(NotificationAlert);
+    if (settings().useNotificationDaemon)
+      app.get_monitors().map(NotificationAlert);
   },
 });

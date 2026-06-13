@@ -34,7 +34,9 @@ type WeatherResponse = {
 export const [weather, setWeather] = createState<WeatherResponse>({});
 
 async function getWeather() {
-  const cache = await readFileAsync(`${home}/.config/ags/weather.json`)
+  const cache = await readFileAsync(
+    `${home}/.config/ags/weather.json`
+  )
     .then(JSON.parse)
     .catch(() => ({ expires: 0 }));
   if (cache.expires > Date.now()) return cache.data;

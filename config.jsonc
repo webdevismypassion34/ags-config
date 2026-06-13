@@ -113,5 +113,6 @@
   },
   "osd": {
     "enabled": true
-  }
+  },
+  "useNotificationDaemon": true
 }

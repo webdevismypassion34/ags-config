@@ -14,6 +14,7 @@ These are my config files for Aylur's GTK Shell, a GTK-based desktop shell frame
 - App Launcher: launch an app or calculate something
 - OSD (On-Screen Display) for brightness and volume: show a popup when brightness or volume is changed
 - Wallpaper: cycle through your wallpapers and select one
+- Notification Daemon: recieve & display notifications and expose it through `ags request "notifications"`
 
 **Widgets:**
 
@@ -24,7 +25,7 @@ These are my config files for Aylur's GTK Shell, a GTK-based desktop shell frame
 - Brightness: see the brightness, click to open a menu with a slider
 - Clock: clock and date
 - Keyboard: show fcitx5 keyboard, caps lock, and num lock status
-- Notifications: show unread notifications, click it to open swaync
+- Notifications: show unread notifications, click it to see all notifications
 - Player: show artist and title, optionally cover art (with alt layout in config.jsonc)
 - Volume: show volume, click to open a menu with sliders to change volume and mic volume
 - Weather: shows the current temperature and condition
@@ -47,6 +48,11 @@ _Bar Style 2 (Made to test out making other styles, replicated dusklinux/dusky)_
 
 ![](./screenshots/screenshot-20260601-183210.png)<br>
 _Dock Style 2_
+
+There are 2 further styles:
+
+1. A copy of [weezlebee's waybar](https://github.com/Weezlebee/hypr-dotfiles), it might be somewhere in his repo
+2. Bar style 1 but seperated islands
 
 </details>
 
@@ -123,20 +129,23 @@ I'll probably write an install script if people actually use this config
 }
 ```
 
-If you don't want the queue to work, comment out `<PlayerPopup gdkmonitor={gdkmonitor} />` in `./layout/Bar.tsx`
+8. Free the notifications interface if an app is using it (swaync as an example):
 
-7. (optional) Replace the contents of `./icons.json` (the app icons cache) with {}, it will build a cache on the first run, after that you can edit it if any icons aren't being detected to replace `class` with the `window.initialClass` or change any icons. You don't need to reset it, as the paths use `/home/alexmn`, which is personal to my system. This will only take up space, not cause any issues.
+```bash
+systemctl --user stop swaync.service
+systemctl --user mask swaync.service
+```
 
-8. Run ags: `ags run`, or `setsid ags run` to detach from terminal
+9.  Run ags: `ags run`, or `setsid ags run` to detach from terminal
 
-9. Add keybinds to your Hyprland config for wallpaper and app launcher, any keybinds work:
+10. Add keybinds to your Hyprland config for wallpaper and app launcher, any keybinds work:
 
 ```conf
 bind = $mainMod, D, exec, ags request "toggleLauncher"
 bind = $mainMod, W, exec, ags request "toggleWallpaper"
 ```
 
-10. Add keybinds to your Hyprland config for the on-screen brightness and volume display:
+11. Add keybinds to your Hyprland config for the on-screen brightness and volume display:
 
 ```config
 bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ && ags request "updateVolume" $(wpctl get-volume @DEFAULT_AUDIO_SINK@)
@@ -148,15 +157,11 @@ bindel = ,XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%- && ags requ
 
 The important parts are `ags request "updateVolume" $(wpctl get-volume @DEFAULT_AUDIO_SINK@)` and `ags request "updateBrightness" $(brightnessctl -m)`
 
-11. (optional) Enable blur by adding this to your Hyprland config:
+12. (optional) Enable blur by adding this to your Hyprland config:
 
 ```conf
-; ags
 layerrule = blur on, match:namespace gtk4-layer-shell
 layerrule = ignore_alpha 0.1, match:namespace gtk4-layer-shell
-; swaync (notifications ui, not made by me)
-layerrule = blur on, match:namespace swaync-control-center
-layerrule = ignore_alpha 0.1, match:namespace swaync-control-center
 ```
 
 ### Matugen
@@ -166,7 +171,7 @@ layerrule = ignore_alpha 0.1, match:namespace swaync-control-center
 ```scss
 $bg:       {{colors.background.dark.hex}};
 $fg:       {{colors.on_background.dark.hex}};
-$border:   {{colors.outline_variant.dark.hex}}7F;
+$border:   {{colors.outline_variant.dark.hex}}7f;
 $surface0: {{colors.surface_container.dark.hex}};
 $surface1: {{colors.surface_container_high.dark.hex}};
 $surface2: {{colors.surface_container_highest.dark.hex}};
