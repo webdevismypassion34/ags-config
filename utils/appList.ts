@@ -34,9 +34,11 @@ async function getApps() {
   const applicationDirectories = [
     '/home/alexmn/.local/share/applications',
     '/usr/share/applications',
+    '/var/lib/flatpak/exports/share/applications',
   ];
   const desktopFiles = await execAsync([
     'find',
+    '-L',
     ...applicationDirectories,
     '-name',
     '*.desktop',
@@ -57,8 +59,8 @@ async function getApps() {
       const json: Record<string, string> = {};
 
       lines.forEach(line => {
-        const split = line.split('=');
-        json[split[0]] = split[1];
+        const i = line.indexOf('=');
+        json[line.slice(0, i)] = line.slice(i + 1);
       });
 
       if (

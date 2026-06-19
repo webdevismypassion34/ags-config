@@ -75,15 +75,21 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
       `${home}/.config/ags/usage.json`,
       JSON.stringify(usage, null, 2)
     );
-    const exec = app[4].replace(/%[a-zA-Z]/g, '').trim();
+    const exec = app[4]
+      .replace(/%[a-zA-Z]/g, '')
+      .replace(/@@[^@]*@@/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
     if (app[5]) {
       execAsync(['setsid', terminal, ...exec.split(' ')]).catch(
         console.error
       );
     } else {
-      execAsync(`setsid ${exec} >/dev/null 2>&1`).catch(
-        console.error
-      );
+      execAsync([
+        'sh',
+        '-c',
+        `setsid ${exec} >/dev/null 2>&1`,
+      ]).catch(console.error);
     }
   }
 
