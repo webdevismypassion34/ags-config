@@ -565,6 +565,16 @@ window#ncPopup {
 
     .title {
       margin-bottom: 5px;
+
+      button {
+        border-radius: $rounding;
+        outline: 0;
+        background: rgba($overlay0, 0.3);
+
+        &:hover {
+          background: rgba($overlay0, 0.4);
+        }
+      }
     }
 
     .notification {

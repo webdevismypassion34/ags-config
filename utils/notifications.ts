@@ -41,7 +41,12 @@ const [visibleNotifications, setVisibleNotifications] = createState<
   Record<number, NotificationReceived>
 >([]);
 
-export { notifications, visibleNotifications };
+export {
+  notifications,
+  visibleNotifications,
+  setNotifications,
+  setVisibleNotifications,
+};
 
 function handleNotification(notif: NotificationReceived) {
   setNotifications([...notifications(), notif]);

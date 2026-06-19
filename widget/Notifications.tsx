@@ -1,7 +1,11 @@
 import { createComputed, createState, For } from 'ags';
 import {
+  deleteNotification,
   NotificationReceived,
   notifications,
+  setNotifications,
+  setVisibleNotifications,
+  visibleNotifications,
 } from '../utils/notifications';
 import { Gdk, Gtk } from 'ags/gtk4';
 import { activePopup, setActivePopup } from '../state';
@@ -71,11 +75,30 @@ export function NotificationPopup({
       <box
         class="notifications"
         orientation={Gtk.Orientation.VERTICAL}>
-        <box class="title">
-          <label label="Notifications" />
+        <box class="title" hexpand>
+          <label label="Notifications" halign={Gtk.Align.START} />
+          <box halign={Gtk.Align.END} hexpand>
+            <button
+              onClicked={() => {
+                Object.values(visibleNotifications()).forEach(
+                  (notification: NotificationReceived) => {
+                    deleteNotification(notification.id);
+                  }
+                );
+                setVisibleNotifications([]);
+              }}
+              sensitive={notifications(v => v.length > 0)}
+              $={self => {
+                self.set_cursor(
+                  Gdk.Cursor.new_from_name('pointer', null)
+                );
+              }}>
+              <label label="read all" />
+            </button>
+          </box>
         </box>
         <scrolledwindow
-          heightRequest={500}
+          heightRequest={950}
           hexpand={false}
           overflow={Gtk.Overflow.HIDDEN}>
           <box orientation={Gtk.Orientation.VERTICAL}>
