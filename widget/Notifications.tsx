@@ -1,15 +1,11 @@
 import { createComputed, createState, For } from 'ags';
 import {
-  deleteNotification,
-  NotificationReceived,
   notifications,
   setNotifications,
   setVisibleNotifications,
-  visibleNotifications,
 } from '../utils/notifications';
 import { Gdk, Gtk } from 'ags/gtk4';
 import { activePopup, setActivePopup } from '../state';
-import { execAsync } from 'ags/process';
 import Popup from '../components/Popup.tsx';
 import { NotificationItem } from '../feature/Notifications.tsx';
 
@@ -80,11 +76,7 @@ export function NotificationPopup({
           <box halign={Gtk.Align.END} hexpand>
             <button
               onClicked={() => {
-                Object.values(visibleNotifications()).forEach(
-                  (notification: NotificationReceived) => {
-                    deleteNotification(notification.id);
-                  }
-                );
+                setNotifications([]);
                 setVisibleNotifications([]);
               }}
               sensitive={notifications(v => v.length > 0)}

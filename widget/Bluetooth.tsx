@@ -163,7 +163,9 @@ export function BluetoothPopup({
                 }
                 onClicked={() =>
                   execAsync(
-                    `bluetoothctl connect ${device.mac}`
+                    bluetoothDevice() === device.name
+                      ? `bluetoothctl disconnect ${device.mac}`
+                      : `bluetoothctl connect ${device.mac}`
                   ).catch(() => {})
                 }>
                 <box>
