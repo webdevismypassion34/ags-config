@@ -1,5 +1,9 @@
 import { createState } from 'ags';
 import AstalNotifd from 'gi://AstalNotifd?version=0.1';
+import { readFileAsync, writeFileAsync } from 'ags/file';
+import { home } from '../polls';
+
+const notificationsFile = `${home}/.config/ags/notifications.json`;
 
 const timeouts: Record<string, ReturnType<typeof setTimeout>> = {};
 
@@ -47,6 +51,17 @@ export {
   setNotifications,
   setVisibleNotifications,
 };
+
+readFileAsync(notificationsFile)
+  .then(contents => setNotifications(JSON.parse(contents)))
+  .catch(() => {});
+
+notifications.subscribe(() => {
+  writeFileAsync(
+    notificationsFile,
+    JSON.stringify(notifications(), null, 2)
+  ).catch(console.error);
+});
 
 function handleNotification(notif: NotificationReceived) {
   setNotifications([...notifications(), notif]);

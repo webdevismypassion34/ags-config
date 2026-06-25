@@ -23,7 +23,11 @@ const getIcon = (notification: NotificationReceived) => {
   const desktopEntry = notification.hints['desktop-entry'];
 
   if (desktopEntry === 'org.freedesktop.network-manager-applet')
+    // Network manager icon
     return '/usr/share/icons/Tokyonight-Dark/status/48/nm-device-wireless.svg';
+  if (notification.appName === 'blueman')
+    // Bluetooth icon
+    return '/usr/share/icons/Tokyonight-Dark/status/48/bluetooth.svg';
 
   return (
     Object.values(icons).find(i => i.desktopName === desktopEntry)

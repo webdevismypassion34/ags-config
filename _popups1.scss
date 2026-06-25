@@ -577,15 +577,28 @@ window#ncPopup {
       }
     }
 
-    .notification {
-      background: rgba($surface0, 0.3);
-      border: 1px $border solid;
-      border-radius: $rounding;
-      padding: 15px;
-      padding-top: 10px;
+    box {
+      .notification {
+        background: rgba($surface0, 0.3);
+        border: 1px $border solid;
+        border-radius: $rounding;
+        padding: 15px;
+        padding-top: 10px;
 
-      .body {
+        .body {
+          color: $subtext0;
+        }
+      }
+
+      .expand {
+        all: unset;
         color: $subtext0;
+        margin-top: 2px;
+        margin-bottom: 3px;
+
+        &:hover {
+          color: rgba($subtext0, 0.9);
+        }
       }
     }
   }

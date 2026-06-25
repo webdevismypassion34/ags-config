@@ -1,5 +1,6 @@
-import { createComputed, createState, For } from 'ags';
+import { Accessor, createComputed, createState, For } from 'ags';
 import {
+  NotificationReceived,
   notifications,
   setNotifications,
   setVisibleNotifications,
@@ -10,6 +11,29 @@ import Popup from '../components/Popup.tsx';
 import { NotificationItem } from '../feature/Notifications.tsx';
 
 const [ncMargin] = createState(-15);
+const [expanded, setExpanded] = createState<Record<string, boolean>>(
+  {}
+);
+
+const notificationsSorted = createComputed(() => {
+  const notifs = [...notifications()];
+  const sorted: Record<string, Record<string, any>[]> = {};
+
+  notifs.forEach(notif => {
+    if (!sorted[notif.appName]) {
+      sorted[notif.appName] = [];
+    }
+    sorted[notif.appName].push(notif);
+  });
+
+  return sorted;
+});
+
+// notificationsSorted.subscribe(() => {
+//   Object.entries(notificationsSorted()).forEach(([key, value]) => {
+//     console.log(`${key}: ${value.length} items`);
+//   });
+// });
 
 export function NotificationButton({
   display = 'both',
@@ -20,6 +44,7 @@ export function NotificationButton({
     if (activePopup() === 'nc') {
       setActivePopup(null);
     } else {
+      setExpanded({});
       setActivePopup('nc');
     }
   }
@@ -100,7 +125,45 @@ export function NotificationPopup({
               valign={Gtk.Align.CENTER}
               visible={notifications(v => v.length === 0)}
             />
-            <For each={notifications}>{NotificationItem}</For>
+            <For each={notificationsSorted(Object.entries)}>
+              {(entry: [string, NotificationReceived[]]) => {
+                const [group, groupNotifications] = entry;
+                return (
+                  <box orientation={Gtk.Orientation.VERTICAL}>
+                    <box orientation={Gtk.Orientation.VERTICAL}>
+                      <For
+                        each={createComputed(() =>
+                          expanded()[group]
+                            ? groupNotifications
+                            : [groupNotifications[0]]
+                        )}>
+                        {NotificationItem}
+                      </For>
+                    </box>
+                    <button
+                      class="expand"
+                      visible={groupNotifications.length > 1}
+                      onClicked={() => {
+                        const replace = { ...expanded() };
+                        replace[group] = !replace[group];
+                        setExpanded(replace);
+                      }}
+                      $={self => {
+                        self.set_cursor(
+                          Gdk.Cursor.new_from_name('pointer', null)
+                        );
+                      }}>
+                      <label
+                        label={expanded(
+                          e =>
+                            `${e[group] ? 'hide' : 'view'} ${groupNotifications.length - 1} more from ${group}`
+                        )}
+                      />
+                    </button>
+                  </box>
+                );
+              }}
+            </For>
           </box>
         </scrolledwindow>
       </box>
