@@ -152,7 +152,10 @@ export function startDaemon() {
     });
   });
 
-  notifd.connect('resolved', (_, id) => {
+  notifd.connect('resolved', (_, id, reason) => {
     hideNotification(id);
+    if (reason !== AstalNotifd.ClosedReason.EXPIRED) {
+      deleteNotification(id);
+    }
   });
 }
