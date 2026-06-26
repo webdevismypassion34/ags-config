@@ -50,6 +50,7 @@ const combinedStyle =
 
 import settings from './utils/settings';
 import { startMprisDaemon } from './utils/mpris';
+import { onPrevious, onSkip } from './widget/Player';
 
 app.start({
   css: combinedStyle,
@@ -82,6 +83,14 @@ app.start({
     }
     if (request[0] === 'notifications') {
       res(JSON.stringify(notifications()));
+    }
+    if (request[0] === 'next') {
+      onSkip();
+      res('ok');
+    }
+    if (request[0] === 'previous') {
+      onPrevious();
+      res('ok');
     }
   },
   main() {

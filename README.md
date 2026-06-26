@@ -145,14 +145,20 @@ bind = $mainMod, D, exec, ags request "toggleLauncher"
 bind = $mainMod, W, exec, ags request "toggleWallpaper"
 ```
 
-11. Add keybinds to your Hyprland config for the on-screen brightness and volume display:
+11. Add keybinds to your Hyprland config so it updates quicker:
 
 ```config
+# volume
 bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ && ags request "updateVolume" $(wpctl get-volume @DEFAULT_AUDIO_SINK@)
 bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && ags request "updateVolume" $(wpctl get-volume @DEFAULT_AUDIO_SINK@)
 
+# brightness
 bindel = ,XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+ && wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && ags request "updateBrightness" $(brightnessctl -m)
 bindel = ,XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%- && ags request "updateBrightness" $(brightnessctl -m)
+
+# skip / previous
+bindl = , XF86AudioNext, exec, playerctl next -p spotify && ags request next
+bindl = , XF86AudioPrev, exec, playerctl previous -p spotify && ags request previous
 ```
 
 The important parts are `ags request "updateVolume" $(wpctl get-volume @DEFAULT_AUDIO_SINK@)` and `ags request "updateBrightness" $(brightnessctl -m)`
