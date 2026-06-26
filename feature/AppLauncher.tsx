@@ -37,7 +37,9 @@ export default function AppLauncher(gdkmonitor: Gdk.Monitor) {
     selectItem(1);
     if (query == '') {
       usage = JSON.parse(
-        await readFileAsync(`${home}/.config/ags/usage.json`)
+        await readFileAsync(`${home}/.config/ags/usage.json`).catch(
+          () => '{}'
+        )
       );
       setResults(
         [...appList()]

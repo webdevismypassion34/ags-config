@@ -158,7 +158,7 @@ export function WifiPopup({
             {(network: string) => (
               <button
                 onClicked={() =>
-                  execAsync(`nmcli con up "${network}"`)
+                  execAsync(['nmcli', 'con', 'up', network])
                 }
                 $={self =>
                   self.set_cursor(

@@ -22,7 +22,7 @@ const [queue, setQueue] = createState<Song[]>([]);
 let history: Song[] = [];
 
 export function onSkip() {
-  history = [queue()[0], ...history.slice(9)]; // Keep 10 history
+  history = [queue()[0], ...history.slice(0, 9)]; // Keep 10 history
   setQueue(queue().slice(1));
   setTimeout(getQueue, 100);
 }

@@ -3,3 +3,5 @@ node_modules/
 spotify/
 .env
 wpthumbnail
+notifications.json
+usage.json
