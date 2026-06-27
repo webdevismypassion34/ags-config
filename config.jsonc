@@ -43,8 +43,8 @@
     "arch": {
       // use %H for home directory, %P for process ID (quit, forcequit)
       "actions": {
-        "about": "kitty --hold 'echo hi'",
-        "system_settings": "notify-send 'nothing here for now'",
+        "about": "kitty --hold 'fastfetch'",
+        "system_settings": "ags request toggleSettings",
         "quit": "pkill -15 -p %P",
         "forcequit": "pkill -9 -p %P",
         "lock": "%H/.local/share/quickshell-lockscreen/lock.sh",

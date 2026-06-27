@@ -4,6 +4,7 @@ import Dock from './layout/Dock';
 import AppLauncher from './feature/AppLauncher';
 import WallpaperPicker from './feature/Wallpaper';
 import NotificationAlert from './feature/Notifications';
+import SettingsApp from './feature/Settings';
 import { activePopup, setActivePopup } from './state';
 import OSD from './feature/OSD';
 import { setBrightness, setVolume } from './feature/OSD';
@@ -65,6 +66,12 @@ app.start({
       );
       res('ok');
     }
+    if (request[0] === 'toggleSettings') {
+      setActivePopup(
+        activePopup() === 'settings' ? null : 'settings'
+      );
+      res('ok');
+    }
     if (request[0] === 'updateBrightness') {
       setBrightness(
         parseInt(request[1].split(',')[3].replace('%', ''))
@@ -105,5 +112,6 @@ app.start({
       app.get_monitors().map(WallpaperPicker);
     if (settings().useNotificationDaemon)
       app.get_monitors().map(NotificationAlert);
+    app.get_monitors().map(SettingsApp);
   },
 });

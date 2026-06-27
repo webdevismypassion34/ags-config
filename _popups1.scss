@@ -479,6 +479,50 @@ window#wallpaper {
   }
 }
 
+window#settings {
+  background: rgba($bg, 0.11);
+
+  .settingsOverlay {
+    background: rgba($surface0, 0.8);
+
+    border: 1px $border solid;
+    border-radius: $rounding;
+
+    .sidebar {
+      background: transparent;
+      border-right: 1px $border solid;
+      padding: 10px;
+
+      .page {
+        all: unset;
+        background: transparent;
+        color: $fg;
+        padding: 8px 15px;
+        border-radius: $rounding;
+        margin: 0;
+        margin-left: -1px;
+        transition: 100ms ease-in-out background;
+
+        &:hover {
+          background: rgba($subtext0, 0.1);
+        }
+
+        &.selected {
+          background: rgba($subtext0, 0.2);
+        }
+
+        label {
+          background: transparent;
+        }
+      }
+    }
+
+    .main {
+      padding: 10px;
+    }
+  }
+}
+
 window#weatherPopup {
   background: transparent;
 
