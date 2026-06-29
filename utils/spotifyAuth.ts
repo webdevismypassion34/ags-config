@@ -34,9 +34,7 @@ async function newAccessToken() {
         newAccessToken,
         SPOTIFY_CACHE_EXPIRATION - Date.now()
       );
-      return console.log(
-        `Using cached token. Expiring in ${(SPOTIFY_CACHE_EXPIRATION - Date.now()) / 1000} seconds`
-      );
+      return;
     }
 
     const auth = new TextEncoder().encode(
@@ -64,10 +62,6 @@ async function newAccessToken() {
         `No access token in response: ${JSON.stringify(data)}`
       );
 
-    console.log(
-      `Spotify access token: ${data.access_token.substring(0, 20)}...`
-    );
-    console.log(`Expires: ${data.expires_in} seconds`);
     setToken(data.access_token);
     let expires = data.expires_in * 1000 - 5000;
     await writeFileAsync(

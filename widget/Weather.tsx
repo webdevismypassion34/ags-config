@@ -7,10 +7,6 @@ import { centeredMargin } from '../utils/margin';
 
 const [weatherMargin, setWeatherMargin] = createState(0);
 
-weather.subscribe(() => {
-  console.log(weather());
-});
-
 function weatherIcon(code: number): string {
   if (code === 0) return '󰖙'; // sunny
   if (code <= 2) return '󰖕'; // partly cloudy

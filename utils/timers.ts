@@ -73,7 +73,6 @@ async function callTimer(id: number) {
   ])
     .then(out => {
       currentTimerPID = out.trim();
-      console.log(currentTimerPID);
     })
     .catch(console.error);
 }

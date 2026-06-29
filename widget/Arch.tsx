@@ -19,8 +19,6 @@ const commands: Record<string, string> = Object.fromEntries(
   )?.map(([n, a]) => [n, a.replaceAll('%H', home) ?? ''])
 );
 
-console.log(commands);
-
 const [archMargin, setArchMargin] = createState(0);
 const [selectedWindow, setSelectedWindow] = createState<
   Record<string, any>

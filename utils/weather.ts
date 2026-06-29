@@ -49,7 +49,6 @@ async function getWeather() {
     .then(JSON.parse)
     .then((data: Record<string, string>) => {
       const [lat, long] = data.loc.split(',');
-      console.log(lat, long);
 
       return execAsync([
         'curl',

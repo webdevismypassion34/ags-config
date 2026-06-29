@@ -78,10 +78,7 @@ function handleNotification(notif: NotificationReceived) {
 }
 
 export function hideNotification(id: number) {
-  if (notifications().findIndex(n => n.id === id) === -1)
-    return console.log(
-      `requested to hide ${id} but it was not found`
-    );
+  if (notifications().findIndex(n => n.id === id) === -1) return;
 
   const clone = { ...visibleNotifications() };
   delete clone[id];

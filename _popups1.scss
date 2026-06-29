@@ -519,6 +519,62 @@ window#settings {
 
     .main {
       padding: 10px;
+
+      .title {
+        font-size: calc($fontSize * 1.25);
+        margin-bottom: 10px;
+      }
+
+      .header {
+        font-size: calc($fontSize * 1.1);
+        margin-bottom: 3px;
+        color: $fg;
+      }
+
+      .icon {
+        font-size: calc($fontSize * 1.25);
+        margin-bottom: 4px;
+      }
+
+      .summary {
+        color: $subtext0;
+      }
+
+      .thisDevice {
+        .overview {
+          .deviceIcon {
+            font-size: calc($fontSize * 3);
+            margin-right: 15px;
+            color: $arch;
+          }
+
+          .desktop {
+            color: #b0abab;
+          }
+
+          .linux {
+            color: #ffffff;
+            margin-left: 1px;
+            margin-right: 1px;
+          }
+
+          .hyprland {
+            margin-left: 2px;
+            margin-right: 2px;
+            color: #00b5d0;
+          }
+        }
+
+        .page {
+          margin-top: 10px;
+        }
+
+        .storage {
+          .dir {
+            color: $fg;
+          }
+        }
+      }
     }
   }
 }

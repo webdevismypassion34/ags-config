@@ -114,7 +114,7 @@ I'll probably write an install script if people actually use this config
 
 1. Clone the repo: `git clone https://github.com/webdevismypassion34/ags-config.git ~/.config/ags`
 2. Cd into it: `cd ~/.config/ags`
-3. Install global dependencies: `yay -S aylurs-gtk-shell mpvpaper`, `sudo pacman -S hyprlock playerctl networkmanager bluez-utils swaync wl-clipboard libqalculate fcitx5 kitty upower curl matugen pipewire wireplumber ttf-nerd-fonts-symbols libnotify awww ffmpeg brightnessctl`
+3. Install global dependencies: `yay -S aylurs-gtk-shell mpvpaper`, `sudo pacman -S hyprlock playerctl networkmanager bluez-utils swaync wl-clipboard libqalculate fcitx5 kitty upower curl matugen pipewire wireplumber ttf-nerd-fonts-symbols libnotify awww ffmpeg brightnessctl coreutils`
 4. Install npm dependencies: `npm install`
 5. Configure the config in `./config.jsonc`
 6. (optional) If you want spotify queue to work in the player popup, create a `./.env` file formatted like this:

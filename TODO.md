@@ -1,7 +1,7 @@
 Things I'd like to implement in the future
 
+- change all execAsync in settings to listen to sockets instead of taking a snapshot at ags start
 - add more widgets to bar: current window, temperature (`sensors`), GPU/CPU usage, favorite apps (dock)
-- make system settings (might be ags, might be tauri, although tauri is lwk a pain to use :/): this would have the theme switching, easily change fonts system-wide, gtk theme, users, switch between hyprlock configs
 - visual editor for my ags config: move around bar/dock/launcher, change settings for it, etc
 - better screenshot tool
 - make overlays (e.g. song, keyboard, cava?, network, cps)
