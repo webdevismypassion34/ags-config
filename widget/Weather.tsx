@@ -42,6 +42,13 @@ export function WeatherButton({
   gdkmonitor: Gdk.Monitor;
   minimal?: boolean;
 }) {
+  if (!weather()?.daily)
+    return (
+      <box>
+        <label label="err" />
+      </box>
+    );
+
   function toggleWeather() {
     if (activePopup() == 'weather') {
       setActivePopup(null);
@@ -91,7 +98,7 @@ export function WeatherButton({
             visible={!minimal}
             class="secondary"
             label={weather(w =>
-              weatherLabel(w.current?.weathercode ?? 0)
+              weatherLabel(w?.current?.weathercode ?? 0)
             )}
           />
         </box>
@@ -227,6 +234,12 @@ export function WeatherPopup({
 }: {
   gdkmonitor: Gdk.Monitor;
 }) {
+  if (!weather()?.daily)
+    return (
+      <box>
+        <label label="issue with weather api" />
+      </box>
+    );
   return (
     <Popup
       gdkmonitor={gdkmonitor}

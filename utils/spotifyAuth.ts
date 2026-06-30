@@ -63,7 +63,7 @@ async function newAccessToken() {
       );
 
     setToken(data.access_token);
-    let expires = data.expires_in * 1000 - 5000;
+    const expires = data.expires_in * 1000 - 30000; // kept getting issues with token being expired, so lowering expiration date more
     await writeFileAsync(
       `${home}/.config/ags/.env`,
       JSON.stringify(

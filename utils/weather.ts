@@ -39,7 +39,7 @@ async function getWeather() {
   )
     .then(JSON.parse)
     .catch(() => ({ expires: 0 }));
-  if (cache.expires > Date.now()) return cache.data;
+  if (cache.expires > Date.now() && cache.data) return cache.data; // make sure cache data actually exists before loading it
 
   const weatherData = await execAsync([
     'curl',
@@ -47,7 +47,7 @@ async function getWeather() {
     'https://ipinfo.io/',
   ])
     .then(JSON.parse)
-    .then((data: Record<string, string>) => {
+    .then(async (data: Record<string, string>) => {
       const [lat, long] = data.loc.split(',');
 
       return execAsync([
@@ -59,7 +59,7 @@ async function getWeather() {
         return {};
       });
     })
-    // @ts-ignoree
+    // @ts-ignore
     .then(JSON.parse)
     .catch(console.error);
 

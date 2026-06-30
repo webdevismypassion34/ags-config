@@ -569,9 +569,11 @@ window#settings {
           margin-top: 10px;
         }
 
-        .storage {
-          .dir {
-            color: $fg;
+        .dir {
+          color: $fg;
+
+          &:hover:not(.static) {
+            color: $subtext0;
           }
         }
       }
